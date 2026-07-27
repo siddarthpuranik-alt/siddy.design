@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Siddarth Puranik — Product Designer</title>
+<meta name="description" content="Siddarth is a product designer who turns complexity into confidence. 2.5+ years building across AI, Fintech and 0→1 MVPs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: 'Bellisa Script';
+    src: url('fonts/BellisaScript-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'PP NeueBit';
+    src: url('fonts/PPNeueBit-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  :root {
+    --blue-deep: #07239a;
+    --blue-tag: #0726ad;
+    --ink: #2f2d2d;
+    --ink-2: #313131;
+    --muted: #80828d;
+    --muted-2: #8b8b8b;
+    --muted-3: #585858;
+    --muted-4: #83848a;
+    --stroke: #cfcfcf;
+    --panel: #eff0f3;
+    --underline: #d1eaff;
+    --max: 1280px;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Instrument Sans', sans-serif;
+    color: var(--ink);
+    background: #fff;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  img { max-width: 100%; display: block; }
+  a { text-decoration: none; color: inherit; }
+
+  .script {
+    font-family: 'Bellisa Script', cursive;
+    font-weight: 400;
+  }
+  .script-sp { margin-right: 0.3em; }
+  .display {
+    font-family: 'PP NeueBit', sans-serif;
+    font-weight: 700;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative;
+    width: 100%;
+    min-height: 706px;
+    overflow: hidden;
+    background: #0a5a7a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .hero-stage {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    cursor: none;
+  }
+
+  .nav {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+  }
+  .logo {
+    font-family: 'PP NeueBit', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    color: #fff;
+    line-height: normal;
+    white-space: nowrap;
+  }
+  .logo .script { font-size: 32px; }
+  .nav-links {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    color: #fff;
+    font-size: 20px;
+  }
+  .nav-links a { opacity: 0.95; }
+  .nav-links a:hover { opacity: 1; text-decoration: underline; }
+
+  .hero-content {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    max-width: 904px;
+    aspect-ratio: 904 / 360;
+    margin: 0 auto;
+    margin-top: -52px;
+  }
+
+  .note-bg {
+    position: absolute;
+    left: 4.66%;
+    top: -8.52%;
+    width: 83.03%;
+    height: 111.17%;
+    transform: rotate(-2.94deg);
+    display: block;
+  }
+  .note-text {
+    position: absolute;
+    left: 9.58%;
+    top: 12%;
+    width: 75.22%;
+    text-align: center;
+    transform: rotate(-2.94deg);
+  }
+  .note-text .display {
+    color: var(--blue-deep);
+    font-size: clamp(24px, 6.86vw, 62px);
+    line-height: 1.15;
+    margin: 0;
+    white-space: nowrap;
+  }
+  .note-text .script { font-size: 1.06em; }
+  .underline {
+    height: 1px;
+    background: var(--underline);
+    margin: 2px auto 6px;
+  }
+  .underline.u1 { width: 88%; }
+  .underline.u2 { width: 34%; }
+
+  .yoe-tag {
+    position: absolute;
+    left: 79%;
+    top: 71%;
+    width: 36%;
+    background: var(--blue-tag);
+    color: #fff;
+    padding: clamp(10px, 2.21vw, 20px) clamp(11px, 2.32vw, 21px);
+    font-size: clamp(12px, 2.21vw, 20px);
+    text-align: center;
+    line-height: 1.3;
+    transform: rotate(6.76deg);
+    box-sizing: border-box;
+    transition: transform 0.25s ease;
+  }
+  .yoe-tag:hover {
+    transform: rotate(6.76deg) translateY(-6px) scale(1.05);
+  }
+
+  .sticker { position: absolute; display: block; transition: transform 0.25s ease; }
+  .sticker-hero-full {
+    width: 16.59%;
+    left: -0.22%;
+    top: -13.33%;
+    transform: rotate(11.53deg);
+    z-index: 1;
+  }
+  .sticker-hero-full:hover {
+    transform: rotate(11.53deg) translateY(-8px) scale(1.06);
+    z-index: 3;
+  }
+  .sticker-hero-crop {
+    width: 12.06%;
+    left: 1.11%;
+    top: 7.16%;
+    transform: rotate(0.35deg);
+    z-index: 2;
+  }
+  .sticker-hero-crop:hover {
+    transform: rotate(0.35deg) translateY(-8px) scale(1.06);
+    z-index: 3;
+  }
+  .sticker-juice {
+    width: 21%;
+    left: 80.5%;
+    top: 17%;
+    transform: rotate(42.84deg);
+  }
+  .sticker-juice:hover {
+    transform: rotate(42.84deg) translateX(6px) translateY(-6px) scale(1.08);
+    z-index: 3;
+  }
+
+  /* ---------- SECTIONS SHARED ---------- */
+  section { padding: 60px 60px 80px; }
+  .section-inner { max-width: var(--max); margin: 0 auto; }
+  h2.heading {
+    font-family: 'PP NeueBit', sans-serif;
+    font-weight: 700;
+    font-size: clamp(32px, 4vw, 48px);
+    color: var(--ink);
+    text-align: center;
+    margin: 0;
+    letter-spacing: -0.48px;
+  }
+  .heading-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  .heading-row .sparkle { width: 40px; height: 45px; }
+
+  /* ---------- PROJECTS ---------- */
+  .project-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+  }
+  .project-col { display: flex; flex-direction: column; gap: 28px; }
+  .project-card { display: block; }
+  .project-card img {
+    width: 100%;
+    border-radius: 4px;
+    object-fit: cover;
+    object-position: center top;
+    aspect-ratio: 562 / 338;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+  }
+  .project-card:hover img {
+    transform: scale(1.02);
+    box-shadow: 0 20px 40px rgba(7, 38, 173, 0.16);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .project-card { cursor: none; }
+  }
+
+  /* ---------- CURSOR BADGE ---------- */
+  .cursor-badge {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%) scale(0.85);
+    background: var(--blue-deep);
+    color: #fff;
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    padding: 8px 14px;
+    border-radius: 99px;
+    box-shadow: 0 12px 28px rgba(7, 35, 154, 0.35);
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 9999;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    will-change: transform, opacity;
+  }
+  .cursor-badge.visible {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  .project-card h3 {
+    font-family: 'Alegreya', serif;
+    font-weight: 400;
+    font-size: 26px;
+    letter-spacing: -1.04px;
+    color: var(--ink-2);
+    margin: 21px 0 8px;
+    line-height: 1.25;
+  }
+  .project-card p.meta {
+    font-size: 14px;
+    letter-spacing: 1.68px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  /* ---------- CHECKER DIVIDER ---------- */
+  .checker-strip {
+    height: 100px;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    image-rendering: pixelated;
+  }
+  .checker-light { background-color: var(--panel); }
+  .checker-blue { background-color: var(--blue-deep); }
+
+  /* ---------- BRANDS & TESTIMONIALS ---------- */
+  .brands {
+    position: relative;
+    background-color: var(--panel);
+    background-image: radial-gradient(circle, #ced2da 1.2px, transparent 1.2px);
+    background-size: 18px 18px;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    overflow: visible;
+  }
+  .brands-inner { position: relative; }
+  .brands-head { text-align: center; margin-bottom: 40px; }
+  .brands-title {
+    font-family: 'PP NeueBit', sans-serif;
+    font-weight: 700;
+    color: var(--blue-deep);
+    margin: 0;
+    letter-spacing: -0.5px;
+  }
+  .brands-title .bt-line {
+    display: block;
+    font-size: clamp(34px, 4.6vw, 62px);
+    line-height: 0.78;
+    white-space: nowrap;
+  }
+  .brands-title .bt-line + .bt-line { margin-top: 0; }
+  .brands-title .script { font-size: 1.05em; line-height: 0.7; }
+  .brands-title .script-sp { margin-right: 0.02em; }
+  .brands-sub {
+    text-align: center;
+    color: var(--muted-2);
+    font-size: 16px;
+    margin: 4px 0 0;
+  }
+
+  .brand-cards {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .brand-card {
+    position: relative;
+    flex: 1 1 340px;
+    max-width: 360px;
+    background: #fff;
+    clip-path: polygon(
+      16px 0, calc(100% - 16px) 0,
+      calc(100% - 16px) 8px, calc(100% - 8px) 8px, calc(100% - 8px) 16px, 100% 16px,
+      100% calc(100% - 16px),
+      calc(100% - 8px) calc(100% - 16px), calc(100% - 8px) calc(100% - 8px), calc(100% - 16px) calc(100% - 8px), calc(100% - 16px) 100%,
+      16px 100%,
+      16px calc(100% - 8px), 8px calc(100% - 8px), 8px calc(100% - 16px), 0 calc(100% - 16px),
+      0 16px,
+      8px 16px, 8px 8px, 16px 8px, 16px 0
+    );
+    filter: drop-shadow(0 1px 3px rgba(30,31,36,0.06)) drop-shadow(0 8px 20px rgba(30,31,36,0.05));
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), filter 0.3s ease;
+  }
+  .brand-card:hover {
+    transform: translateY(-6px);
+    filter: drop-shadow(0 4px 10px rgba(30,31,36,0.08)) drop-shadow(0 18px 32px rgba(30,31,36,0.1));
+  }
+  .brand-card.offset { margin-top: 51px; }
+  .brand-quote { margin: 0; font-size: 18px; line-height: 1.5; color: var(--muted); }
+  .brand-quote strong { color: #1e1f24; font-weight: 700; }
+  .brand-person { display: flex; align-items: center; gap: 19px; }
+  .brand-person img { width: 42px; height: 42px; border-radius: 99px; object-fit: cover; flex-shrink: 0; }
+  .brand-person .name { margin: 0; font-size: 14px; color: #1b1b1b; }
+  .brand-person .role { margin: 0; font-size: 14px; color: var(--muted-3); }
+
+  .brand-sticker {
+    position: absolute;
+    display: block;
+    width: 76px;
+    cursor: grab;
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+  .brand-sticker img {
+    display: block;
+    width: 100%;
+    pointer-events: none;
+    transform: rotate(var(--rot, 0deg));
+    transition: transform 0.25s ease, filter 0.2s ease;
+  }
+  .brand-sticker:hover img { transform: rotate(var(--rot, 0deg)) translateY(-6px) scale(1.08); }
+  .brand-sticker.dragging { cursor: grabbing; z-index: 5; }
+  .brand-sticker.dragging img {
+    transition: none;
+    transform: rotate(var(--rot, 0deg)) scale(1.1);
+    filter: drop-shadow(0 10px 16px rgba(0,0,0,0.2));
+  }
+  .s-bsh      { width: 74px;  left: 21.7%; top: 11px;    --rot: 12.47deg; }
+  .s-neoai    { width: 74px;  right: 19%;  top: 11px;    --rot: -12.75deg; }
+  .s-birla    { width: 74px;  left: 6%;    bottom: 55px; --rot: -5.33deg; }
+  .s-kurate   { width: 166px; left: 17%;   bottom: 20px; --rot: -8.36deg; }
+  .s-savii    { width: 74px;  right: 23%;  bottom: 9px;  --rot: -12.24deg; }
+  .s-autoheal { width: 175px; right: 8%;   bottom: -6px; --rot: 10.64deg; }
+
+  /* ---------- FOOTER ---------- */
+  .footer {
+    background: var(--blue-deep);
+    padding: 90px 0 100px;
+  }
+  .footer-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 48px;
+  }
+  .footer-cta h2 {
+    font-family: 'PP NeueBit', sans-serif;
+    font-weight: 700;
+    font-size: 42px;
+    line-height: 1;
+    color: #fff;
+    margin: 0 0 14px;
+  }
+  .footer-cta .credit {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 24px;
+    color: #fff;
+    margin: 0;
+  }
+  .footer-cta .credit .logo-inline {
+    font-family: 'PP NeueBit', sans-serif;
+    font-weight: 700;
+    font-size: 1em;
+  }
+  .footer-links {
+    display: flex;
+    gap: 80px;
+    font-size: 20px;
+    letter-spacing: 2px;
+  }
+  .footer-links .col { display: flex; flex-direction: column; gap: 15px; }
+  .footer-links .col-title { color: var(--muted-4); margin: 0; }
+  .footer-links a { color: #fff; }
+  .footer-links a:hover { text-decoration: underline; }
+
+  /* ---------- FOOTER GAME (Bunny Catch) ---------- */
+  /* edge-to-edge: .footer itself carries no horizontal padding (moved onto
+     .footer-inner/.bc-hud instead — see above), so this just needs
+     width:100% to reach the true viewport edge. No vw/negative-margin
+     breakout needed, and no scrollbar-width rounding issues either. */
+  .footer-game {
+    width: 100%;
+    margin-top: 56px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  .bc-hud {
+    max-width: var(--max);
+    margin: 0 auto 10px;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: rgba(255,255,255,0.75);
+    font-family: 'PP NeueBit', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+  }
+  .bc-hud .bc-timer { text-align: right; }
+  .bc-canvas-wrap {
+    width: 100%;
+    overflow: hidden;
+  }
+  #bcCanvas {
+    width: 100%;
+    aspect-ratio: 1200 / 420;
+    display: block;
+    background: var(--blue-deep);
+    touch-action: none;
+  }
+
+  /* ---------- SCROLL REVEAL ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+  .reveal-1 { transition-delay: 0.08s; }
+  .reveal-2 { transition-delay: 0.16s; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 960px) {
+    .project-grid { grid-template-columns: 1fr; }
+    .brand-sticker { display: none; }
+    .brand-card.offset { margin-top: 0; }
+    .footer-inner { flex-direction: column; }
+    section { padding: 48px 24px 60px; }
+    .nav { padding: 20px 24px; }
+    .hero { min-height: 0; padding-bottom: 40px; }
+    .hero-content { max-width: 92%; margin-top: 32px; }
+  }
+  @media (max-width: 640px) {
+    .nav { flex-wrap: wrap; gap: 12px; padding: 16px; }
+    .logo { font-size: 24px; }
+    .logo .script { font-size: 24px; }
+    .nav-links { font-size: 16px; gap: 10px; }
+    .yoe-tag { font-size: 9px; padding: 8px 10px; line-height: 1.25; }
+    .footer-links { gap: 40px; }
+    .footer { padding: 60px 0 70px; }
+    .footer-inner { gap: 32px; padding: 0 24px; }
+    .bc-hud { padding: 0 24px; }
+    .brand-cards { flex-direction: column; align-items: stretch; }
+    .brand-card { max-width: 100%; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero" id="top">
+  <canvas id="pixel-bg"></canvas>
+  <nav class="nav">
+    <a href="#top" class="logo"><span class="script script-sp">S</span>iddy :)</a>
+    <div class="nav-links">
+      <a href="about.html">About</a>
+      <a href="resume.pdf" target="_blank" rel="noopener">Resume</a>
+    </div>
+  </nav>
+
+  <div class="hero-stage">
+  <div class="hero-content">
+    <img class="note-bg" src="assets/images/note-paper.svg" alt="">
+    <div class="note-text">
+      <p class="display"><span class="script script-sp">S</span>iddarth is a product designer</p>
+      <div class="underline u1"></div>
+      <p class="display">who turns <span class="script">C</span>omplexity into</p>
+      <div class="underline u1"></div>
+      <p class="display"><span class="script">C</span>onfidence</p>
+      <div class="underline u2"></div>
+    </div>
+    <div class="yoe-tag">2.5+ YOE of building across AI, Fintech and 0→1 MVPs</div>
+    <img class="sticker sticker-hero-full" src="assets/images/hero-cat-wand-full.png" alt="">
+    <img class="sticker sticker-hero-crop" src="assets/images/hero-cat-wand-crop.png" alt="">
+    <img class="sticker sticker-juice" src="assets/images/sticker-juice-transparent.png" alt="">
+  </div>
+  </div>
+</header>
+
+<main>
+  <section id="work">
+    <div class="section-inner">
+      <div class="heading-row reveal">
+        <h2 class="heading"><span class="script script-sp">F</span>eatured Projects</h2>
+        <img class="sparkle" src="assets/images/sparkle.png" alt="">
+      </div>
+      <div class="project-grid">
+        <div class="project-col">
+          <a class="project-card reveal" href="case-study-artpark.html">
+            <img src="assets/images/project-artpark.jpg" alt="Animal Disease Monitoring ecosystem design">
+            <h3>E2E Design of a unified ecosystem for Animal Disease Monitoring for India</h3>
+            <p class="meta">MVP · Design System · Multi-stakeholder · Dev Hand-off</p>
+          </a>
+          <a class="project-card reveal reveal-1" href="case-study-absli.html">
+            <img src="assets/images/project-absli.jpg" alt="ABSLI sales workflow research">
+            <h3>Research that streamlined ABSLI&rsquo;s complex sales workflows</h3>
+            <p class="meta">User Research · Product Strategy · Data-Informed Design</p>
+          </a>
+        </div>
+        <div class="project-col">
+          <a class="project-card reveal" href="case-study-savii.html">
+            <img src="assets/images/project-ql.jpg" alt="SAVii Quick Loan design">
+            <h3>Designing SAVii&rsquo;s Quick Loan: Fast, Trustworthy Credit for Everyday Needs</h3>
+            <p class="meta">Product Strategy · Consumer UX · Visual Design</p>
+          </a>
+          <a class="project-card reveal reveal-1" href="case-study-savii-revamp.html">
+            <img src="assets/images/project-ui-revamp.png" alt="SAVii visual design revamp">
+            <h3>Elevating SAVii&rsquo;s Product Experience Through Visual Design for 5L+ Users</h3>
+            <p class="meta">Visual Design · Design Systems · Product Thinking</p>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="checker-strip checker-light"></div>
+
+  <section class="brands" id="about">
+    <div class="section-inner brands-inner">
+      <div class="brands-head reveal">
+        <h2 class="brands-title">
+          <span class="bt-line"><span class="script script-sp">B</span>rands and <span class="script script-sp">P</span>eople</span>
+          <span class="bt-line">I worked with.</span>
+        </h2>
+        <p class="brands-sub">(I promise I didn&rsquo;t force them)</p>
+      </div>
+      <div class="brand-cards reveal">
+        <article class="brand-card">
+          <p class="brand-quote">Siddarth is the kind of person you want on your hardest problems. He <strong>pairs incredible attention to detail with a calm, proactive way of working</strong>. He catches challenges early and quietly keeps everything on track.</p>
+          <div class="brand-person">
+            <img src="assets/images/avatar-anushka.jpg" alt="Anushka Gokhale">
+            <div>
+              <p class="name">Anushka Gokhale</p>
+              <p class="role">Design Lead @ Parallel</p>
+            </div>
+          </div>
+        </article>
+        <article class="brand-card offset">
+          <p class="brand-quote">Siddharth consistently impressed me in ways I didn&rsquo;t expect from someone at the associate level. He <strong>held his ground when needed and backed every pushback with clear, well-reasoned thinking.</strong> That kind of stakeholder maturity takes most designers years to develop &mdash; Siddharth came in with it naturally</p>
+          <div class="brand-person">
+            <img src="assets/images/avatar-mallika.png" alt="Mallika Sharma">
+            <div>
+              <p class="name">Mallika Sharma</p>
+              <p class="role">PD II @ Parallel</p>
+            </div>
+          </div>
+        </article>
+        <article class="brand-card">
+          <p class="brand-quote">Siddarth is the kind of person you want on your hardest problems. He <strong>pairs incredible attention to detail with a calm, proactive way of working</strong>. He catches challenges early and quietly keeps everything on track.</p>
+          <div class="brand-person">
+            <img src="assets/images/avatar-shreya.png" alt="Shreya Tembe">
+            <div>
+              <p class="name">Shreya Tembe</p>
+              <p class="role">Design Lead @ Parallel</p>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="brand-sticker s-bsh"><img src="assets/images/testi-sticker-bsh.png" alt="BSH" draggable="false"></div>
+      <div class="brand-sticker s-neoai"><img src="assets/images/testi-sticker-neoai.png" alt="neo.ai" draggable="false"></div>
+      <div class="brand-sticker s-birla"><img src="assets/images/testi-sticker-birla.png" alt="Aditya Birla Capital Life Insurance" draggable="false"></div>
+      <div class="brand-sticker s-kurate"><img src="assets/images/testi-sticker-kurate.png" alt="Kurate" draggable="false"></div>
+      <div class="brand-sticker s-savii"><img src="assets/images/testi-sticker-savii.png" alt="SAVii" draggable="false"></div>
+      <div class="brand-sticker s-autoheal"><img src="assets/images/testi-sticker-autoheal.png" alt="autoheal" draggable="false"></div>
+    </div>
+  </section>
+
+  <div class="checker-strip checker-blue"></div>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-cta reveal">
+      <h2>Thanks for making it till here!</h2>
+      <p class="credit">Designed + coded by <span class="logo-inline"><span class="script script-sp">S</span>iddy :)</span></p>
+    </div>
+    <div class="footer-links">
+      <div class="col">
+        <p class="col-title">SAY HI</p>
+        <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LINKEDIN</a>
+        <a href="mailto:siddarthpuranik@gmail.com">GMAIL</a>
+      </div>
+      <div class="col">
+        <p class="col-title">PAGE</p>
+        <a href="#top">HOME</a>
+        <a href="about.html">ABOUT</a>
+        <a href="resume.pdf" target="_blank" rel="noopener">RESUME</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-game">
+    <div class="bc-hud">
+      <div class="bc-score">Score: <span id="bcScore">0</span></div>
+      <div class="bc-timer">Time: <span id="bcTime">30</span>s</div>
+    </div>
+    <div class="bc-canvas-wrap">
+      <canvas id="bcCanvas"></canvas>
+    </div>
+  </div>
+</footer>
+
+<div class="cursor-badge" id="cursorBadge">VIEW CASE STUDY</div>
+
+<script>
+/* Pixel-art hero background — grid extracted from reference design,
+   resized to fill the hero container instead of the full viewport. */
+const G=[["#036992","#0a6795","#076a8d","#04698e","#056a93","#066b92","#046b91","#076a8d","#056c85","#056c90","#0b6990","#066c8e","#056c89","#056a8f","#096893","#066892","#056a8f","#076792","#086d91","#066c90","#056a93","#006e96","#8cb3a3","#bed1bd","#f0edc8","#fdf6cf","#f4f6cd","#0a679e","#046a88","#09698f","#076991","#0d6890","#056b8d","#0d6892","#046a8a","#096891","#076a8f","#066c90","#0b6a8e","#0a6c88","#066c8e","#086a94","#096a8b","#0a698b","#096a87","#0d6890","#076991","#0d678d","#086d8f"],["#096891","#076895","#046c9b","#04669c","#076790","#0e669a","#076991","#096a8b","#07679b","#056c94","#056d8e","#0a6891","#056b8b","#056995","#046a93","#036c94","#056a91","#096893","#0b6d89","#046c8d","#13668c","#086c88","#8bb1a6","#bfd0ba","#fdf6cf","#f9f3d1","#f7f6d0","#faefce","#036a9e","#096895","#046a93","#076895","#0a6a90","#096895","#046896","#046896","#056a93","#096b97","#096895","#076b89","#096799","#026c91","#066c90","#056a8f","#076a8d","#0c6693","#076993","#056a93","#056a91"],["#016a90","#0a6697","#0c6a9e","#06669c","#076696","#065f93","#0a6795","#0b6a8a","#03668b","#0a6795","#0c6b8d","#096891","#0a688d","#0b6191","#0a688f","#0d6890","#0b6b93","#0c6693","#026a97","#90aca9","#8bb0a8","#88b1a3","#8fb2a9","#c1d0bb","#fbf8d0","#fcf4d2","#f9f5d4","#fbf2d1","#f6f5d1","#0e6a98","#066b94","#026b93","#096c91","#0a688d","#086b9b","#096797","#076696","#086493","#0a688f","#096a87","#086b90","#0a6a92","#0c6d90","#0a688f","#0a6b8c","#0f6a96","#076993","#056b8b","#076991"],["#006a94","#056a91","#046798","#046896","#0a6a90","#076993","#076a8d","#056e7f","#096a89","#056c94","#056c89","#07688c","#0a6989","#0d6691","#0a688f","#056a8f","#056997","#076993","#09698d","#8fafa4","#8eb0a2","#85ab9e","#8cb0a6","#bfd0ba","#f6f4cc","#fbf4cb","#fcf1d3","#f7f5cd","#faf4d4","#086a94","#f9f6cc","#f8f4c8","#096891","#076895","#076897","#066a96","#0c6693","#066c8c","#086b8e","#046c7e","#086c8a","#05678d","#046c8d","#096a89","#046b84","#09678c","#09698d","#086e8d","#066c90"],["#046b91","#0c6693","#04689d","#0c659b","#126596","#106598","#0c6693","#096a8b","#076792","#086a94","#0a688f","#096893","#076a8d","#096694","#086a94","#056a91","#0d6890","#8facb4","#8db1a7","#8fafa4","#8cb1a2","#8cb2a5","#bad2be","#becebb","#f9f6d0","#f8f2d0","#f9f4cf","#faf4d4","#fef2cd","#fbf1ce","#fbf2d3","#fbf3cd","#fcf1d3","#faf4d6","#fbf6d1","#026d96","#0f6497","#0a6697","#076895","#096a89","#0a6793","#066794","#086d91","#0a688f","#09698f","#0d6798","#0a6a90","#086a92","#0b6896"],["#0c6a91","#0c6b8b","#096d8b","#0b6a8e","#10679b","#0d6289","#036d92","#056d8c","#0b6992","#066c97","#106e93","#056c90","#066c8e","#0e6291","#086c97","#046e95","#096d96","#89b4a5","#87b3a4","#8cb3a3","#87b5a3","#90b4a6","#89b0a1","#c1cfbf","#c0cfb8","#fff1d2","#c6cfc1","#bbd3bf","#bed1bf","#f9edd1","#fcf4d2","#f9f4cb","#f3f3ce","#fcf4ce","#f8efd6","#0d6890","#0f668f","#09698d","#046e95","#056e88","#056a8f","#056c90","#126b92","#056e88","#067087","#136592","#046c8d","#026d94","#0b6b91"],["#096893","#0d6597","#066a9a","#06669a","#106692","#056a93","#0d6796","#056c89","#0a6891","#076895","#0c678f","#0c6791","#0b6992","#076895","#096891","#076991","#036a8c","#8bb1a4","#8ab4a3","#8eafa6","#8bb2a2","#86ad9d","#8db2a5","#8db2a3","#bccfbb","#c0cfbc","#bfcfbc","#becebd","#bfcfbc","#bdd3bb","#faf4d6","#fbf2d1","#f9f4cd","#fdf2d4","#fdf2d4","#00699c","#156394","#046a95","#0c6590","#056b8b","#0c6590","#096895","#0d6892","#126592","#09698f","#0d6796","#076a8f","#0b6894","#0c678f"],["#056c92","#056995","#076899","#0a659d","#0a6898","#076694","#096895","#086c8a","#076993","#056b98","#09678e","#076993","#056a91","#0b6898","#066b94","#056a91","#0a688f","#8cb2a7","#87b5a5","#88b1a3","#8bafa3","#86af9f","#8bb1a4","#87b2a6","#88b6a7","#8eb0a4","#91aea4","#c0d0bf","#bfcfbe","#b7d4bc","#f9f4cd","#bed1bd","#bfd0ba","#fcf4d0","#f5f8cc","#016b97","#0e6696","#096893","#076895","#066a86","#0b6990","#056a93","#076a8d","#096891","#076a8d","#0c6791","#04698e","#046c8d","#04698e"],["#026b93","#056a93","#046a97","#056899","#06688e","#05658d","#056a91","#086e89","#056d8e","#056a91","#096c91","#076a8b","#0a6a8e","#01658c","#056a91","#066b92","#0a6a90","#8cb2a5","#93bfae","#8bb1a4","#8bb1a4","#8bb0a1","#8fb3a7","#87b3a4","#90b2a4","#8db4a4","#90b7aa","#becebd","#bccfbd","#f9face","#fdf3d2","#bfcfbc","#c0d1b9","#fcf2d1","#0a6996","#096d98","#0d6691","#06698c","#06688e","#056d83","#0c688b","#07688e","#096d89","#076a8d","#066d88","#0b6b91","#056b8b","#046c89","#046894"],["#056b96","#076895","#026a9b","#07679b","#0a6994","#066c97","#0a6994","#0a6b8a","#076897","#026b93","#096692","#066b92","#096891","#0a6793","#056a93","#046a93","#8fb1a5","#8bb1a4","#8cb1a2","#8fafa4","#8bafa3","#87ae9f","#8fb3a7","#8eb0a4","#8cb3a1","#8ab3a7","#8cb2a5","#bfcfc0","#b7d4bc","#f7f7ce","#fcf4ce","#fdf4ce","#c0d2b5","#fcf2d1","#056a93","#056a93","#0d6796","#086a94","#056997","#056c89","#056997","#066892","#146894","#07688e","#076a8f","#0a6891","#09698f","#086a92","#086a92"],["#046892","#076792","#046b8f","#046892","#0a6996","#0a6d94","#0b6b91","#086e80","#066c90","#036d92","#0c678f","#056c92","#026d89","#0a6d92","#056b8b","#086c8a","#85b2a3","#87b0a0","#8db6a4","#8cb3a1","#82b19f","#84b2a0","#8cb0a4","#8cb1a2","#88afa0","#89b2a4","#85b2a3","#8fb1a3","#8fb1a3","#b9d5b9","#f8f3cc","#f6f5cf","#c3d2b8","#fef1cf","#f5f4e0","#f5f6d6","#fcf3d6","#0c668c","#0a6a90","#007186","#016b8e","#026d94","#0c6c92","#086c8c","#076a8d","#046990","#076a8f","#0a688f","#006a8d"],["#066892","#026b93","#0b6896","#056a93","#0c6791","#06698c","#046b91","#086c8a","#0a6898","#016a9d","#f9dc3f","#fce02e","#f5dd4f","#0f668f","#056c90","#086a92","#8db4a4","#8cb0a4","#8cb1a2","#8fb0a7","#8bb1a6","#88afa0","#8cb1a2","#87b3a4","#87b5a5","#8cb0a6","#92afa7","#8cb2a5","#91b0a5","#85b6a3","#c0cebe","#c1d2bc","#c0d1bb","#fbf3cf","#faf5ce","#faf6ca","#f9f4cf","#0a6793","#076991","#086d86","#086a92","#056a8f","#046c8d","#096a8b","#046c89","#056b8d","#09698d","#066c90","#096a89"],["#066b92","#066c8e","#056a93","#016a90","#096a8b","#056b8d","#096a89","#096b83","#0f668f","#ffdf38","#f7de43","#63420d","#f8dd50","#fddb4c","#c2cfb8","#bfcfbc","#8bb2a2","#8cb2a5","#8bb4a7","#89b2a4","#8eb0a4","#83ad9c","#8db2a5","#89b2a4","#89b2a4","#8db1a7","#92afa5","#91aea4","#92afa5","#bfcfbe","#bfcebb","#fbf3cf","#fbf7d6","#f7f6c9","#fbf7cd","#faf6cc","#faf4d4","#fdf6cd","#f6f2d6","#066f80","#09698d","#056b8b","#066d88","#096c81","#076c83","#076b89","#076b89","#076b87","#09698f"],["#0f6b9a","#0b6896","#106799","#056a9a","#0d6796","#056c87","#106895","#0e6897","#0e6a9a","#ffdb48","#634804","#614706","#5e4700","#f5e13b","#8cb0a6","#87b3a4","#8eb5a4","#87b3a4","#80b09d","#87b7a4","#8db2a5","#8cb3a3","#8db2a5","#89b2a6","#89b2a2","#8db1a7","#8daca2","#8cb1a2","#c0cfba","#bdd2bd","#fcf2cf","#f9f4cb","#f9f3d3","#f8f3cc","#f9f4cb","#f8f4c8","#f7f1cc","#f8f4c8","#f6f3ce","#0b6b86","#096893","#0b6992","#0e6b94","#0e688c","#10698f","#106a8b","#0d6894","#066b94","#07688e"],["#046990","#046c8d","#066a9a","#ffdb3d","#f5e32e","#ffdc44","#056899","#048420","#09851d","#f6de3b","#f5df41","#5f440b","#f6e04f","#fadf40","#8fafa4","#8bb1a4","#89b19f","#8fb1a5","#8bb1a4","#86b4a4","#8eb0a4","#85b1a0","#8fb3a7","#bfcfbc","#c1cfbf","#bfcfbc","#8cb3a1","#8cb2a7","#bfcfbc","#bdd1ba","#f9f2d5","#f9f5d2","#fbf6d3","#f9f3d3","#f9f4cd","#faf6ca","#fcf4d2","#fcf4d0","#f9f3de","#076d7f","#076991","#056b8d","#056e86","#0d6a88","#06698a","#0d698a","#07688a","#066a88","#076a8d"],["#076991","#056e8a","#0a6795","#ffdd42","#614413","#574a03","#fadd4e","#08689e","#8bafa3","#93b29e","#f7df41","#f8e13e","#ffda45","#89b39e","#8eb0a4","#8bb0a1","#89b19f","#8cb2a5","#8cb3a3","#8fafa4","#8cb2a5","#90b2a7","#c0cfbc","#bfcfbe","#bed1bd","#bfcfbc","#becebb","#8bb2a0","#8bb1a4","#bcceb6","#bfcebb","#f7f4cf","#faf5d0","#f9f3d1","#fcf4ce","#fbf4cb","#fbf3cf","#bcd2ba","#fbf4cb","#f1f6cc","#096895","#086c93","#0a698b","#076c85","#016e87","#096a8b","#066a88","#016e8b","#046b8f"],["#056a93","#086c97","#023c16","#f7d843","#fedf3f","#684214","#f3e244","#f1e63d","#91b2ae","#89b4a3","#8bbca9","#0f3408","#01881f","#8bb0a8","#85b6a3","#87b5a5","#88bbaa","#87b3a2","#94c0ad","#8ebaa9","#89b4a3","#8db6a4","#c0cec0","#c0d2b5","#bad0bd","#bccfbb","#bfcfbc","#bfd0b8","#bfcfbe","#c0d1bd","#f9f5d2","#f9f5d4","#f9f6ce","#faf6cc","#f7f2ca","#faf6cc","#c0cec0","#becebd","#fcf2cd","#f7f6c5","#0f6390","#056a91","#066e91","#026b95","#096694","#027098","#076a8d","#096d89","#016a86"],["#036b9a","#02727e","#0b330f","#0d3115","#f7dd3b","#684310","#644504","#f2e342","#84b4a8","#8bb1a6","#89b4a5","#053b0b","#028617","#85b0a2","#8cb1a2","#93aaa9","#8bb0aa","#8db2a5","#8bb1a4","#8eb0a4","#8bafa5","#86ad9d","#8bb1a4","#becfb9","#fcf4ce","#fbf3cf","#f7f5cd","#faf5d0","#bfcfbc","#c1cfbf","#c0cfbc","#fcf5cc","#fbf3cd","#fcf2cf","#c0d1bb","#c3d1be","#bfcdbd","#c0cebe","#fbf3cf","#fcf2cf","#056c90","#f4f4db","#fcf5cc","#fbf2d1","#faf4d4","#f6f4d3","#0e6b8b","#026f8c","#026b93"],["#0f821b","#0c350a","#0d3115","#0d2f12","#fcdc41","#f3dd40","#ffdb45","#f2e246","#8baaa2","#8fb29f","#8eaaa3","#073a0b","#8eb9b1","#91b5a9","#8daea5","#ffde3b","#ffde4d","#93b3a6","#82ad9e","#87b3a4","#8daea3","#88b09e","#8bb1a4","#bfcfbe","#c3d1be","#f9f4cf","#faf6d3","#fdf4ce","#faf5d0","#c1d0bd","#c1d0bd","#c1d0bd","#f4f1cb","#f8edcc","#b6c9b7","#bccdba","#c0cebe","#bdcbbb","#faf5ce","#f9f6ce","#f9f9d2","#f9f4cf","#f8f1d6","#f9f4cf","#f9f4cd","#f8f2c6","#f9f3d1","#0c6a91","#0c6693"],["#058417","#14310e","#048618","#088315","#068518","#048714","#098512","#058415","#113210","#0e3312","#0a8117","#0d3117","#0c8223","#10820e","#fdde3e","#fbe13f","#f5e03f","#f5df43","#89b5a1","#85b2a3","#8fafa2","#82ac99","#8cb1a2","#8eb0a2","#c2ccbb","#c0cebe","#fcf2cf","#faf6cc","#fcf2d1","#c1d0bd","#bfcfbe","#c0cfba","#bcd0b9","#f9f4cf","#bed1bd","#c2cebc","#c0cfbc","#c0cebe","#f9f4cf","#f9f4cd","#fdf8cc","#faf5ce","#bfcfc0","#bfcfbc","#bdd0c0","#fdf4ce","#fbf2d1","#f7f6d2","#086b90"],["#1f5c25","#0a380b","#1d5d25","#1a5e29","#1c5d29","#205b25","#1f5c27","#1c5d29","#0c7e18","#0d3511","#0c3316","#073612","#0d7f19","#08811b","#fadc45","#61450f","#64420b","#fade3b","#fadf40","#91aea2","#8cb1a2","#88afa2","#8cb3a3","#8db2a3","#8ab2a9","#bfcfbc","#c0d1bd","#bad2be","#fbf2d3","#fff2c9","#bfcfbc","#c2cdbe","#becebd","#bdd0be","#bfcfbc","#bfcfbe","#c0cebe","#c0d1bd","#c0cfba","#c0d1bb","#fbf6cf","#f9f4cf","#c0d0bf","#bdd0be","#bfcfbe","#bfcfbe","#faf4d2","#f9f3d1","#f1f5db"],["#098414","#063618","#0e8118","#098318","#03861c","#1f5a24","#03841b","#088217","#048618","#038718","#058417","#0d370b","#02841d","#06890f","#f4e043","#f5e13b","#644508","#f4e043","#f6da50","#0c8223","#028122","#0b811e","#0e821d","#0c831d","#068518","#058319","#0d8622","#127f1f","#c1cdbb","#bad0bb","#c0cfbc","#bfcfbe","#c0cec0","#bfd0ba","#cadbc8","#bfcfbc","#c0d1bd","#bbccb9","#bfcfbc","#c1cfbf","#c3d1be","#c0cebe","#c6d4c6","#bfd2c1","#c0d0bf","#bed1bd","#bed1bf","#faf5d0","#f5f2ce"],["#255b24","#0c3517","#255925","#113112","#0c3412","#07801a","#09831c","#1f5b29","#1f5a24","#245929","#255923","#0f3212","#255827","#205b25","#255925","#fddd42","#f7dd3d","#f7dd4b","#225920","#255827","#1f5c23","#245927","#147f1b","#0d7e21","#28562b","#1f5b22","#02841d","#0a811b","#03841d","#285727","#08831e","#127d17","#0d8015","#088224","#bbd4bb","#bcd1be","#bad0bb","#c0d1bd","#c0cfbc","#bad2bc","#c1d0bd","#c0d0bf","#c0d0bf","#bfcfbe","#bfcfbe","#becebd","#c0cec0","#faf5ce","#f9f6cc"],["#255827","#0d3211","#0d3515","#073612","#205b29","#1f5c27","#1f5c25","#295229","#1d5d27","#2a572c","#285725","#0c3410","#27591f","#0d3211","#0e3312","#265d18","#0f330c","#285629","#1c5b28","#1f5b2b","#038812","#0f8023","#058319","#098318","#058511","#245a25","#068319","#0a7f18","#068516","#225d22","#225826","#255925","#088217","#068319","#06821b","#05831b","#0a811b","#0e7f24","#068317","#05831b","#04851c","#b9d4bf","#bfcfbe","#bfcfbe","#b7d2bb","#b8d3bc","#bccfbd","#bed1c1","#f9f1d2"],["#1f5c27","#093512","#1d5a23","#1b5e2e","#24572a","#205624","#275729","#f4e133","#ede13c","#28582a","#1f5a24","#0b3213","#0c3314","#083b15","#245927","#f9df39","#efd63d","#fadb4b","#1d5d25","#068612","#0b821a","#1a5f21","#225b2c","#1d5d31","#1d5c29","#205d1d","#215732","#235b28","#1d5d27","#1e5b26","#098615","#068518","#007f0f","#00800e","#028615","#00800e","#088313","#17611f","#225b2e","#038321","#037f18","#06870e","#007a06","#0c8314","#09821e","#088313","#088512","#bdd0be","#becebb"],["#255a28","#102f19","#fae03c","#285421","#245a25","#1d5d23","#f7de37","#f8e238","#5f4804","#f4df3d","#e9e43f","#0f3511","#255a2a","#2b5728","#fcdb45","#ffdb39","#624604","#f6e62f","#fbdc4c","#225c26","#225a25","#21582c","#235b2a","#225a29","#225a25","#068411","#03831f","#03861c","#03841d","#215a22","#225a27","#088418","#1d5f26","#068317","#018718","#05831b","#088217","#0b8120","#06841c","#04851c","#058415","#255923","#0d7f1b","#255a28","#225a27","#255b26","#0a8119","#09851b","#03831f"],["#2a5627","#fae13a","#f8df44","#f9df39","#1f5d1f","#ece04e","#fadf40","#594c00","#56460e","#59470d","#ffdf36","#f7df41","#255829","#265a28","#fadf35","#5d4a0a","#67430b","#5d4c00","#f4e037","#245822","#275825","#1c551d","#285928","#26592c","#225828","#225833","#1f592a","#205a2d","#22592d","#255328","#27552a","#245731","#225920","#205f2a","#225a29","#1c5a2c","#205a2d","#205b27","#1a5c31","#06821d","#0c831f","#215926","#1e5b26","#1d5b1f","#0a8119","#06851a","#01891d","#08811f","#01871a"]];
+
+const ROWS = G.length, COLS = G[0].length;
+
+const flowerGroups = [
+  { cells: [[11,10],[11,11],[11,12],[12,9],[12,10],[12,11],[12,12],[12,13],[13,9],[13,10],[13,11],[13,12],[13,13],[14,9],[14,10],[14,11],[14,12],[14,13]], pivotR: 15, pivotC: 11, phase: 0 },
+  { cells: [[14,3],[14,4],[14,5],[14,7],[14,8],[15,3],[15,4],[15,5],[15,6],[15,10],[15,11],[15,12],[16,2],[16,3],[16,4],[16,5],[16,6],[16,7],[17,4],[17,5],[17,6],[17,7],[18,4],[18,5],[18,6],[18,7]], pivotR: 19, pivotC: 5, phase: 1.8 },
+  { cells: [[18,15],[18,16],[19,14],[19,15],[19,16],[19,17],[20,14],[20,15],[20,16],[20,17],[20,18],[21,14],[21,15],[21,16],[21,17],[21,18],[22,15],[22,16],[22,17]], pivotR: 23, pivotC: 16, phase: 3.5 },
+  { cells: [[24,7],[24,8],[25,2],[25,6],[25,7],[25,8],[25,9],[25,10],[26,1],[26,2],[26,3],[26,5],[26,6],[26,7],[26,8],[26,9],[26,10],[26,11]], pivotR: 27, pivotC: 6, phase: 5.0 },
+  { cells: [[24,15],[24,16],[24,17],[25,14],[25,15],[25,16],[25,17],[25,18],[26,14],[26,15],[26,16],[26,17],[26,18]], pivotR: 27, pivotC: 16, phase: 2.3 },
+];
+
+const driftClouds = [
+  { x: -5, y: 1, speed: 0.006, shape: [[0,0,'#c0d0bf'],[0,1,'#bed1bd'],[0,2,'#c0cfbc'],[1,0,'#8cb2a5'],[1,1,'#c0cfbc'],[1,2,'#bfcfbe'],[1,3,'#8cb3a1']] },
+  { x: 70, y: 5, speed: 0.004, shape: [[0,1,'#bfcfbc'],[0,2,'#c0d1bd'],[1,0,'#8fb1a5'],[1,1,'#bed1bd'],[1,2,'#c0cfbc'],[1,3,'#bccfbb']] },
+];
+
+const heroEl = document.querySelector('.hero');
+const canvas = document.getElementById('pixel-bg');
+const ctx = canvas.getContext('2d');
+let t = 0;
+
+let mouseX = -1, mouseY = -1;
+let smoothMX = -1, smoothMY = -1;
+let mouseActive = false;
+
+heroEl.addEventListener('mousemove', (e) => {
+  const rect = heroEl.getBoundingClientRect();
+  mouseX = e.clientX - rect.left;
+  mouseY = e.clientY - rect.top;
+  mouseActive = true;
+});
+heroEl.addEventListener('mouseleave', () => { mouseActive = false; });
+heroEl.addEventListener('touchmove', (e) => {
+  const rect = heroEl.getBoundingClientRect();
+  mouseX = e.touches[0].clientX - rect.left;
+  mouseY = e.touches[0].clientY - rect.top;
+  mouseActive = true;
+}, { passive: true });
+heroEl.addEventListener('touchend', () => { mouseActive = false; });
+
+function warmGlow(hex, dist, maxDist) {
+  if (dist > maxDist || !mouseActive) return hex;
+  const strength = 1 - (dist / maxDist);
+  const ease = strength * strength;
+  const warmth = ease * 35;
+  const r = Math.min(255, parseInt(hex.slice(1,3),16) + warmth * 1.2);
+  const g = Math.min(255, parseInt(hex.slice(3,5),16) + warmth * 0.9);
+  const b = Math.min(255, parseInt(hex.slice(5,7),16) + warmth * 0.3);
+  return `rgb(${Math.round(r)},${Math.round(g)},${Math.round(b)})`;
+}
+
+function resize() {
+  const w = heroEl.clientWidth;
+  const h = heroEl.clientHeight;
+  canvas.width = w * devicePixelRatio;
+  canvas.height = h * devicePixelRatio;
+  ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+}
+window.addEventListener('resize', resize);
+resize();
+
+const flowerCellSet = new Set();
+flowerGroups.forEach((fg, gi) => {
+  fg.cells.forEach(([r, c]) => flowerCellSet.add(r + ',' + c));
+});
+
+function render() {
+  t += 1;
+  const W = heroEl.clientWidth;
+  const H = heroEl.clientHeight;
+  const cellW = W / COLS;
+  const cellH = H / ROWS;
+
+  if (mouseActive) {
+    smoothMX += (mouseX - smoothMX) * 0.08;
+    smoothMY += (mouseY - smoothMY) * 0.08;
+  } else {
+    smoothMX = -999;
+    smoothMY = -999;
+  }
+  if (smoothMX === -1) { smoothMX = mouseX; smoothMY = mouseY; }
+
+  const mCol = smoothMX / cellW;
+  const mRow = smoothMY / cellH;
+  const glowRadius = 6;
+
+  ctx.clearRect(0, 0, W, H);
+
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      const key = r + ',' + c;
+      if (flowerCellSet.has(key)) continue;
+
+      const x = c * cellW, y = r * cellH;
+      let color = G[r][c];
+      const rv = parseInt(color.slice(1,3), 16);
+      const gv = parseInt(color.slice(3,5), 16);
+      const bv = parseInt(color.slice(5,7), 16);
+      const isGrass = gv > 100 && rv < 80 && bv < 60;
+
+      if (isGrass && r >= 18 && r <= 22) {
+        const shimmer = Math.sin(t * 0.02 + c * 0.8) * 12;
+        const nr = Math.min(255, Math.max(0, rv + shimmer));
+        const ng = Math.min(255, Math.max(0, gv + shimmer * 0.5));
+        const nb = Math.min(255, Math.max(0, bv + shimmer * 0.3));
+        color = `rgb(${Math.round(nr)},${Math.round(ng)},${Math.round(nb)})`;
+      }
+
+      const dist = Math.sqrt((c - mCol) ** 2 + (r - mRow) ** 2);
+      if (color[0] === '#') {
+        color = warmGlow(color, dist, glowRadius);
+      } else if (dist < glowRadius && mouseActive) {
+        const m = color.match(/rgb\(([\d.]+),([\d.]+),([\d.]+)\)/);
+        if (m) {
+          const str = 1 - dist / glowRadius;
+          const e = str * str * 30;
+          color = `rgb(${Math.min(255,+m[1]+e*1.2)},${Math.min(255,+m[2]+e*0.9)},${Math.min(255,+m[3]+e*0.3)})`;
+        }
+      }
+
+      ctx.fillStyle = color;
+      ctx.fillRect(Math.floor(x), Math.floor(y), Math.ceil(cellW) + 1, Math.ceil(cellH) + 1);
+    }
+  }
+
+  driftClouds.forEach(dc => {
+    dc.x += dc.speed;
+    if (dc.x > COLS + 8) dc.x = -8;
+    dc.shape.forEach(([dr, dcc, clr]) => {
+      const gr = Math.round(dc.y + dr);
+      const gc = Math.round(dc.x + dcc);
+      if (gr >= 0 && gr < ROWS && gc >= 0 && gc < COLS) {
+        const existing = G[gr][gc];
+        const rv = parseInt(existing.slice(1,3), 16);
+        if (rv < 30) {
+          const x = gc * cellW, y = gr * cellH;
+          const dist = Math.sqrt((gc - mCol) ** 2 + (gr - mRow) ** 2);
+          ctx.fillStyle = warmGlow(clr, dist, glowRadius);
+          ctx.fillRect(Math.floor(x), Math.floor(y), Math.ceil(cellW) + 1, Math.ceil(cellH) + 1);
+        }
+      }
+    });
+  });
+
+  flowerGroups.forEach((fg) => {
+    let amp = 2.5;
+    const fCenterC = fg.pivotC, fCenterR = fg.pivotR - 4;
+    const fDist = Math.sqrt((fCenterC - mCol) ** 2 + (fCenterR - mRow) ** 2);
+    if (fDist < 10 && mouseActive) {
+      amp += (1 - fDist / 10) * 4;
+    }
+
+    const angle = Math.sin(t * 0.008 + fg.phase) * amp * (Math.PI / 180);
+    const pivotX = fg.pivotC * cellW + cellW / 2;
+    const pivotY = fg.pivotR * cellH;
+    const cosA = Math.cos(angle), sinA = Math.sin(angle);
+
+    fg.cells.forEach(([r, c]) => {
+      const cx = c * cellW + cellW / 2, cy = r * cellH + cellH / 2;
+      const dx = cx - pivotX, dy = cy - pivotY;
+      const nx = pivotX + dx * cosA - dy * sinA - cellW / 2;
+      const ny = pivotY + dx * sinA + dy * cosA - cellH / 2;
+      const dist = Math.sqrt((c - mCol) ** 2 + (r - mRow) ** 2);
+      ctx.fillStyle = warmGlow(G[r][c], dist, glowRadius);
+      ctx.fillRect(Math.floor(nx), Math.floor(ny), Math.ceil(cellW) + 1, Math.ceil(cellH) + 1);
+    });
+  });
+
+  ctx.strokeStyle = 'rgba(0,0,0,0.1)';
+  ctx.lineWidth = 0.5;
+  for (let r = 0; r <= ROWS; r++) {
+    const y = Math.round(r * cellH);
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(W, y);
+    ctx.stroke();
+  }
+  for (let c = 0; c <= COLS; c++) {
+    const x = Math.round(c * cellW);
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, H);
+    ctx.stroke();
+  }
+
+  requestAnimationFrame(render);
+}
+requestAnimationFrame(render);
+</script>
+
+<script>
+if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  const badge = document.getElementById('cursorBadge');
+  let active = false;
+  let lastX = 0, lastY = 0;
+
+  document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      active = true;
+      badge.classList.add('visible');
+    });
+    card.addEventListener('mouseleave', () => {
+      active = false;
+      badge.classList.remove('visible');
+    });
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    lastX = e.clientX;
+    lastY = e.clientY;
+    if (!active) return;
+    badge.style.left = e.clientX + 'px';
+    badge.style.top = e.clientY + 'px';
+  });
+
+  window.addEventListener('scroll', () => {
+    if (!active) return;
+    const el = document.elementFromPoint(lastX, lastY);
+    if (!el || !el.closest('.project-card')) {
+      active = false;
+      badge.classList.remove('visible');
+    }
+  }, { passive: true });
+}
+</script>
+
+<script>
+function paintDitherStrip(el, cellSize, baseColor, fillColor) {
+  const w = Math.ceil(el.clientWidth);
+  const h = Math.ceil(el.clientHeight);
+  if (!w || !h) return;
+  const cvs = document.createElement('canvas');
+  cvs.width = w;
+  cvs.height = h;
+  const cx = cvs.getContext('2d');
+  cx.fillStyle = baseColor;
+  cx.fillRect(0, 0, w, h);
+  cx.fillStyle = fillColor;
+  const cols = Math.ceil(w / cellSize);
+  const rows = Math.ceil(h / cellSize);
+  for (let r = 0; r < rows; r++) {
+    const t = rows === 1 ? 0 : r / (rows - 1);
+    const prob = Math.pow(1 - t, 1.4);
+    for (let c = 0; c < cols; c++) {
+      if (Math.random() < prob) {
+        cx.fillRect(c * cellSize, r * cellSize, cellSize, cellSize);
+      }
+    }
+  }
+  el.style.backgroundImage = `url(${cvs.toDataURL()})`;
+}
+
+function paintAllDitherStrips() {
+  const light = document.querySelector('.checker-light');
+  const blue = document.querySelector('.checker-blue');
+  if (light) paintDitherStrip(light, 14, '#eff0f3', '#ffffff');
+  if (blue) paintDitherStrip(blue, 14, '#07239a', '#eff0f3');
+}
+
+paintAllDitherStrips();
+let ditherResizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(ditherResizeTimer);
+  ditherResizeTimer = setTimeout(paintAllDitherStrips, 200);
+});
+</script>
+
+<script src="assets/js/scroll-reveal.js" defer></script>
+
+<script>
+/* ---------- Draggable brand stickers ---------- */
+(function () {
+  const bounds = document.querySelector('.brands-inner');
+  const stickers = document.querySelectorAll('.brand-sticker');
+  if (!bounds || !stickers.length) return;
+
+  stickers.forEach(el => {
+    let dx = 0, dy = 0;
+    let startX = 0, startY = 0;
+    let dragging = false;
+
+    el.addEventListener('pointerdown', (e) => {
+      dragging = true;
+      el.classList.add('dragging');
+      el.setPointerCapture(e.pointerId);
+      startX = e.clientX - dx;
+      startY = e.clientY - dy;
+      e.preventDefault();
+    });
+
+    el.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      const stickerRect = el.getBoundingClientRect();
+      const boundsRect = bounds.getBoundingClientRect();
+      let nextDx = e.clientX - startX;
+      let nextDy = e.clientY - startY;
+
+      const margin = 30;
+      const minDx = dx + (boundsRect.left - margin - stickerRect.left);
+      const maxDx = dx + (boundsRect.right + margin - stickerRect.right);
+      const minDy = dy + (boundsRect.top - margin - stickerRect.top);
+      const maxDy = dy + (boundsRect.bottom + margin - stickerRect.bottom);
+      nextDx = Math.min(Math.max(nextDx, minDx), maxDx);
+      nextDy = Math.min(Math.max(nextDy, minDy), maxDy);
+
+      dx = nextDx;
+      dy = nextDy;
+      el.style.transform = `translate(${dx}px, ${dy}px)`;
+    });
+
+    function endDrag(e) {
+      if (!dragging) return;
+      dragging = false;
+      el.classList.remove('dragging');
+      if (el.hasPointerCapture(e.pointerId)) el.releasePointerCapture(e.pointerId);
+    }
+    el.addEventListener('pointerup', endDrag);
+    el.addEventListener('pointercancel', endDrag);
+  });
+})();
+</script>
+
+<script>
+/* ---------- Bunny Catch (footer game) ---------- */
+(function () {
+  const W = 1200, H = 420, PX = 6;
+  const ROUND_MS = 30000;
+
+  const canvas = document.getElementById('bcCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const scoreEl = document.getElementById('bcScore');
+  const timeEl = document.getElementById('bcTime');
+
+  if (document.fonts && document.fonts.load) {
+    document.fonts.load("700 32px 'PP NeueBit'");
+  }
+
+  function fitCanvas() {
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.imageSmoothingEnabled = false;
+  }
+  fitCanvas();
+  window.addEventListener('resize', fitCanvas);
+
+  function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+
+  function loadImg(src) { const i = new Image(); i.src = src; return i; }
+  const PLAYER_IMG = loadImg('assets/images/bc-bunny.png');
+  const CLOUD_IMG = loadImg('assets/images/bc-cloud.png');
+
+  function drawBlocks(blocks, ox, oy) {
+    for (let i = 0; i < blocks.length; i++) {
+      const b = blocks[i];
+      ctx.fillStyle = b[4];
+      ctx.fillRect(Math.round(ox + b[0] * PX), Math.round(oy + b[1] * PX), b[2] * PX, b[3] * PX);
+    }
+  }
+
+  const CLOUDS = [
+    { x: 60, y: 50, w: 150, speed: 0.006 },
+    { x: 280, y: 110, w: 90, speed: 0.0048 },
+    { x: 500, y: 60, w: 120, speed: 0.0072 },
+    { x: 720, y: 100, w: 80, speed: 0.0052 },
+    { x: 940, y: 70, w: 130, speed: 0.0065 }
+  ];
+  const CLOUD_SRC = { x: 27, y: 38, w: 191, h: 51 };
+
+  const ITEM_TYPES = [
+    { key: 'arrow', points: 1, weight: 28, color: '#F5C518', img: loadImg('assets/images/bc-item-arrow.png'), ar: 126 / 138 },
+    { key: 'comment', points: 1, weight: 22, color: '#F0DE8A', img: loadImg('assets/images/bc-item-comment.png'), ar: 1256 / 1336 },
+    { key: 'pen', points: 2, weight: 18, color: '#B39DDB', img: loadImg('assets/images/bc-item-pen.png'), ar: 158 / 162 },
+    { key: 'bullian', points: 2, weight: 14, color: '#7C93E0', img: loadImg('assets/images/bc-item-bullian.png'), ar: 1348 / 1268 },
+    { key: 'component', points: 3, weight: 10, color: '#9B7FE0', img: loadImg('assets/images/bc-item-component.png'), ar: 166 / 152 },
+    { key: 'plugins', points: 4, weight: 6, color: '#F5A623', img: loadImg('assets/images/bc-item-plugins.png'), ar: 1686 / 1638 },
+    { key: 'figma', points: 5, weight: 4, color: '#A259FF', img: loadImg('assets/images/bc-item-figma.png'), ar: 118 / 130 },
+    {
+      key: 'error', points: -2, weight: 10, color: '#FF4444', gw: 6, gh: 6,
+      blocks: [
+        [0, 0, 1, 1, '#FF4444'], [1, 1, 1, 1, '#FF4444'], [2, 2, 1, 1, '#FF4444'], [3, 3, 1, 1, '#FF4444'], [4, 4, 1, 1, '#FF4444'], [5, 5, 1, 1, '#FF4444'],
+        [5, 0, 1, 1, '#FF4444'], [4, 1, 1, 1, '#FF4444'], [3, 2, 1, 1, '#FF4444'], [2, 3, 1, 1, '#FF4444'], [1, 4, 1, 1, '#FF4444'], [0, 5, 1, 1, '#FF4444']
+      ]
+    }
+  ];
+  const ITEM_WEIGHT_TOTAL = ITEM_TYPES.reduce((s, t) => s + t.weight, 0);
+  function pickItemType() {
+    let r = Math.random() * ITEM_WEIGHT_TOTAL;
+    for (let i = 0; i < ITEM_TYPES.length; i++) {
+      if (r < ITEM_TYPES[i].weight) return ITEM_TYPES[i];
+      r -= ITEM_TYPES[i].weight;
+    }
+    return ITEM_TYPES[ITEM_TYPES.length - 1];
+  }
+  const ITEM_SIZE = 50;
+  function drawItem(type, x, y) {
+    if (type.blocks) {
+      drawBlocks(type.blocks, x - (type.gw * PX) / 2, y - (type.gh * PX) / 2);
+      return;
+    }
+    if (!type.img.complete || !type.img.naturalWidth) return;
+    const h = ITEM_SIZE, w = h * type.ar;
+    ctx.drawImage(type.img, Math.round(x - w / 2), Math.round(y - h / 2), Math.round(w), Math.round(h));
+  }
+
+  const RATINGS = [
+    { min: 51, text: 'You might be a design tool yourself' },
+    { min: 31, text: 'Figma pro reflexes!' },
+    { min: 16, text: 'Solid catching!' },
+    { min: 0, text: 'Warming up! Try again?' }
+  ];
+  function ratingFor(s) {
+    for (let i = 0; i < RATINGS.length; i++) if (s >= RATINGS[i].min) return RATINGS[i].text;
+    return RATINGS[RATINGS.length - 1].text;
+  }
+
+  const basketY = H - 60;
+  const basket = { x: W / 2, w: 130 };
+  let targetBasketX = W / 2;
+
+  let state = 'idle'; // idle | playing | gameover
+  let score = 0;
+  let timeRemaining = ROUND_MS;
+  let elapsedInRound = 0;
+  let items = [];
+  let particles = [];
+  let popups = [];
+  let bgItems = [];
+  let spawnTimer = 0;
+  let lastSpawnX = null;
+  let flashTimer = 0;
+  let gameOverAt = null;
+
+  function initBgItems() {
+    bgItems = [];
+    for (let i = 0; i < 4; i++) {
+      bgItems.push({
+        type: pickItemType(),
+        x: 60 + Math.random() * (W - 120),
+        y: Math.random() * H,
+        vy: 0.3 + Math.random() * 0.2
+      });
+    }
+  }
+  initBgItems();
+
+  function setPointerX(clientX) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = W / rect.width;
+    targetBasketX = clamp((clientX - rect.left) * scaleX, 0, W);
+  }
+  canvas.addEventListener('mousemove', function (e) { setPointerX(e.clientX); });
+  canvas.addEventListener('touchstart', function (e) { if (e.touches[0]) setPointerX(e.touches[0].clientX); }, { passive: true });
+  canvas.addEventListener('touchmove', function (e) {
+    e.preventDefault();
+    if (e.touches[0]) setPointerX(e.touches[0].clientX);
+  }, { passive: false });
+
+  function spawnItem() {
+    if (items.length >= 6) return;
+    let x, attempts = 0;
+    do {
+      x = 60 + Math.random() * (W - 120);
+      attempts++;
+    } while (lastSpawnX !== null && Math.abs(x - lastSpawnX) < 80 && attempts < 10);
+    lastSpawnX = x;
+    items.push({
+      type: pickItemType(),
+      x: x, baseX: x, y: -20, t: 0,
+      phase: Math.random() * Math.PI * 2,
+      vy: 1.5 * (0.85 + Math.random() * 0.3)
+    });
+  }
+
+  function addParticles(x, y, color, count) {
+    const budget = Math.max(0, 50 - particles.length);
+    const n = Math.min(count, budget);
+    for (let i = 0; i < n; i++) {
+      const ang = Math.random() * Math.PI * 2;
+      const spd = 1 + Math.random() * 2.5;
+      particles.push({ x: x, y: y, vx: Math.cos(ang) * spd, vy: Math.sin(ang) * spd - 1, life: 1, color: color });
+    }
+  }
+  function addPopup(x, y, text, color) {
+    popups.push({ x: x, y: y, text: text, color: color, life: 1 });
+  }
+
+  function updateHUD() {
+    scoreEl.textContent = score;
+    timeEl.textContent = Math.max(0, Math.ceil(timeRemaining / 1000));
+  }
+
+  function startGame() {
+    score = 0;
+    timeRemaining = ROUND_MS;
+    elapsedInRound = 0;
+    items = [];
+    particles = [];
+    popups = [];
+    spawnTimer = 0;
+    lastSpawnX = null;
+    flashTimer = 0;
+    gameOverAt = null;
+    state = 'playing';
+    updateHUD();
+  }
+  function endGame() {
+    state = 'gameover';
+    gameOverAt = performance.now();
+  }
+  window.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
+    const rect = canvas.getBoundingClientRect();
+    const inView = rect.top < window.innerHeight && rect.bottom > 0;
+    if (!inView) return;
+    if (e.key === ' ' || e.key === 'Spacebar') e.preventDefault();
+    if (state === 'idle' || state === 'gameover') startGame();
+  });
+
+  function updateClouds(dt) {
+    for (let i = 0; i < CLOUDS.length; i++) {
+      const c = CLOUDS[i];
+      c.x += c.speed * dt;
+      if (c.x - c.w > W) c.x = -c.w;
+    }
+  }
+
+  function update(dt) {
+    updateClouds(dt);
+    if (state === 'idle') {
+      for (let i = 0; i < bgItems.length; i++) {
+        const b = bgItems[i];
+        b.y += b.vy;
+        if (b.y > H + 20) { b.y = -20; b.x = 60 + Math.random() * (W - 120); }
+      }
+      return;
+    }
+
+    if (state === 'playing') {
+      elapsedInRound += dt;
+      timeRemaining -= dt;
+      if (timeRemaining <= 0) { timeRemaining = 0; updateHUD(); endGame(); return; }
+
+      basket.x += (targetBasketX - basket.x) * 0.15;
+
+      const progress = clamp(elapsedInRound / ROUND_MS, 0, 1);
+      const speedMult = 1 + 0.5 * progress;
+      const spawnInterval = 1200 - 400 * progress;
+
+      spawnTimer -= dt;
+      if (spawnTimer <= 0) { spawnItem(); spawnTimer = spawnInterval; }
+
+      for (let i = items.length - 1; i >= 0; i--) {
+        const it = items[i];
+        it.t += dt;
+        it.y += it.vy * speedMult;
+        it.x = it.baseX + Math.sin(it.t * 0.003 + it.phase) * 6;
+
+        const withinX = Math.abs(it.x - basket.x) < (basket.w / 2 + 12);
+        const withinY = it.y > basketY - 12 && it.y < basketY + 16;
+        if (withinX && withinY) {
+          score = Math.max(0, score + it.type.points);
+          addParticles(it.x, basketY, it.type.color, 9);
+          addPopup(it.x, basketY - 10, (it.type.points > 0 ? '+' : '') + it.type.points, it.type.points < 0 ? '#FF6B6B' : '#FFFFFF');
+          if (it.type.key === 'error') flashTimer = 100;
+          items.splice(i, 1);
+          continue;
+        }
+        if (it.y - 20 > H) items.splice(i, 1);
+      }
+
+      if (flashTimer > 0) flashTimer = Math.max(0, flashTimer - dt);
+      updateHUD();
+    }
+
+    if (state === 'gameover') {
+      const elapsed = performance.now() - gameOverAt;
+      if (elapsed >= 600 && items.length) items = [];
+    }
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.x += p.vx; p.y += p.vy; p.vy += 0.08;
+      p.life -= dt / 500;
+    }
+    particles = particles.filter(function (p) { return p.life > 0; });
+
+    for (let i = 0; i < popups.length; i++) {
+      const p = popups[i];
+      p.y -= dt * 0.03;
+      p.life -= dt / 800;
+    }
+    popups = popups.filter(function (p) { return p.life > 0; });
+  }
+
+  function drawBasketAndBunny() {
+    const bx = basket.x, by = basketY;
+
+    let bob = 0;
+    if (state === 'playing') {
+      bob = Math.sin(performance.now() * 0.008) * 1.5;
+    } else if (state === 'gameover' && gameOverAt !== null) {
+      const elapsed = performance.now() - gameOverAt;
+      if (elapsed > 600) bob = Math.abs(Math.sin((elapsed - 600) * 0.006)) * 6;
+    }
+
+    if (PLAYER_IMG.complete && PLAYER_IMG.naturalWidth) {
+      const h = 100, w = h * (288 / 232);
+      ctx.drawImage(PLAYER_IMG, Math.round(bx - w / 2), Math.round(by - h * 0.42 - bob), Math.round(w), Math.round(h));
+    }
+  }
+
+  function drawClouds() {
+    if (!CLOUD_IMG.complete || !CLOUD_IMG.naturalWidth) return;
+    ctx.globalAlpha = 0.9;
+    for (let i = 0; i < CLOUDS.length; i++) {
+      const c = CLOUDS[i];
+      const h = c.w * (CLOUD_SRC.h / CLOUD_SRC.w);
+      ctx.drawImage(
+        CLOUD_IMG, CLOUD_SRC.x, CLOUD_SRC.y, CLOUD_SRC.w, CLOUD_SRC.h,
+        Math.round(c.x), Math.round(c.y), Math.round(c.w), Math.round(h)
+      );
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function drawGround() {
+    const groundY = basketY + 40;
+    const dashW = 40, gap = 24, dashH = 3;
+    ctx.fillStyle = 'rgba(255,255,255,0.35)';
+    for (let x = 0; x < W; x += dashW + gap) {
+      ctx.fillRect(Math.round(x), Math.round(groundY), dashW, dashH);
+    }
+    const dashW2 = 18, gap2 = 30, dashH2 = 2;
+    ctx.fillStyle = 'rgba(255,255,255,0.18)';
+    for (let x = -20; x < W; x += dashW2 + gap2) {
+      ctx.fillRect(Math.round(x), Math.round(groundY + 10), dashW2, dashH2);
+    }
+  }
+
+  function render() {
+    ctx.fillStyle = '#07239A';
+    ctx.fillRect(0, 0, W, H);
+
+    drawClouds();
+    drawGround();
+
+    if (state === 'idle') {
+      ctx.globalAlpha = 0.4;
+      for (let i = 0; i < bgItems.length; i++) drawItem(bgItems[i].type, bgItems[i].x, bgItems[i].y);
+      ctx.globalAlpha = 1;
+    } else {
+      let alpha = 1;
+      if (state === 'gameover' && gameOverAt !== null) {
+        alpha = clamp(1 - (performance.now() - gameOverAt) / 600, 0, 1);
+      }
+      ctx.globalAlpha = alpha;
+      for (let i = 0; i < items.length; i++) drawItem(items[i].type, items[i].x, items[i].y);
+      ctx.globalAlpha = 1;
+    }
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      ctx.globalAlpha = clamp(p.life, 0, 1);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(Math.round(p.x - 2), Math.round(p.y - 2), 4, 4);
+    }
+    ctx.globalAlpha = 1;
+
+    drawBasketAndBunny();
+
+    ctx.textAlign = 'center';
+    for (let i = 0; i < popups.length; i++) {
+      const p = popups[i];
+      ctx.globalAlpha = clamp(p.life, 0, 1);
+      ctx.fillStyle = p.color;
+      ctx.font = "700 20px 'Instrument Sans', Arial, sans-serif";
+      ctx.fillText(p.text, p.x, p.y);
+    }
+    ctx.globalAlpha = 1;
+
+    if (flashTimer > 0) {
+      const a = (flashTimer / 100) * 0.5;
+      ctx.fillStyle = 'rgba(255,68,68,' + a + ')';
+      const t = 20;
+      ctx.fillRect(0, 0, W, t);
+      ctx.fillRect(0, H - t, W, t);
+      ctx.fillRect(0, 0, t, H);
+      ctx.fillRect(W - t, 0, t, H);
+    }
+
+    if (state === 'idle') {
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'center';
+      ctx.font = "700 44px 'PP NeueBit', 'Instrument Sans', Arial, sans-serif";
+      ctx.fillText("Let's test your reflexes", W / 2, H / 2 - 64);
+      ctx.font = "500 20px 'Instrument Sans', Arial, sans-serif";
+      ctx.fillStyle = 'rgba(255,255,255,0.85)';
+      ctx.fillText('Press space to start', W / 2, H / 2 - 34);
+    }
+
+    if (state === 'gameover' && gameOverAt !== null) {
+      const elapsed = performance.now() - gameOverAt;
+      const overlayA = clamp(elapsed / 600, 0, 0.8);
+      ctx.fillStyle = 'rgba(4,20,90,' + overlayA + ')';
+      ctx.fillRect(0, 0, W, H);
+      if (elapsed > 500) {
+        ctx.globalAlpha = clamp((elapsed - 500) / 300, 0, 1);
+        ctx.textAlign = 'center';
+        ctx.fillStyle = '#fff';
+        ctx.font = "700 56px 'Instrument Sans', Arial, sans-serif";
+        ctx.fillText(String(score), W / 2, H / 2 - 6);
+        ctx.font = "600 20px 'Instrument Sans', Arial, sans-serif";
+        ctx.fillText(ratingFor(score), W / 2, H / 2 + 24);
+        ctx.fillStyle = 'rgba(255,255,255,0.75)';
+        ctx.font = "500 16px 'Instrument Sans', Arial, sans-serif";
+        ctx.fillText('Play again', W / 2, H / 2 + 52);
+        ctx.globalAlpha = 1;
+      }
+    }
+  }
+
+  let lastTime = null;
+  let rafId = null;
+
+  function loop(now) {
+    if (lastTime === null) lastTime = now;
+    const dt = Math.min(now - lastTime, 100);
+    lastTime = now;
+    update(dt);
+    render();
+    rafId = requestAnimationFrame(loop);
+  }
+  rafId = requestAnimationFrame(loop);
+
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = null;
+    } else if (!rafId) {
+      lastTime = null;
+      rafId = requestAnimationFrame(loop);
+    }
+  });
+
+  updateHUD();
+})();
+</script>
+</body>
+</html>

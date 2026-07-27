@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Visual Overhaul for SAVii's App — Siddarth Puranik</title>
+<meta name="description" content="Case study: a visual refresh for SAVii's app with 5L+ users — exploring three brand directions and shipping the one that moved Refer &amp; Win participation by 60%.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: 'Bellisa Script';
+    src: url('fonts/BellisaScript-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'PP NeueBit';
+    src: url('fonts/PPNeueBit-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  :root {
+    --blue-deep: #07239a;
+    --blue-tag: #0726ad;
+    --muted-4: #83848a;
+    --max: 1280px;
+
+    --cs-heading: #302e3d;
+    --cs-body: rgba(48,46,61,0.8);
+    --cs-label: rgba(48,46,61,0.9);
+    --cs-border: #e0ddd8;
+    --cs-border-2: #cfcfcf;
+    --cs-badge-bg: #f3f4f6;
+    --cs-badge-text: #5a5961;
+    --cs-callout-bg: #f8f9fe;
+    --cs-callout-border: #1a3eb8;
+    --cs-accent-blue: #0077b8;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Instrument Sans', sans-serif;
+    color: var(--cs-heading);
+    background: #fff;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; display: block; }
+  a { text-decoration: none; color: inherit; }
+
+  .script { font-family: 'Bellisa Script', cursive; font-weight: 400; }
+  .script-sp { margin-right: 0.3em; }
+
+  /* ---------- NAV ---------- */
+  .cs-nav {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    width: 100%;
+  }
+  .cs-logo {
+    font-family: 'PP NeueBit', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    color: #fff;
+  }
+  .cs-nav-links {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 20px;
+    color: #fff;
+  }
+  .cs-nav-links a:hover { text-decoration: underline; }
+
+  /* ---------- HERO ---------- */
+  .cs-hero {
+    position: relative;
+    border-bottom: 1px solid var(--cs-border-2);
+    overflow: hidden;
+    min-height: 130vh;
+    background: linear-gradient(180deg,
+      #97d7db 0%,
+      #75bdcb 10%,
+      #54a0b9 20%,
+      #2e8fba 35%,
+      #006aa4 50%,
+      #005d90 65%,
+      #014f79 80%,
+      #014165 90%,
+      #013b5a 100%);
+  }
+  .cs-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+  .cs-hero-inner {
+    position: relative;
+    z-index: 2;
+  }
+  .cs-hero-title {
+    text-align: center;
+    max-width: 900px;
+    margin: 70px auto 0;
+    padding: 0 20px;
+    font-family: 'Alegreya', serif;
+    font-weight: 400;
+    font-size: clamp(28px, 4.44vw, 64px);
+    line-height: 1.15;
+    letter-spacing: -0.04em;
+    color: #fff;
+  }
+  .cs-hero-phone {
+    position: absolute;
+    left: 50%;
+    top: calc(200px + 10vw);
+    transform: translateX(-50%);
+    width: clamp(300px, calc((95vh - 200px - 10vw) * 1.5487), 900px);
+    height: auto;
+  }
+
+  /* ---------- BODY / SIDE NAV / CONTENT ---------- */
+  .cs-body {
+    max-width: 1440px;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-start;
+    padding-left: 40px;
+  }
+  .cs-sidenav {
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 200px;
+    flex-shrink: 0;
+    padding: 60px 0;
+  }
+  .cs-sidenav-home {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .cs-sidenav-home img { width: 24px; height: 24px; transform: rotate(180deg) scaleY(-1); }
+  .cs-sidenav-home span {
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 1.44px;
+    color: var(--blue-tag);
+  }
+  .cs-sidenav-links { display: flex; flex-direction: column; gap: 2px; }
+  .cs-sidenav-links a {
+    display: flex;
+    align-items: center;
+    height: 28px;
+    padding-left: 16px;
+    border-left: 2px solid #e0ddd8;
+    font-size: 14px;
+    line-height: 1.4;
+    color: rgba(48,46,61,0.45);
+  }
+  .cs-sidenav-links a.active { border-left-color: #302e3d; color: #302e3d; }
+
+  .cs-content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-left: 1px solid var(--cs-border-2);
+    padding-bottom: 40px;
+  }
+  .cs-section { width: 1010px; max-width: 100%; padding: 64px 60px; border-bottom: 1px solid var(--cs-border); }
+  .cs-section#problem { border-bottom: none; }
+  .cs-section:last-child { border-bottom: none; }
+  .cs-eyebrow { font-size: 11px; letter-spacing: 1.32px; color: var(--cs-label); margin: 0 0 8px; }
+  .cs-h2 {
+    font-family: 'Alegreya', serif;
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 1.3;
+    letter-spacing: -1.44px;
+    color: var(--cs-heading);
+    margin: 0 0 8px;
+    max-width: 890px;
+  }
+  .cs-h2 .accent { font-style: italic; color: #058ede; }
+  .cs-body-text { font-size: 16px; line-height: 1.75; color: var(--cs-body); max-width: 620px; margin: 0; }
+  .cs-body-text + .cs-body-text { margin-top: 12px; }
+  .cs-highlight { font-weight: 700; color: var(--cs-accent-blue); }
+
+  /* Meta row */
+  .cs-meta-row { display: flex; gap: 60px; flex-wrap: wrap; }
+  .cs-meta { display: flex; flex-direction: column; gap: 6px; }
+  .cs-meta p:first-child { font-size: 11px; letter-spacing: 1.1px; color: var(--cs-label); margin: 0; }
+  .cs-meta p:last-child { font-family: 'Alegreya', serif; font-size: 20px; letter-spacing: -0.8px; color: var(--cs-heading); margin: 0; }
+
+  /* CS Image w/ caption (shared card pattern) */
+  .cs-image-card { width: 100%; border: 1px solid var(--cs-border); border-radius: 12px; overflow: hidden; }
+  .cs-image-card img { display: block; width: 100%; }
+  .cs-image-caption { display: flex; align-items: center; gap: 4px; height: 44px; padding: 0 20px; background: #fff; border-top: 1px solid var(--cs-border); font-size: 13px; font-weight: 600; color: var(--cs-label); }
+  .cs-image-caption a:hover { text-decoration: underline; }
+  .cs-image-caption img { width: 18px; height: 18px; }
+
+  /* ---------- VISUAL EXPLORATIONS ---------- */
+  .sr-direction-card { background: #f7f7f7; border: 1px solid var(--cs-border); border-radius: 16px; padding: 48px 56px; margin-top: 24px; }
+  .sr-direction-card:first-of-type { margin-top: 40px; }
+  .sr-direction { display: flex; gap: 42px; align-items: center; }
+  .sr-direction-image { width: 284px; flex-shrink: 0; border-radius: 20px; object-fit: cover; }
+  .sr-direction-content { flex: 1; min-width: 0; }
+  .sr-direction-eyebrow { font-size: 11px; letter-spacing: 1.32px; text-transform: uppercase; color: var(--cs-label); margin: 0; }
+  .sr-direction-title { font-family: 'Alegreya', serif; font-weight: 400; font-size: 42px; letter-spacing: -1.68px; color: var(--cs-heading); margin: 4px 0 16px; }
+  .sr-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+  .sr-tag { padding: 8px 12px; border: 1px solid var(--cs-border-2); border-radius: 999px; font-size: 14px; color: var(--cs-heading); }
+  .sr-sub { margin-bottom: 28px; }
+  .sr-sub:last-child { margin-bottom: 0; }
+  .sr-sub-label { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--cs-label); margin: 0 0 4px; }
+  .sr-sub-text { position: relative; padding-left: 16px; font-size: 15px; line-height: 1.6; color: var(--cs-body); margin: 0; }
+  .sr-sub-text::before { content: '\00b7'; position: absolute; left: 0; font-weight: 700; color: var(--cs-body); }
+
+  /* ---------- CHECKER + FOOTER (shared with other case-study pages) ---------- */
+  .checker-strip { height: 100px; width: 100%; background-repeat: no-repeat; background-size: 100% 100%; image-rendering: pixelated; }
+  .checker-blue { background-color: var(--blue-deep); }
+
+  .footer { background: var(--blue-deep); padding: 90px 0 100px; }
+  .footer-inner { max-width: var(--max); margin: 0 auto; padding: 0 40px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 48px; }
+  .footer-cta h2 { font-family: 'PP NeueBit', sans-serif; font-weight: 700; font-size: 42px; color: #fff; margin: 0 0 8px; text-shadow: 0 4px 4px rgba(0,0,0,0.25); }
+  .footer-cta .credit { display: flex; align-items: center; gap: 12px; font-size: 24px; color: #fff; text-shadow: 0 4px 4px rgba(0,0,0,0.25); }
+  .footer-cta .credit .logo-inline { font-family: 'PP NeueBit', sans-serif; font-weight: 700; }
+  .footer-links { display: flex; gap: 80px; font-size: 20px; letter-spacing: 2px; }
+  .footer-links .col { display: flex; flex-direction: column; gap: 15px; }
+  .footer-links .col-title { color: var(--muted-4); margin: 0; }
+  .footer-links a { color: #fff; }
+  .footer-links a:hover { text-decoration: underline; }
+
+  .footer-game { width: 100%; margin-top: 56px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.2); }
+  .bc-hud { max-width: var(--max); margin: 0 auto 10px; padding: 0 40px; display: flex; justify-content: space-between; align-items: center; color: rgba(255,255,255,0.75); font-family: 'PP NeueBit', sans-serif; font-size: 26px; font-weight: 700; letter-spacing: 0.2px; }
+  .bc-hud .bc-timer { text-align: right; }
+  .bc-canvas-wrap { width: 100%; overflow: hidden; }
+  #bcCanvas { width: 100%; aspect-ratio: 1200 / 420; display: block; background: var(--blue-deep); touch-action: none; }
+
+  /* ---------- SCROLL REVEAL ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 1100px) {
+    .cs-body { flex-direction: column; padding-left: 0; }
+    .cs-sidenav { position: relative; flex-direction: row; flex-wrap: wrap; width: 100%; padding: 24px 40px; gap: 16px 32px; }
+    .cs-sidenav-links { flex-direction: row; flex-wrap: wrap; }
+    .cs-content { border-left: none; }
+    .cs-section { padding: 48px 24px; }
+    .sr-direction { flex-direction: column; }
+    .sr-direction-image { width: 100%; max-width: 340px; }
+    .sr-direction-card { padding: 32px 24px; }
+  }
+  @media (max-width: 640px) {
+    .cs-nav { padding: 16px 20px; }
+    .footer { padding: 60px 0 70px; }
+    .footer-inner { padding: 0 20px; }
+    .bc-hud { padding: 0 20px; }
+  }
+
+  /* ---------- MOBILE (separate layout, shown only below 768px) ---------- */
+  .cs-mobile { display: none; }
+  @media (max-width: 767px) {
+    .cs-desktop { display: none; }
+    .cs-mobile { display: block; }
+  }
+
+  .m-header {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+  }
+  .m-nav-links { display: flex; align-items: center; gap: 16px; font-size: 16px; color: #fff; }
+
+  .m-hero {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--cs-border-2);
+    background: linear-gradient(180deg,
+      #97d7db 0%,
+      #75bdcb 10%,
+      #54a0b9 20%,
+      #2e8fba 35%,
+      #006aa4 50%,
+      #005d90 65%,
+      #014f79 80%,
+      #014165 90%,
+      #013b5a 100%);
+  }
+  .m-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+  .m-hero-body { position: relative; z-index: 2; display: flex; flex-direction: column; gap: 24px; padding: 0 20px 24px; }
+  .m-hero-title {
+    font-family: 'Alegreya', serif;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 1.2;
+    letter-spacing: -0.64px;
+    color: #fff;
+    margin: 0;
+  }
+  .m-hero-phone { width: 100%; aspect-ratio: 345 / 271; border-radius: 4px; overflow: hidden; }
+  .m-hero-phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+
+  .m-section { padding: 32px 20px; border-bottom: 1px solid var(--cs-border); }
+  .cs-mobile .m-section:last-of-type { border-bottom: none; }
+  .m-eyebrow { font-size: 10px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--cs-label); margin: 0 0 4px; }
+  .m-h2 { font-family: 'Alegreya', serif; font-weight: 400; font-size: 24px; line-height: 1.3; letter-spacing: -0.96px; color: var(--cs-heading); margin: 0 0 12px; }
+  .m-h2 .accent { font-style: italic; color: #058ede; }
+  .m-body { font-size: 15px; line-height: 1.6; color: var(--cs-body); margin: 0 0 12px; }
+  .m-body:last-child { margin-bottom: 0; }
+
+  .m-meta-row { display: flex; flex-direction: column; gap: 16px; }
+  .m-meta { display: flex; flex-direction: column; gap: 4px; }
+  .m-meta p:first-child { font-size: 10px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--cs-label); margin: 0; }
+  .m-meta p:last-child { font-family: 'Alegreya', serif; font-size: 16px; color: var(--cs-heading); margin: 0; }
+
+  .m-image-card { border: 1px solid var(--cs-border); border-radius: 12px; overflow: hidden; }
+  .m-image-media { position: relative; width: 100%; overflow: hidden; }
+  .m-image-media img { display: block; width: 100%; height: 100%; }
+  .m-caption-link { display: flex; align-items: center; gap: 4px; padding: 12px 16px; border-top: 1px solid var(--cs-border); font-size: 13px; font-weight: 600; }
+  .m-caption-link a { text-decoration: underline; }
+  .m-caption-link img { width: 14px; height: 14px; }
+
+  .m-figure { width: 100%; border-radius: 12px; overflow: hidden; margin: 0; }
+  .m-figure img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* ---------- PROBLEM (mobile) ---------- */
+  .svr-m-problem-cards { display: flex; flex-direction: column; gap: 16px; margin-top: 16px; }
+  .svr-m-problem-card { background: #fff; border: 1px solid var(--cs-border); border-radius: 12px; padding: 20px; }
+  .svr-m-chip { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; margin-bottom: 12px; }
+  .svr-m-chip.high { background: #c1272d; color: #fff; }
+  .svr-m-chip.medium { background: #fff3d9; color: #8a6416; }
+  .svr-m-problem-card h3 { font-family: 'Alegreya', serif; font-weight: 400; font-size: 19px; letter-spacing: -0.5px; color: var(--cs-heading); margin: 0 0 8px; }
+  .svr-m-problem-card p { font-size: 14px; line-height: 1.55; color: var(--cs-label); margin: 0; }
+
+  /* ---------- VISUAL EXPLORATIONS (mobile) ---------- */
+  .svr-m-direction-card { background: #f7f7f7; border: 1px solid var(--cs-border); border-radius: 16px; padding: 20px; margin-top: 20px; }
+  .cs-mobile .svr-m-direction-card:first-of-type { margin-top: 20px; }
+  .svr-m-direction-image { width: 100%; border-radius: 20px; margin-bottom: 20px; }
+  .svr-m-direction-eyebrow { font-size: 10px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--cs-label); margin: 0; }
+  .svr-m-direction-title { font-family: 'Alegreya', serif; font-weight: 400; font-size: 28px; letter-spacing: -1.12px; color: var(--cs-heading); margin: 4px 0 14px; }
+  .svr-m-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+  .svr-m-tag { padding: 8px 12px; border: 1px solid var(--cs-border-2); border-radius: 999px; font-size: 13px; color: var(--cs-heading); }
+  .svr-m-sub { margin-bottom: 20px; }
+  .svr-m-sub:last-child { margin-bottom: 0; }
+  .svr-m-sub-label { font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--cs-label); margin: 0 0 4px; }
+  .svr-m-sub-text { position: relative; padding-left: 14px; font-size: 14px; line-height: 1.55; color: var(--cs-body); margin: 0; }
+  .svr-m-sub-text::before { content: '\00b7'; position: absolute; left: 0; font-weight: 700; color: var(--cs-body); }
+
+  /* ---------- OUTCOME (mobile) ---------- */
+  .svr-m-showcase { margin-top: 16px; }
+  .svr-m-showcase + .svr-m-showcase { margin-top: 32px; }
+  .svr-m-showcase-label { font-size: 10px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--cs-label); margin: 0 0 8px; }
+  .svr-m-showcase img { width: 100%; border-radius: 12px; margin-bottom: 16px; }
+  .svr-m-showcase h3 { font-family: 'Alegreya', serif; font-weight: 400; font-size: 19px; letter-spacing: -0.5px; color: var(--cs-heading); margin: 0 0 8px; }
+  .svr-m-showcase p { font-size: 14px; line-height: 1.55; color: var(--cs-label); margin: 0; }
+
+  .m-wins { display: flex; flex-direction: column; gap: 16px; margin-top: 16px; }
+  .m-win { display: flex; gap: 12px; padding: 16px; background: #fff; border: 1px solid var(--cs-border); border-radius: 10px; }
+  .m-win-mark { color: var(--blue-tag); font-size: 15px; width: 16px; flex-shrink: 0; }
+  .m-win p { font-size: 14px; line-height: 1.5; color: var(--cs-label); margin: 0; }
+
+  .m-footer { background: var(--blue-deep); padding: 40px 20px 48px; display: flex; flex-direction: column; gap: 32px; }
+  .m-footer-credit { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-align: left; }
+  .m-footer-credit p { font-size: 16px; color: #fff; margin: 0; }
+  .m-footer-credit .logo-inline { font-family: 'PP NeueBit', sans-serif; font-weight: 700; font-size: 32px; color: #fff; }
+  .m-footer-cols { display: flex; gap: 40px; }
+  .m-footer-col { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+  .m-footer-col-title { font-size: 14px; font-weight: 600; letter-spacing: 1.68px; color: var(--muted-4); margin: 0; }
+  .m-footer-col a { font-size: 16px; color: #fff; }
+</style>
+</head>
+<body>
+
+<div class="cs-desktop">
+<header class="cs-hero">
+  <div class="cs-hero-inner">
+    <nav class="cs-nav">
+      <a href="index.html#top" class="cs-logo"><span class="script script-sp">S</span>iddy :)</a>
+      <div class="cs-nav-links">
+        <a href="about.html">About</a>
+        <a href="resume.pdf" target="_blank" rel="noopener">Resume</a>
+      </div>
+    </nav>
+    <h1 class="cs-hero-title">A visual overhaul for SAVii&rsquo;s app with 5L+ Users</h1>
+    <img class="cs-hero-phone" src="assets/images/svr-hero-phone.png" alt="SAVii app onboarding screen mockup">
+  </div>
+</header>
+
+<div class="cs-body">
+  <nav class="cs-sidenav">
+    <a class="cs-sidenav-home" href="index.html#top">
+      <img src="assets/images/icon-caret-right.svg" alt="">
+      <span>HOME</span>
+    </a>
+    <div class="cs-sidenav-links">
+      <a href="#overview" class="active">Overview</a>
+      <a href="#problem">The Problem</a>
+      <a href="#explorations">Explorations</a>
+      <a href="#chosen-direction">Chosen Direction</a>
+      <a href="#impact">Impact</a>
+    </div>
+  </nav>
+
+  <main class="cs-content">
+    <section class="cs-section reveal" id="overview">
+      <div class="cs-meta-row">
+        <div class="cs-meta"><p>MY ROLE</p><p>Product Designer</p></div>
+        <div class="cs-meta"><p>TEAM</p><p>Anushka G &middot; Shobhit &middot; Me</p></div>
+        <div class="cs-meta"><p>DURATION</p><p>2 Months</p></div>
+        <div class="cs-meta"><p>CLIENT</p><p>SAVii</p></div>
+      </div>
+    </section>
+
+    <section class="cs-section reveal">
+      <p class="cs-eyebrow">OVERVIEW</p>
+      <h2 class="cs-h2">What is SAVii?</h2>
+      <p class="cs-body-text">SAVii is one of the Philippines&rsquo; leading financial wellness platforms, offering salary-linked loans and other financial products to employees.</p>
+      <p class="cs-body-text">The app serves thousands of users who depend on it to access credit, manage repayments, and explore financial products &mdash; but its UI hadn&rsquo;t kept up with the product&rsquo;s ambitions.</p>
+      <div class="cs-image-card" style="margin-top:24px;">
+        <img src="assets/images/svr-overview.png" alt="SAVii app overview">
+        <div class="cs-image-caption">
+          <a href="https://savii.io/ph" target="_blank" rel="noopener">View Website</a>
+          <img src="assets/images/icon-arrow-square-out.svg" alt="">
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-section reveal" id="problem">
+      <p class="cs-eyebrow">THE PROBLEM</p>
+      <h2 class="cs-h2">SAVii&rsquo;s UI looked very outdated and lacked polish</h2>
+      <p class="cs-body-text">We identified four core issues across the product cards and home screen &mdash; ranging in severity from high-priority UX failures to medium-priority visual issues.</p>
+      <img src="assets/images/svr-problem.png" alt="Annotated breakdown of SAVii's product card issues" style="margin-top:32px; border-radius:12px;">
+    </section>
+
+    <section class="cs-section reveal" id="explorations">
+      <p class="cs-eyebrow">VISUAL EXPLORATIONS</p>
+      <h2 class="cs-h2">3 Directions. One brand voice.</h2>
+      <p class="cs-body-text">We explored three distinct visual directions, each pushing a different interpretation of SAVii&rsquo;s identity &mdash; from trustworthy and functional to bold and tech-forward.</p>
+
+      <div class="sr-direction-card">
+      <div class="sr-direction">
+        <img class="sr-direction-image" style="aspect-ratio:1080/2643;" src="assets/images/svr-direction-iconiq.png" alt="Direction 01 — Iconiq product card mockup">
+        <div class="sr-direction-content">
+          <p class="sr-direction-eyebrow">direction 01</p>
+          <h3 class="sr-direction-title">Iconiq</h3>
+          <div class="sr-tags">
+            <span class="sr-tag">Trustworthy</span>
+            <span class="sr-tag">Clear</span>
+            <span class="sr-tag">Functional</span>
+          </div>
+          <div class="sr-sub">
+            <p class="sr-sub-label">The bet</p>
+            <p class="sr-sub-text">Lead with <span class="cs-highlight">USPs, not product names</span>. A borrower cares about &ldquo;interest from 0.5%&rdquo; before they care about &ldquo;Salary Loan.&rdquo;</p>
+          </div>
+          <div class="sr-sub">
+            <p class="sr-sub-label">What worked</p>
+            <p class="sr-sub-text">Spacious, clean layout. Flat illustrations that <span class="cs-highlight">signal safety</span>, important for a lending product. Cards felt calm and low-pressure.</p>
+          </div>
+          <div class="sr-sub">
+            <p class="sr-sub-label">The tension</p>
+            <p class="sr-sub-text">SAVii worried existing users would <span class="cs-highlight">lose recognition</span> without prominent product names. They also insisted on retaining &ldquo;Learn More&rdquo; as an explicit CTA &mdash; we&rsquo;d proposed removing it to reduce decision load.</p>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <div class="sr-direction-card">
+      <div class="sr-direction">
+        <img class="sr-direction-image" style="aspect-ratio:1080/2613;" src="assets/images/svr-direction-edgey.png" alt="Direction 02 — Edgey product card mockup">
+        <div class="sr-direction-content">
+          <p class="sr-direction-eyebrow">direction 02</p>
+          <h3 class="sr-direction-title">Edgey</h3>
+          <div class="sr-tags">
+            <span class="sr-tag">Tech-forward</span>
+            <span class="sr-tag">Bold</span>
+            <span class="sr-tag">Confident</span>
+          </div>
+          <div class="sr-sub">
+            <p class="sr-sub-label">The bet</p>
+            <p class="sr-sub-text">Rethink the entire card &mdash; no CTAs, just product name, key numbers, and a tappable surface. <span class="cs-highlight">Zero choice paralysis</span>.</p>
+          </div>
+          <div class="sr-sub">
+            <p class="sr-sub-label">What worked</p>
+            <p class="sr-sub-text">Boldest visual direction. Simplified card structure was our strongest conviction &mdash; <span class="cs-highlight">fewer choices, faster decisions</span>.</p>
+          </div>
+          <div class="sr-sub">
+            <p class="sr-sub-label">The tension</p>
+            <p class="sr-sub-text">SAVii was open to rethinking card content but not the broader visual system. <span class="cs-highlight">&ldquo;Too wild&rdquo;</span> for the existing app language. This drew a useful line: flexibility in what&rsquo;s on the card, not in how the app looks overall.</p>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <div class="sr-direction-card">
+      <div class="sr-direction">
+        <img class="sr-direction-image" style="aspect-ratio:1125/2796;" src="assets/images/svr-direction-vivid.png" alt="Direction 03 — Vivid product card mockup">
+        <div class="sr-direction-content">
+          <p class="sr-direction-eyebrow">direction 03</p>
+          <h3 class="sr-direction-title">Vivid</h3>
+          <div class="sr-tags">
+            <span class="sr-tag">Modern</span>
+            <span class="sr-tag">Youthful</span>
+            <span class="sr-tag">Aspirational</span>
+          </div>
+          <div class="sr-sub">
+            <p class="sr-sub-label">The bet</p>
+            <p class="sr-sub-text">Give product name and USP <span class="cs-highlight">equal weight</span> &mdash; solve the recognition concern from Iconiq without losing the value-first approach.</p>
+          </div>
+          <div class="sr-sub">
+            <p class="sr-sub-label">What worked</p>
+            <p class="sr-sub-text">3D icons and gradient headers <span class="cs-highlight">felt premium</span> and aligned with SAVii&rsquo;s approachable brand. The balanced hierarchy landed well with the team.</p>
+          </div>
+          <div class="sr-sub">
+            <p class="sr-sub-label">The tension</p>
+            <p class="sr-sub-text">We flagged dual CTAs (&ldquo;Learn More&rdquo; + &ldquo;Apply Now&rdquo;) as redundant. SAVii&rsquo;s counter &mdash; repeat borrowers want a direct &ldquo;Apply&rdquo; shortcut without revisiting the product page. Valid, but two equally weighted buttons <span class="cs-highlight">creates hesitation</span>.</p>
+          </div>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <section class="cs-section reveal" id="chosen-direction">
+      <p class="cs-eyebrow">CHOSEN DIRECTION</p>
+      <h2 class="cs-h2">Vivid hits the sweet spot <span class="accent">between brand</span> and <span class="accent">ambition</span>.</h2>
+      <img src="assets/images/svr-chosen.png" alt="Final Vivid direction — annotated product screens" style="margin-top:24px; border-radius:12px;">
+    </section>
+
+    <section class="cs-section reveal" id="impact">
+      <p class="cs-eyebrow">IMPACT</p>
+      <h2 class="cs-h2">A visual refresh that moved the needle by 60%.</h2>
+      <p class="cs-body-text" style="max-width:890px;">Following the redesign, SAVii saw a <span class="cs-highlight">60% increase in Refer and Win participation</span> &mdash; the strongest signal that the visual refresh resonated with users.</p>
+      <img src="assets/images/svr-outcome-before.png" alt="Before — Refer and Win page" style="margin-top:32px; border-radius:12px;">
+      <img src="assets/images/svr-outcome-after.png" alt="After — Refer and Win page" style="margin-top:16px; border-radius:12px;">
+    </section>
+  </main>
+</div>
+
+<div class="checker-strip checker-blue"></div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-cta">
+      <h2>Thanks for making it till here!</h2>
+      <p class="credit">Designed + coded by <span class="logo-inline"><span class="script script-sp">S</span>iddy :)</span></p>
+    </div>
+    <div class="footer-links">
+      <div class="col">
+        <p class="col-title">SAY HI</p>
+        <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LINKEDIN</a>
+        <a href="mailto:siddarthpuranik@gmail.com">GMAIL</a>
+      </div>
+      <div class="col">
+        <p class="col-title">PAGE</p>
+        <a href="index.html#top">HOME</a>
+        <a href="about.html">ABOUT</a>
+        <a href="resume.pdf" target="_blank" rel="noopener">RESUME</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-game">
+    <div class="bc-hud">
+      <div class="bc-score">Score: <span id="bcScore">0</span></div>
+      <div class="bc-timer">Time: <span id="bcTime">30</span>s</div>
+    </div>
+    <div class="bc-canvas-wrap">
+      <canvas id="bcCanvas"></canvas>
+    </div>
+  </div>
+</footer>
+</div>
+
+<div class="cs-mobile">
+  <header class="m-hero">
+    <div class="m-header">
+      <a href="index.html#top" class="cs-logo"><span class="script script-sp">S</span>iddy :)</a>
+      <div class="m-nav-links">
+        <a href="about.html">About</a>
+        <a href="resume.pdf" target="_blank" rel="noopener">Resume</a>
+      </div>
+    </div>
+    <div class="m-hero-body">
+      <h1 class="m-hero-title">A visual overhaul for SAVii&rsquo;s app with 5L+ Users</h1>
+      <div class="m-hero-phone"><img src="assets/images/svr-hero-phone.png" alt="SAVii app onboarding screen mockup"></div>
+    </div>
+  </header>
+
+  <section class="m-section m-meta-row reveal">
+    <div class="m-meta"><p>MY ROLE</p><p>Product Designer</p></div>
+    <div class="m-meta"><p>DURATION</p><p>2 Months</p></div>
+    <div class="m-meta"><p>TEAM</p><p>Anushka G &middot; Shobhit</p></div>
+    <div class="m-meta"><p>CLIENT</p><p>SAVii</p></div>
+  </section>
+
+  <section class="m-section reveal">
+    <p class="m-eyebrow">OVERVIEW</p>
+    <h2 class="m-h2">What is SAVii?</h2>
+    <p class="m-body">SAVii is one of the Philippines&rsquo; leading financial wellness platforms, offering salary-linked loans and other financial products to employees. The app serves thousands of users who depend on it to access credit, manage repayments, and explore financial products.</p>
+    <div class="m-image-card">
+      <div class="m-image-media" style="aspect-ratio:358/170.5;"><img src="assets/images/svr-overview.png" alt="SAVii app overview"></div>
+      <div class="m-caption-link">
+        <a href="https://savii.io/ph" target="_blank" rel="noopener">View Website</a>
+        <img src="assets/images/icon-arrow-square-out.svg" alt="">
+      </div>
+    </div>
+  </section>
+
+  <section class="m-section reveal">
+    <p class="m-eyebrow">THE PROBLEM</p>
+    <h2 class="m-h2">SAVii&rsquo;s UI looked very outdated and lacked polish</h2>
+    <p class="m-body">We identified four core issues across the product cards and home screen &mdash; ranging in severity from high-priority UX failures to medium-priority visual issues.</p>
+    <div class="m-figure" style="aspect-ratio:240/423;"><img src="assets/images/svr-m-problem.png" alt="SAVii product card screenshot"></div>
+    <div class="svr-m-problem-cards">
+      <div class="svr-m-problem-card">
+        <span class="svr-m-chip high">High</span>
+        <h3>The best selling points are the least visible</h3>
+        <p>Key benefits like loan limits and zero-cost insurance are rendered in small, muted text. They get lost in the card before the user even registers them.</p>
+      </div>
+      <div class="svr-m-problem-card">
+        <span class="svr-m-chip high">High</span>
+        <h3>Images don&rsquo;t tell the product story</h3>
+        <p>Generic stock photography creates no association with the product. Users lose a visual anchor that could otherwise reinforce what they&rsquo;re about to apply for.</p>
+      </div>
+      <div class="svr-m-problem-card">
+        <span class="svr-m-chip medium">Medium</span>
+        <h3>Primary &amp; secondary actions take up too much space</h3>
+        <p>The CTAs are massive, and take away the attention from what product is selling, creating poor hierarchy.</p>
+      </div>
+      <div class="svr-m-problem-card">
+        <span class="svr-m-chip high">High</span>
+        <h3>Cards are dense with no clear focal point</h3>
+        <p>Four content layers with no visual separation make it hard for users to know what to read first, or what the card is asking them to do.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="m-section reveal">
+    <p class="m-eyebrow">VISUAL EXPLORATIONS</p>
+    <h2 class="m-h2">3 Directions. One brand voice.</h2>
+    <p class="m-body">We explored three distinct visual directions, each pushing a different interpretation of SAVii&rsquo;s identity &mdash; from trustworthy and functional to bold and tech-forward.</p>
+
+    <div class="svr-m-direction-card">
+      <img class="svr-m-direction-image" style="aspect-ratio:1080/2643;" src="assets/images/svr-direction-iconiq.png" alt="Direction 01 — Iconiq product card mockup">
+      <p class="svr-m-direction-eyebrow">direction 01</p>
+      <h3 class="svr-m-direction-title">Iconiq</h3>
+      <div class="svr-m-tags">
+        <span class="svr-m-tag">Trustworthy</span>
+        <span class="svr-m-tag">Clear</span>
+        <span class="svr-m-tag">Functional</span>
+      </div>
+      <div class="svr-m-sub">
+        <p class="svr-m-sub-label">The bet</p>
+        <p class="svr-m-sub-text">Lead with <span class="cs-highlight">USPs, not product names</span>. A borrower cares about &ldquo;interest from 0.5%&rdquo; before they care about &ldquo;Salary Loan.&rdquo;</p>
+      </div>
+      <div class="svr-m-sub">
+        <p class="svr-m-sub-label">What worked</p>
+        <p class="svr-m-sub-text">Spacious, clean layout. Flat illustrations that <span class="cs-highlight">signal safety</span>, important for a lending product. Cards felt calm and low-pressure.</p>
+      </div>
+      <div class="svr-m-sub">
+        <p class="svr-m-sub-label">The tension</p>
+        <p class="svr-m-sub-text">SAVii worried existing users would <span class="cs-highlight">lose recognition</span> without prominent product names. They also insisted on retaining &ldquo;Learn More&rdquo; as an explicit CTA &mdash; we&rsquo;d proposed removing it to reduce decision load.</p>
+      </div>
+    </div>
+
+    <div class="svr-m-direction-card">
+      <img class="svr-m-direction-image" style="aspect-ratio:1080/2613;" src="assets/images/svr-direction-edgey.png" alt="Direction 02 — Edgey product card mockup">
+      <p class="svr-m-direction-eyebrow">direction 02</p>
+      <h3 class="svr-m-direction-title">Edgey</h3>
+      <div class="svr-m-tags">
+        <span class="svr-m-tag">Tech-forward</span>
+        <span class="svr-m-tag">Bold</span>
+        <span class="svr-m-tag">Confident</span>
+      </div>
+      <div class="svr-m-sub">
+        <p class="svr-m-sub-label">The bet</p>
+        <p class="svr-m-sub-text">Rethink the entire card &mdash; no CTAs, just product name, key numbers, and a tappable surface. <span class="cs-highlight">Zero choice paralysis</span>.</p>
+      </div>
+      <div class="svr-m-sub">
+        <p class="svr-m-sub-label">What worked</p>
+        <p class="svr-m-sub-text">Boldest visual direction. Simplified card structure was our strongest conviction &mdash; <span class="cs-highlight">fewer choices, faster decisions</span>.</p>
+      </div>
+      <div class="svr-m-sub">
+        <p class="svr-m-sub-label">The tension</p>
+        <p class="svr-m-sub-text">SAVii was open to rethinking card content but not the broader visual system. <span class="cs-highlight">&ldquo;Too wild&rdquo;</span> for the existing app language. This drew a useful line: flexibility in what&rsquo;s on the card, not in how the app looks overall.</p>
+      </div>
+    </div>
+
+    <div class="svr-m-direction-card">
+      <img class="svr-m-direction-image" style="aspect-ratio:1125/2796;" src="assets/images/svr-direction-vivid.png" alt="Direction 03 — Vivid product card mockup">
+      <p class="svr-m-direction-eyebrow">direction 03 (chosen)</p>
+      <h3 class="svr-m-direction-title">Vivid</h3>
+      <div class="svr-m-tags">
+        <span class="svr-m-tag">Modern</span>
+        <span class="svr-m-tag">Youthful</span>
+        <span class="svr-m-tag">Aspirational</span>
+      </div>
+      <div class="svr-m-sub">
+        <p class="svr-m-sub-label">The bet</p>
+        <p class="svr-m-sub-text">Give product name and USP <span class="cs-highlight">equal weight</span> &mdash; solve the recognition concern from Iconiq without losing the value-first approach.</p>
+      </div>
+      <div class="svr-m-sub">
+        <p class="svr-m-sub-label">What worked</p>
+        <p class="svr-m-sub-text">3D icons and gradient headers <span class="cs-highlight">felt premium</span> and aligned with SAVii&rsquo;s approachable brand. The balanced hierarchy landed well with the team.</p>
+      </div>
+      <div class="svr-m-sub">
+        <p class="svr-m-sub-label">The tension</p>
+        <p class="svr-m-sub-text">We flagged dual CTAs (&ldquo;Learn More&rdquo; + &ldquo;Apply Now&rdquo;) as redundant. SAVii&rsquo;s counter &mdash; repeat borrowers want a direct &ldquo;Apply&rdquo; shortcut without revisiting the product page. Valid, but two equally weighted buttons <span class="cs-highlight">creates hesitation</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="m-section reveal">
+    <p class="m-eyebrow">CHOSEN DIRECTION</p>
+    <h2 class="m-h2">Vivid hits the sweet spot <span class="accent">between brand</span> and <span class="accent">ambition</span>.</h2>
+    <div class="m-figure" style="aspect-ratio:358/505;"><img src="assets/images/svr-chosen.png" alt="Final Vivid direction — annotated product screens"></div>
+  </section>
+
+  <section class="m-section reveal">
+    <p class="m-eyebrow">IMPACT</p>
+    <h2 class="m-h2">A visual refresh that moved the needle by 60%.</h2>
+    <p class="m-body">Following the redesign, SAVii saw a <span class="cs-highlight">60% increase in Refer and Win participation</span> &mdash; the strongest signal that the visual refresh resonated with users.</p>
+    <div class="svr-m-showcase">
+      <p class="svr-m-showcase-label">Before</p>
+      <img src="assets/images/svr-m-outcome-before.png" alt="Before — Refer and Win page">
+      <h3>A form disguised as a feature</h3>
+      <p>No visual identity, generic layout, and zero hierarchy. The page feels like a form, not a reward.</p>
+    </div>
+    <div class="svr-m-showcase">
+      <p class="svr-m-showcase-label">After</p>
+      <img src="assets/images/svr-m-outcome-after.png" alt="After — Refer and Win page">
+      <h3>A reward experience that looks worth sharing</h3>
+      <p>Bold header, clear prize value, one path forward. No guessing what the page wants you to do.</p>
+    </div>
+  </section>
+
+  <div class="checker-strip checker-blue"></div>
+
+  <footer class="m-footer">
+    <div class="m-footer-credit">
+      <p>Designed + coded by</p>
+      <span class="logo-inline"><span class="script script-sp">S</span>iddy :)</span>
+    </div>
+    <div class="m-footer-cols">
+      <div class="m-footer-col">
+        <p class="m-footer-col-title">SAY HI</p>
+        <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LINKEDIN</a>
+        <a href="mailto:siddarthpuranik@gmail.com">GMAIL</a>
+      </div>
+      <div class="m-footer-col">
+        <p class="m-footer-col-title">PAGE</p>
+        <a href="index.html#top">HOME</a>
+        <a href="about.html">ABOUT</a>
+        <a href="resume.pdf" target="_blank" rel="noopener">RESUME</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+/* ---------- checker-blue dither (matches other case-study pages) ---------- */
+function paintDitherStrip(el, cellSize, baseColor, fillColor) {
+  const w = Math.ceil(el.clientWidth);
+  const h = Math.ceil(el.clientHeight);
+  if (!w || !h) return;
+  const cvs = document.createElement('canvas');
+  cvs.width = w;
+  cvs.height = h;
+  const cx = cvs.getContext('2d');
+  cx.fillStyle = baseColor;
+  cx.fillRect(0, 0, w, h);
+  cx.fillStyle = fillColor;
+  const cols = Math.ceil(w / cellSize);
+  const rows = Math.ceil(h / cellSize);
+  for (let r = 0; r < rows; r++) {
+    const t = rows === 1 ? 0 : r / (rows - 1);
+    const prob = Math.pow(1 - t, 1.4);
+    for (let c = 0; c < cols; c++) {
+      if (Math.random() < prob) cx.fillRect(c * cellSize, r * cellSize, cellSize, cellSize);
+    }
+  }
+  el.style.backgroundImage = `url(${cvs.toDataURL()})`;
+}
+function paintAllDitherStrips() {
+  document.querySelectorAll('.checker-blue').forEach(el => {
+    paintDitherStrip(el, 14, '#07239a', '#ffffff');
+  });
+}
+paintAllDitherStrips();
+let ditherResizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(ditherResizeTimer);
+  ditherResizeTimer = setTimeout(paintAllDitherStrips, 200);
+});
+</script>
+
+<script src="assets/js/scroll-reveal.js" defer></script>
+
+<script>
+/* ---------- Bunny Catch (footer game, shared with other case-study pages) ---------- */
+(function () {
+  const W = 1200, H = 420, PX = 6;
+  const ROUND_MS = 30000;
+
+  const canvas = document.getElementById('bcCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const scoreEl = document.getElementById('bcScore');
+  const timeEl = document.getElementById('bcTime');
+
+  if (document.fonts && document.fonts.load) {
+    document.fonts.load("700 32px 'PP NeueBit'");
+  }
+
+  function fitCanvas() {
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.imageSmoothingEnabled = false;
+  }
+  fitCanvas();
+  window.addEventListener('resize', fitCanvas);
+
+  function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+
+  function loadImg(src) { const i = new Image(); i.src = src; return i; }
+  const PLAYER_IMG = loadImg('assets/images/bc-bunny.png');
+  const CLOUD_IMG = loadImg('assets/images/bc-cloud.png');
+
+  function drawBlocks(blocks, ox, oy) {
+    for (let i = 0; i < blocks.length; i++) {
+      const b = blocks[i];
+      ctx.fillStyle = b[4];
+      ctx.fillRect(Math.round(ox + b[0] * PX), Math.round(oy + b[1] * PX), b[2] * PX, b[3] * PX);
+    }
+  }
+
+  const CLOUDS = [
+    { x: 60, y: 50, w: 150, speed: 0.006 },
+    { x: 280, y: 110, w: 90, speed: 0.0048 },
+    { x: 500, y: 60, w: 120, speed: 0.0072 },
+    { x: 720, y: 100, w: 80, speed: 0.0052 },
+    { x: 940, y: 70, w: 130, speed: 0.0065 }
+  ];
+  const CLOUD_SRC = { x: 27, y: 38, w: 191, h: 51 };
+
+  const ITEM_TYPES = [
+    { key: 'arrow', points: 1, weight: 28, color: '#F5C518', img: loadImg('assets/images/bc-item-arrow.png'), ar: 126 / 138 },
+    { key: 'comment', points: 1, weight: 22, color: '#F0DE8A', img: loadImg('assets/images/bc-item-comment.png'), ar: 1256 / 1336 },
+    { key: 'pen', points: 2, weight: 18, color: '#B39DDB', img: loadImg('assets/images/bc-item-pen.png'), ar: 158 / 162 },
+    { key: 'bullian', points: 2, weight: 14, color: '#7C93E0', img: loadImg('assets/images/bc-item-bullian.png'), ar: 1348 / 1268 },
+    { key: 'component', points: 3, weight: 10, color: '#9B7FE0', img: loadImg('assets/images/bc-item-component.png'), ar: 166 / 152 },
+    { key: 'plugins', points: 4, weight: 6, color: '#F5A623', img: loadImg('assets/images/bc-item-plugins.png'), ar: 1686 / 1638 },
+    { key: 'figma', points: 5, weight: 4, color: '#A259FF', img: loadImg('assets/images/bc-item-figma.png'), ar: 118 / 130 },
+    {
+      key: 'error', points: -2, weight: 10, color: '#FF4444', gw: 6, gh: 6,
+      blocks: [
+        [0, 0, 1, 1, '#FF4444'], [1, 1, 1, 1, '#FF4444'], [2, 2, 1, 1, '#FF4444'], [3, 3, 1, 1, '#FF4444'], [4, 4, 1, 1, '#FF4444'], [5, 5, 1, 1, '#FF4444'],
+        [5, 0, 1, 1, '#FF4444'], [4, 1, 1, 1, '#FF4444'], [3, 2, 1, 1, '#FF4444'], [2, 3, 1, 1, '#FF4444'], [1, 4, 1, 1, '#FF4444'], [0, 5, 1, 1, '#FF4444']
+      ]
+    }
+  ];
+  const ITEM_WEIGHT_TOTAL = ITEM_TYPES.reduce((s, t) => s + t.weight, 0);
+  function pickItemType() {
+    let r = Math.random() * ITEM_WEIGHT_TOTAL;
+    for (let i = 0; i < ITEM_TYPES.length; i++) {
+      if (r < ITEM_TYPES[i].weight) return ITEM_TYPES[i];
+      r -= ITEM_TYPES[i].weight;
+    }
+    return ITEM_TYPES[ITEM_TYPES.length - 1];
+  }
+  const ITEM_SIZE = 50;
+  function drawItem(type, x, y) {
+    if (type.blocks) {
+      drawBlocks(type.blocks, x - (type.gw * PX) / 2, y - (type.gh * PX) / 2);
+      return;
+    }
+    if (!type.img.complete || !type.img.naturalWidth) return;
+    const h = ITEM_SIZE, w = h * type.ar;
+    ctx.drawImage(type.img, Math.round(x - w / 2), Math.round(y - h / 2), Math.round(w), Math.round(h));
+  }
+
+  const RATINGS = [
+    { min: 51, text: 'You might be a design tool yourself' },
+    { min: 31, text: 'Figma pro reflexes!' },
+    { min: 16, text: 'Solid catching!' },
+    { min: 0, text: 'Warming up! Try again?' }
+  ];
+  function ratingFor(s) {
+    for (let i = 0; i < RATINGS.length; i++) if (s >= RATINGS[i].min) return RATINGS[i].text;
+    return RATINGS[RATINGS.length - 1].text;
+  }
+
+  const basketY = H - 60;
+  const basket = { x: W / 2, w: 130 };
+  let targetBasketX = W / 2;
+
+  let state = 'idle'; // idle | playing | gameover
+  let score = 0;
+  let timeRemaining = ROUND_MS;
+  let elapsedInRound = 0;
+  let items = [];
+  let particles = [];
+  let popups = [];
+  let bgItems = [];
+  let spawnTimer = 0;
+  let lastSpawnX = null;
+  let flashTimer = 0;
+  let gameOverAt = null;
+
+  function initBgItems() {
+    bgItems = [];
+    for (let i = 0; i < 4; i++) {
+      bgItems.push({
+        type: pickItemType(),
+        x: 60 + Math.random() * (W - 120),
+        y: Math.random() * H,
+        vy: 0.3 + Math.random() * 0.2
+      });
+    }
+  }
+  initBgItems();
+
+  function setPointerX(clientX) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = W / rect.width;
+    targetBasketX = clamp((clientX - rect.left) * scaleX, 0, W);
+  }
+  canvas.addEventListener('mousemove', function (e) { setPointerX(e.clientX); });
+  canvas.addEventListener('touchstart', function (e) { if (e.touches[0]) setPointerX(e.touches[0].clientX); }, { passive: true });
+  canvas.addEventListener('touchmove', function (e) {
+    e.preventDefault();
+    if (e.touches[0]) setPointerX(e.touches[0].clientX);
+  }, { passive: false });
+
+  function spawnItem() {
+    if (items.length >= 6) return;
+    let x, attempts = 0;
+    do {
+      x = 60 + Math.random() * (W - 120);
+      attempts++;
+    } while (lastSpawnX !== null && Math.abs(x - lastSpawnX) < 80 && attempts < 10);
+    lastSpawnX = x;
+    items.push({
+      type: pickItemType(),
+      x: x, baseX: x, y: -20, t: 0,
+      phase: Math.random() * Math.PI * 2,
+      vy: 1.5 * (0.85 + Math.random() * 0.3)
+    });
+  }
+
+  function addParticles(x, y, color, count) {
+    const budget = Math.max(0, 50 - particles.length);
+    const n = Math.min(count, budget);
+    for (let i = 0; i < n; i++) {
+      const ang = Math.random() * Math.PI * 2;
+      const spd = 1 + Math.random() * 2.5;
+      particles.push({ x: x, y: y, vx: Math.cos(ang) * spd, vy: Math.sin(ang) * spd - 1, life: 1, color: color });
+    }
+  }
+  function addPopup(x, y, text, color) {
+    popups.push({ x: x, y: y, text: text, color: color, life: 1 });
+  }
+
+  function updateHUD() {
+    scoreEl.textContent = score;
+    timeEl.textContent = Math.max(0, Math.ceil(timeRemaining / 1000));
+  }
+
+  function startGame() {
+    score = 0;
+    timeRemaining = ROUND_MS;
+    elapsedInRound = 0;
+    items = [];
+    particles = [];
+    popups = [];
+    spawnTimer = 0;
+    lastSpawnX = null;
+    flashTimer = 0;
+    gameOverAt = null;
+    state = 'playing';
+    updateHUD();
+  }
+  function endGame() {
+    state = 'gameover';
+    gameOverAt = performance.now();
+  }
+  window.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
+    const rect = canvas.getBoundingClientRect();
+    const inView = rect.top < window.innerHeight && rect.bottom > 0;
+    if (!inView) return;
+    if (e.key === ' ' || e.key === 'Spacebar') e.preventDefault();
+    if (state === 'idle' || state === 'gameover') startGame();
+  });
+
+  function updateClouds(dt) {
+    for (let i = 0; i < CLOUDS.length; i++) {
+      const c = CLOUDS[i];
+      c.x += c.speed * dt;
+      if (c.x - c.w > W) c.x = -c.w;
+    }
+  }
+
+  function update(dt) {
+    updateClouds(dt);
+    if (state === 'idle') {
+      for (let i = 0; i < bgItems.length; i++) {
+        const b = bgItems[i];
+        b.y += b.vy;
+        if (b.y > H + 20) { b.y = -20; b.x = 60 + Math.random() * (W - 120); }
+      }
+      return;
+    }
+
+    if (state === 'playing') {
+      elapsedInRound += dt;
+      timeRemaining -= dt;
+      if (timeRemaining <= 0) { timeRemaining = 0; updateHUD(); endGame(); return; }
+
+      basket.x += (targetBasketX - basket.x) * 0.15;
+
+      const progress = clamp(elapsedInRound / ROUND_MS, 0, 1);
+      const speedMult = 1 + 0.5 * progress;
+      const spawnInterval = 1200 - 400 * progress;
+
+      spawnTimer -= dt;
+      if (spawnTimer <= 0) { spawnItem(); spawnTimer = spawnInterval; }
+
+      for (let i = items.length - 1; i >= 0; i--) {
+        const it = items[i];
+        it.t += dt;
+        it.y += it.vy * speedMult;
+        it.x = it.baseX + Math.sin(it.t * 0.003 + it.phase) * 6;
+
+        const withinX = Math.abs(it.x - basket.x) < (basket.w / 2 + 12);
+        const withinY = it.y > basketY - 12 && it.y < basketY + 16;
+        if (withinX && withinY) {
+          score = Math.max(0, score + it.type.points);
+          addParticles(it.x, basketY, it.type.color, 9);
+          addPopup(it.x, basketY - 10, (it.type.points > 0 ? '+' : '') + it.type.points, it.type.points < 0 ? '#FF6B6B' : '#FFFFFF');
+          if (it.type.key === 'error') flashTimer = 100;
+          items.splice(i, 1);
+          continue;
+        }
+        if (it.y - 20 > H) items.splice(i, 1);
+      }
+
+      if (flashTimer > 0) flashTimer = Math.max(0, flashTimer - dt);
+      updateHUD();
+    }
+
+    if (state === 'gameover') {
+      const elapsed = performance.now() - gameOverAt;
+      if (elapsed >= 600 && items.length) items = [];
+    }
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.x += p.vx; p.y += p.vy; p.vy += 0.08;
+      p.life -= dt / 500;
+    }
+    particles = particles.filter(function (p) { return p.life > 0; });
+
+    for (let i = 0; i < popups.length; i++) {
+      const p = popups[i];
+      p.y -= dt * 0.03;
+      p.life -= dt / 800;
+    }
+    popups = popups.filter(function (p) { return p.life > 0; });
+  }
+
+  function drawBasketAndBunny() {
+    const bx = basket.x, by = basketY;
+
+    let bob = 0;
+    if (state === 'playing') {
+      bob = Math.sin(performance.now() * 0.008) * 1.5;
+    } else if (state === 'gameover' && gameOverAt !== null) {
+      const elapsed = performance.now() - gameOverAt;
+      if (elapsed > 600) bob = Math.abs(Math.sin((elapsed - 600) * 0.006)) * 6;
+    }
+
+    if (PLAYER_IMG.complete && PLAYER_IMG.naturalWidth) {
+      const h = 100, w = h * (288 / 232);
+      ctx.drawImage(PLAYER_IMG, Math.round(bx - w / 2), Math.round(by - h * 0.42 - bob), Math.round(w), Math.round(h));
+    }
+  }
+
+  function drawClouds() {
+    if (!CLOUD_IMG.complete || !CLOUD_IMG.naturalWidth) return;
+    ctx.globalAlpha = 0.9;
+    for (let i = 0; i < CLOUDS.length; i++) {
+      const c = CLOUDS[i];
+      const h = c.w * (CLOUD_SRC.h / CLOUD_SRC.w);
+      ctx.drawImage(
+        CLOUD_IMG, CLOUD_SRC.x, CLOUD_SRC.y, CLOUD_SRC.w, CLOUD_SRC.h,
+        Math.round(c.x), Math.round(c.y), Math.round(c.w), Math.round(h)
+      );
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function drawGround() {
+    const groundY = basketY + 40;
+    const dashW = 40, gap = 24, dashH = 3;
+    ctx.fillStyle = 'rgba(255,255,255,0.35)';
+    for (let x = 0; x < W; x += dashW + gap) {
+      ctx.fillRect(Math.round(x), Math.round(groundY), dashW, dashH);
+    }
+    const dashW2 = 18, gap2 = 30, dashH2 = 2;
+    ctx.fillStyle = 'rgba(255,255,255,0.18)';
+    for (let x = -20; x < W; x += dashW2 + gap2) {
+      ctx.fillRect(Math.round(x), Math.round(groundY + 10), dashW2, dashH2);
+    }
+  }
+
+  function render() {
+    ctx.fillStyle = '#07239A';
+    ctx.fillRect(0, 0, W, H);
+
+    drawClouds();
+    drawGround();
+
+    if (state === 'idle') {
+      ctx.globalAlpha = 0.4;
+      for (let i = 0; i < bgItems.length; i++) drawItem(bgItems[i].type, bgItems[i].x, bgItems[i].y);
+      ctx.globalAlpha = 1;
+    } else {
+      let alpha = 1;
+      if (state === 'gameover' && gameOverAt !== null) {
+        alpha = clamp(1 - (performance.now() - gameOverAt) / 600, 0, 1);
+      }
+      ctx.globalAlpha = alpha;
+      for (let i = 0; i < items.length; i++) drawItem(items[i].type, items[i].x, items[i].y);
+      ctx.globalAlpha = 1;
+    }
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      ctx.globalAlpha = clamp(p.life, 0, 1);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(Math.round(p.x - 2), Math.round(p.y - 2), 4, 4);
+    }
+    ctx.globalAlpha = 1;
+
+    drawBasketAndBunny();
+
+    ctx.textAlign = 'center';
+    for (let i = 0; i < popups.length; i++) {
+      const p = popups[i];
+      ctx.globalAlpha = clamp(p.life, 0, 1);
+      ctx.fillStyle = p.color;
+      ctx.font = "700 20px 'Instrument Sans', Arial, sans-serif";
+      ctx.fillText(p.text, p.x, p.y);
+    }
+    ctx.globalAlpha = 1;
+
+    if (flashTimer > 0) {
+      const a = (flashTimer / 100) * 0.5;
+      ctx.fillStyle = 'rgba(255,68,68,' + a + ')';
+      const t = 20;
+      ctx.fillRect(0, 0, W, t);
+      ctx.fillRect(0, H - t, W, t);
+      ctx.fillRect(0, 0, t, H);
+      ctx.fillRect(W - t, 0, t, H);
+    }
+
+    if (state === 'idle') {
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'center';
+      ctx.font = "700 44px 'PP NeueBit', 'Instrument Sans', Arial, sans-serif";
+      ctx.fillText("Let's test your reflexes", W / 2, H / 2 - 64);
+      ctx.font = "500 20px 'Instrument Sans', Arial, sans-serif";
+      ctx.fillStyle = 'rgba(255,255,255,0.85)';
+      ctx.fillText('Press space to start', W / 2, H / 2 - 34);
+    }
+
+    if (state === 'gameover' && gameOverAt !== null) {
+      const elapsed = performance.now() - gameOverAt;
+      const overlayA = clamp(elapsed / 600, 0, 0.8);
+      ctx.fillStyle = 'rgba(4,20,90,' + overlayA + ')';
+      ctx.fillRect(0, 0, W, H);
+      if (elapsed > 500) {
+        ctx.globalAlpha = clamp((elapsed - 500) / 300, 0, 1);
+        ctx.textAlign = 'center';
+        ctx.fillStyle = '#fff';
+        ctx.font = "700 56px 'Instrument Sans', Arial, sans-serif";
+        ctx.fillText(String(score), W / 2, H / 2 - 6);
+        ctx.font = "600 20px 'Instrument Sans', Arial, sans-serif";
+        ctx.fillText(ratingFor(score), W / 2, H / 2 + 24);
+        ctx.fillStyle = 'rgba(255,255,255,0.75)';
+        ctx.font = "500 16px 'Instrument Sans', Arial, sans-serif";
+        ctx.fillText('Play again', W / 2, H / 2 + 52);
+        ctx.globalAlpha = 1;
+      }
+    }
+  }
+
+  let lastTime = null;
+  let rafId = null;
+
+  function loop(now) {
+    if (lastTime === null) lastTime = now;
+    const dt = Math.min(now - lastTime, 100);
+    lastTime = now;
+    update(dt);
+    render();
+    rafId = requestAnimationFrame(loop);
+  }
+  rafId = requestAnimationFrame(loop);
+
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = null;
+    } else if (!rafId) {
+      lastTime = null;
+      rafId = requestAnimationFrame(loop);
+    }
+  });
+
+  updateHUD();
+})();
+</script>
+
+<script>
+/* ---------- side-nav scrollspy ---------- */
+(function () {
+  const links = Array.from(document.querySelectorAll('.cs-sidenav-links a'));
+  const targets = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  if (!targets.length) return;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const idx = targets.indexOf(entry.target);
+      if (idx === -1) return;
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        links[idx].classList.add('active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -50% 0px' });
+  targets.forEach(t => io.observe(t));
+})();
+</script>
+</body>
+</html>

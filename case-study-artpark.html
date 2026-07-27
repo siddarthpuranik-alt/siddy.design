@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E2E Design of a Unified Ecosystem for Animal Disease Monitoring — Siddarth Puranik</title>
+<meta name="description" content="Case study: designing ARTPARK's animal disease monitoring ecosystem — a unified MVP for sample collectors, lab diagnosticians, and government officials.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: 'Bellisa Script';
+    src: url('fonts/BellisaScript-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'PP NeueBit';
+    src: url('fonts/PPNeueBit-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  :root {
+    --blue-deep: #07239a;
+    --blue-tag: #0726ad;
+    --muted-4: #83848a;
+    --max: 1280px;
+
+    --cs-heading: #302e3d;
+    --cs-body: rgba(48,46,61,0.8);
+    --cs-label: rgba(48,46,61,0.9);
+    --cs-border: #e0ddd8;
+    --cs-border-2: #cfcfcf;
+    --cs-badge-bg: #f3f4f6;
+    --cs-badge-text: #5a5961;
+    --cs-callout-bg: #f8f9fe;
+    --cs-callout-border: #1a3eb8;
+    --cs-accent-blue: #0077b8;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Instrument Sans', sans-serif;
+    color: var(--cs-heading);
+    background: #fff;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; display: block; }
+  a { text-decoration: none; color: inherit; }
+
+  .script { font-family: 'Bellisa Script', cursive; font-weight: 400; }
+  .script-sp { margin-right: 0.3em; }
+
+  /* ---------- NAV ---------- */
+  .cs-nav {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    width: 100%;
+  }
+  .cs-logo {
+    font-family: 'PP NeueBit', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    color: #fff;
+  }
+  .cs-nav-links {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 20px;
+    color: #fff;
+  }
+  .cs-nav-links a:hover { text-decoration: underline; }
+
+  /* ---------- HERO ---------- */
+  .cs-hero {
+    position: relative;
+    border-bottom: 1px solid var(--cs-border-2);
+    overflow: hidden;
+    background: linear-gradient(180deg,
+      #3a76e4 0%,
+      #356dd4 10%,
+      #3062c3 20%,
+      #2b58b2 30%,
+      #2650a1 40%,
+      #204592 50%,
+      #1b3b7f 60%,
+      #16326e 70%,
+      #122a62 80%,
+      #0c2051 90%,
+      #06143c 100%);
+  }
+  .cs-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.5;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+  .cs-hero-inner { position: relative; z-index: 2; }
+  .cs-hero-stage { position: relative; width: 100%; aspect-ratio: 1440 / 731; }
+  .cs-hero-title {
+    position: absolute;
+    left: 49.72%;
+    top: 4.51%;
+    transform: translateX(-50%);
+    width: 54.17%;
+    font-family: 'Alegreya', serif;
+    font-weight: 400;
+    font-size: clamp(18px, 4.44vw, 64px);
+    line-height: 1.15;
+    letter-spacing: -0.04em;
+    text-align: center;
+    color: #fff;
+  }
+  .cs-hero-title em { font-style: italic; }
+  .cs-hero-product {
+    position: absolute;
+    left: 22.57%;
+    top: 45.83%;
+    width: 57.99%;
+    height: 81.26%;
+    border: clamp(4px, 0.73vw, 10.5px) solid rgba(255,255,255,0.3);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .cs-hero-product img {
+    position: absolute;
+    top: 0;
+    left: -0.02%;
+    width: 100.04%;
+    height: 209.42%;
+    max-width: none;
+  }
+
+  /* ---------- BODY / SIDE NAV / CONTENT ---------- */
+  .cs-body {
+    max-width: 1440px;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-start;
+    padding-left: 40px;
+  }
+  .cs-sidenav {
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 200px;
+    flex-shrink: 0;
+    padding: 60px 0;
+  }
+  .cs-sidenav-home { display: flex; align-items: center; gap: 8px; }
+  .cs-sidenav-home img { width: 24px; height: 24px; transform: rotate(180deg) scaleY(-1); }
+  .cs-sidenav-home span {
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 1.44px;
+    color: var(--blue-tag);
+  }
+  .cs-sidenav-links { display: flex; flex-direction: column; gap: 2px; }
+  .cs-sidenav-links a {
+    display: flex;
+    align-items: center;
+    height: 28px;
+    padding-left: 16px;
+    border-left: 2px solid #e0ddd8;
+    font-size: 14px;
+    line-height: 1.4;
+    color: rgba(48,46,61,0.45);
+  }
+  .cs-sidenav-links a.active { border-left-color: #302e3d; color: #302e3d; }
+
+  .cs-content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-left: 1px solid var(--cs-border-2);
+    padding-bottom: 40px;
+  }
+  .cs-section { width: 1010px; max-width: 100%; padding: 64px 60px; border-bottom: 1px solid var(--cs-border); }
+  .cs-section:last-child { border-bottom: none; }
+  .cs-eyebrow { font-size: 11px; letter-spacing: 1.32px; color: var(--cs-label); margin: 0 0 8px; }
+  .cs-h2 {
+    font-family: 'Alegreya', serif;
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 1.3;
+    letter-spacing: -1.44px;
+    color: var(--cs-heading);
+    margin: 0 0 8px;
+    max-width: 890px;
+  }
+  .cs-h2 em, .cs-h2 i { font-style: italic; color: inherit; }
+  .cs-body-text { font-size: 16px; line-height: 1.75; color: var(--cs-body); max-width: 620px; margin: 0; }
+  .cs-body-text.wide { max-width: 680px; }
+  .cs-body-text + .cs-body-text { margin-top: 12px; }
+  .cs-highlight { font-weight: 700; color: #284db6; }
+
+  /* Meta row */
+  .cs-meta-row { display: flex; gap: 60px; flex-wrap: wrap; }
+  .cs-meta { display: flex; flex-direction: column; gap: 6px; }
+  .cs-meta p:first-child { font-size: 11px; letter-spacing: 1.1px; color: var(--cs-label); margin: 0; }
+  .cs-meta p:last-child { font-family: 'Alegreya', serif; font-size: 20px; letter-spacing: -0.8px; color: var(--cs-heading); margin: 0; }
+
+  /* CS Image w/ caption (shared card pattern) */
+  .cs-image-card { width: 100%; border: 1px solid var(--cs-border); border-radius: 12px; overflow: hidden; }
+  .cs-image-card img { display: block; width: 100%; }
+  .cs-image-caption { display: flex; align-items: center; gap: 4px; height: 44px; padding: 0 20px; background: #fff; border-top: 1px solid var(--cs-border); font-size: 13px; color: var(--cs-label); }
+
+  /* Wins list (shared pattern) */
+  .cs-wins { display: flex; flex-direction: column; gap: 16px; width: 680px; max-width: 100%; margin-top: 16px; }
+  .cs-win { display: flex; gap: 12px; padding: 20px 24px; background: #fff; border: 1px solid var(--cs-border); border-radius: 12px; }
+  .cs-win-mark { color: var(--blue-tag); font-size: 15px; padding-top: 3px; }
+  .cs-win p { font-size: 15px; line-height: 1.65; color: var(--cs-label); margin: 0; }
+
+  /* ---------- CONTEXT ---------- */
+  .ap-context-row { display: flex; gap: 20px; align-items: stretch; flex-wrap: wrap; margin-top: 16px; }
+  .ap-stat-cards { display: flex; flex-direction: column; justify-content: center; gap: 24px; width: 230px; flex-shrink: 0; }
+  .ap-stat-card { display: flex; flex-direction: column; gap: 8px; background: #2b4acb; border-radius: 12px; padding: 24px; }
+  .ap-stat-num { font-family: 'Alegreya', serif; font-size: 42px; line-height: 1; letter-spacing: -0.84px; color: #fff; margin: 0; }
+  .ap-stat-label { font-size: 14px; font-weight: 600; line-height: 1.5; color: rgba(255,255,255,0.85); margin: 0; }
+  .ap-context-img { position: relative; flex: 1; min-width: 260px; border-radius: 12px; overflow: hidden; }
+  .ap-context-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; max-width: none; }
+
+  /* ---------- PROBLEM ---------- */
+  .ap-problem-images { display: flex; align-items: flex-end; gap: 20px; margin: 20px 0; flex-wrap: wrap; }
+  .ap-problem-images img { border-radius: 12px; object-fit: cover; }
+  .ap-problem-images img:nth-child(1) { width: 408px; height: 236.8px; }
+  .ap-problem-images img:nth-child(2) { width: 135px; height: 239px; }
+  .ap-problem-images img:nth-child(3) { width: 144px; height: 238px; }
+  .ap-problem-box { background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; padding: 20px 24px; max-width: 890px; }
+  .ap-problem-box p { font-size: 16px; line-height: 1.75; color: #7f1d1d; margin: 0; }
+
+  /* ---------- PROCESS ---------- */
+  .ap-process-img { width: 100%; max-width: 888px; border-radius: 12px; margin: 20px 0; }
+
+  /* ---------- HMW GRID ---------- */
+  .ap-hmw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; width: 100%; }
+  .ap-hmw-card { background: #f7f9ff; border: 1px solid #c7d0f5; border-radius: 12px; padding: 28px; display: flex; flex-direction: column; gap: 12px; }
+  .ap-hmw-num { font-size: 10px; font-weight: 600; letter-spacing: 1px; color: #2b4acb; margin: 0; }
+  .ap-hmw-question { font-size: 18px; line-height: 1.45; color: var(--cs-heading); margin: 0; }
+
+  /* ---------- STAKEHOLDERS ---------- */
+  .ap-stakeholders { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-top: 24px; flex-wrap: wrap; }
+  .ap-stakeholder-card { display: flex; flex-direction: column; align-items: flex-start; text-align: left; width: 150px; gap: 12px; }
+  .ap-stakeholder-icon { background: #f0f4ff; border-radius: 999px; width: 56px; height: 56px; padding: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .ap-stakeholder-icon img { width: 24px; height: 24px; }
+  .ap-stakeholder-title { font-size: 20px; font-weight: 600; line-height: 1.25; color: #232121; margin: 0; min-height: 2.5em; display: flex; align-items: center; }
+  .ap-stakeholder-desc { font-size: 16px; line-height: 1.25; color: #656464; margin: 0; }
+  .ap-stakeholder-arrow { width: 22px; height: 38px; object-fit: fill; flex-shrink: 0; align-self: center; opacity: 0.6; }
+
+  /* ---------- SOLUTIONS ---------- */
+  .ap-solution-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+  .ap-solution-icon { background: #f0f4ff; border-radius: 999px; padding: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .ap-solution-icon img { width: 32px; height: 32px; }
+  .ap-insight-pair { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+  .ap-insight-box, .ap-hmw-box { flex: 1; min-width: 280px; border-radius: 12px; padding: 28px; display: flex; flex-direction: column; gap: 8px; }
+  .ap-insight-box { background: #fff; border: 1px solid var(--cs-border); }
+  .ap-hmw-box { background: #eef1fb; border: 1px solid #c7d0f5; }
+  .ap-box-eyebrow { font-size: 10px; font-weight: 600; letter-spacing: 1px; color: var(--cs-label); margin: 0; }
+  .ap-insight-title { font-family: 'Alegreya', serif; font-size: 24px; letter-spacing: -0.96px; color: var(--cs-heading); margin: 0; }
+  .ap-insight-body { font-size: 14px; line-height: 1.65; color: var(--cs-label); margin: 0; }
+  .ap-hmw-text { font-family: 'Alegreya', serif; font-size: 24px; letter-spacing: -0.96px; color: var(--cs-heading); margin: 0; }
+  .ap-hl { color: #284db6; font-style: italic; }
+
+  /* ---------- CHECKER + FOOTER (shared with SAVii page) ---------- */
+  .checker-strip { height: 100px; width: 100%; background-repeat: no-repeat; background-size: 100% 100%; image-rendering: pixelated; }
+  .checker-blue { background-color: var(--blue-deep); }
+
+  .footer { background: var(--blue-deep); padding: 90px 0 100px; }
+  .footer-inner { max-width: var(--max); margin: 0 auto; padding: 0 40px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 48px; }
+  .footer-cta h2 { font-family: 'PP NeueBit', sans-serif; font-weight: 700; font-size: 42px; color: #fff; margin: 0 0 8px; text-shadow: 0 4px 4px rgba(0,0,0,0.25); }
+  .footer-cta .credit { display: flex; align-items: center; gap: 12px; font-size: 24px; color: #fff; text-shadow: 0 4px 4px rgba(0,0,0,0.25); }
+  .footer-cta .credit .logo-inline { font-family: 'PP NeueBit', sans-serif; font-weight: 700; }
+  .footer-links { display: flex; gap: 80px; font-size: 20px; letter-spacing: 2px; }
+  .footer-links .col { display: flex; flex-direction: column; gap: 15px; }
+  .footer-links .col-title { color: var(--muted-4); margin: 0; }
+  .footer-links a { color: #fff; }
+  .footer-links a:hover { text-decoration: underline; }
+
+  .footer-game { width: 100%; margin-top: 56px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.2); }
+  .bc-hud { max-width: var(--max); margin: 0 auto 10px; padding: 0 40px; display: flex; justify-content: space-between; align-items: center; color: rgba(255,255,255,0.75); font-family: 'PP NeueBit', sans-serif; font-size: 26px; font-weight: 700; letter-spacing: 0.2px; }
+  .bc-hud .bc-timer { text-align: right; }
+  .bc-canvas-wrap { width: 100%; overflow: hidden; }
+  #bcCanvas { width: 100%; aspect-ratio: 1200 / 420; display: block; background: var(--blue-deep); touch-action: none; }
+
+  /* ---------- SCROLL REVEAL ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 1100px) {
+    .cs-body { flex-direction: column; padding-left: 0; }
+    .cs-sidenav { position: relative; flex-direction: row; flex-wrap: wrap; width: 100%; padding: 24px 40px; gap: 16px 32px; }
+    .cs-sidenav-links { flex-direction: row; flex-wrap: wrap; }
+    .cs-content { border-left: none; }
+    .cs-section { padding: 48px 24px; }
+    .ap-hmw-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .cs-nav { padding: 16px 20px; }
+    .ap-insight-pair { flex-direction: column; }
+    .ap-stakeholders { justify-content: flex-start; }
+    .ap-stakeholder-arrow { display: none; }
+    .footer { padding: 60px 0 70px; }
+    .footer-inner { padding: 0 20px; }
+    .bc-hud { padding: 0 20px; }
+  }
+
+  /* ---------- MOBILE (separate layout, shown only below 768px) ---------- */
+  .cs-mobile { display: none; }
+  @media (max-width: 767px) {
+    .cs-desktop { display: none; }
+    .cs-mobile { display: block; }
+  }
+
+  .m-header {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+  }
+  .m-nav-links { display: flex; align-items: center; gap: 16px; font-size: 16px; color: #fff; }
+
+  .m-hero {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--cs-border-2);
+    background: linear-gradient(180deg,
+      #3a76e4 0%,
+      #356dd4 10%,
+      #3062c3 20%,
+      #2b58b2 30%,
+      #2650a1 40%,
+      #204592 50%,
+      #1b3b7f 60%,
+      #16326e 70%,
+      #122a62 80%,
+      #0c2051 90%,
+      #06143c 100%);
+  }
+  .m-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.5;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+  .m-hero-body { position: relative; z-index: 2; display: flex; flex-direction: column; gap: 24px; padding: 0 20px 24px; }
+  .m-hero-title {
+    font-family: 'Alegreya', serif;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 1.2;
+    letter-spacing: -0.6px;
+    color: #fff;
+    margin: 0;
+  }
+  .m-hero-title em { font-style: italic; }
+  .m-hero-product { position: relative; width: 100%; aspect-ratio: 350 / 290; border: 4px solid rgba(255,255,255,0.3); border-radius: 12px; overflow: hidden; }
+  .m-hero-product img { position: absolute; top: 0; left: 0; width: 100%; height: 190%; max-width: none; object-fit: cover; }
+
+  .m-section { padding: 32px 20px; border-bottom: 1px solid var(--cs-border); }
+  .cs-mobile .m-section:last-of-type { border-bottom: none; }
+  .m-eyebrow { font-size: 10px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--cs-label); margin: 0 0 4px; }
+  .m-h2 { font-family: 'Alegreya', serif; font-weight: 400; font-size: 24px; line-height: 1.3; letter-spacing: -0.96px; color: var(--cs-heading); margin: 0 0 12px; }
+  .m-h2 em { font-style: italic; }
+  .m-subhead { font-family: 'Alegreya', serif; font-weight: 400; font-size: 22px; letter-spacing: -0.88px; color: var(--cs-heading); margin: 20px 0 12px; }
+  .m-body { font-size: 15px; line-height: 1.6; color: var(--cs-body); margin: 0 0 12px; }
+  .m-body:last-child { margin-bottom: 0; }
+  .ap-hl { color: #284db6; font-style: italic; }
+
+  .m-meta-row { display: flex; flex-direction: column; gap: 16px; }
+  .m-meta { display: flex; flex-direction: column; gap: 4px; }
+  .m-meta p:first-child { font-size: 10px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--cs-label); margin: 0; }
+  .m-meta p:last-child { font-family: 'Alegreya', serif; font-size: 16px; color: var(--cs-heading); margin: 0; }
+
+  .ap-m-stat-cards { display: flex; flex-direction: column; gap: 12px; margin: 16px 0; }
+  .ap-m-stat-card { background: #2b4acb; border-radius: 12px; padding: 24px; }
+  .ap-m-stat-num { font-family: 'Alegreya', serif; font-size: 36px; line-height: 1; letter-spacing: -0.72px; color: #fff; margin: 0 0 8px; }
+  .ap-m-stat-label { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.85); margin: 0; }
+
+  .m-figure { width: 100%; border-radius: 12px; overflow: hidden; margin: 0; }
+  .m-figure img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .ap-m-problem-visuals { display: flex; flex-direction: column; gap: 12px; margin: 16px 0; }
+  .ap-m-problem-pair { display: flex; gap: 12px; }
+  .ap-m-problem-pair .m-figure { flex: 1; aspect-ratio: 169 / 290; }
+  .ap-m-problem-box { background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; padding: 16px; }
+  .ap-m-problem-box p { font-size: 14px; line-height: 1.6; color: #7f1d1d; margin: 0; }
+
+  .ap-m-hmw-stack { display: flex; flex-direction: column; gap: 16px; }
+  .ap-m-hmw-card { background: #f7f9ff; border: 1px solid #c7d0f5; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+  .ap-m-hmw-num { font-size: 10px; font-weight: 600; letter-spacing: 1px; color: #2b4acb; margin: 0; }
+  .ap-m-hmw-question { font-size: 16px; line-height: 1.45; color: var(--cs-heading); margin: 0; }
+
+  .ap-m-stakeholder-flow { display: flex; flex-direction: column; margin-top: 20px; }
+  .ap-m-stakeholder-card { display: flex; gap: 16px; padding: 16px; border: 1px solid var(--cs-border); border-radius: 12px; background: #fff; }
+  .ap-m-stakeholder-icon { flex-shrink: 0; width: 48px; height: 48px; border-radius: 999px; background: #f0f4ff; display: flex; align-items: center; justify-content: center; }
+  .ap-m-stakeholder-icon img { width: 24px; height: 24px; }
+  .ap-m-stakeholder-title { font-size: 18px; font-weight: 600; color: #232121; margin: 0 0 6px; }
+  .ap-m-stakeholder-desc { font-size: 14px; line-height: 1.5; color: #656464; margin: 0; }
+  .ap-m-stakeholder-connector { display: flex; justify-content: center; padding: 8px 0; }
+  .ap-m-stakeholder-connector img { width: 20px; height: 20px; opacity: 0.6; }
+
+  .ap-m-solution-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+  .ap-m-solution-icon { flex-shrink: 0; background: #f0f4ff; border-radius: 999px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; }
+  .ap-m-solution-icon img { width: 24px; height: 24px; }
+
+  .ap-m-insight-box, .ap-m-hmw-box { border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .ap-m-insight-box { background: #fff; border: 1px solid var(--cs-border); }
+  .ap-m-hmw-box { background: #eef1fb; border: 1px solid #c7d0f5; }
+  .ap-m-box-eyebrow { font-size: 10px; font-weight: 600; letter-spacing: 1px; color: var(--cs-label); margin: 0; }
+  .ap-m-hmw-box .ap-m-box-eyebrow { color: #2b4acb; }
+  .ap-m-insight-title { font-family: 'Alegreya', serif; font-size: 20px; letter-spacing: -0.8px; color: var(--cs-heading); margin: 0; }
+  .ap-m-insight-body { font-size: 14px; line-height: 1.6; color: var(--cs-label); margin: 0; }
+  .ap-m-hmw-text { font-family: 'Alegreya', serif; font-size: 20px; letter-spacing: -0.8px; color: var(--cs-heading); margin: 0; }
+
+  .m-image-card { border: 1px solid var(--cs-border); border-radius: 12px; overflow: hidden; margin-bottom: 20px; }
+  .m-image-card .m-figure { border-radius: 0; }
+  .m-image-caption { padding: 12px 16px; font-size: 13px; line-height: 1.5; color: var(--cs-label); border-top: 1px solid var(--cs-border); margin: 0; }
+
+  .m-wins { display: flex; flex-direction: column; gap: 16px; margin-top: 16px; }
+  .m-win { display: flex; gap: 12px; padding: 16px; background: #fff; border: 1px solid var(--cs-border); border-radius: 10px; }
+  .m-win-mark { color: var(--blue-tag); font-size: 15px; width: 16px; flex-shrink: 0; }
+  .m-win p { font-size: 14px; line-height: 1.5; color: var(--cs-label); margin: 0; }
+
+  .m-footer { background: var(--blue-deep); padding: 40px 20px 48px; display: flex; flex-direction: column; gap: 32px; }
+  .m-footer-credit { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-align: left; }
+  .m-footer-credit p { font-size: 16px; color: #fff; margin: 0; }
+  .m-footer-credit .logo-inline { font-family: 'PP NeueBit', sans-serif; font-weight: 700; font-size: 32px; color: #fff; }
+  .m-footer-cols { display: flex; gap: 40px; }
+  .m-footer-col { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+  .m-footer-col-title { font-size: 14px; font-weight: 600; letter-spacing: 1.68px; color: var(--muted-4); margin: 0; }
+  .m-footer-col a { font-size: 16px; color: #fff; }
+</style>
+</head>
+<body>
+
+<div class="cs-desktop">
+<header class="cs-hero">
+  <div class="cs-hero-inner">
+    <nav class="cs-nav">
+      <a href="index.html#top" class="cs-logo"><span class="script script-sp">S</span>iddy :)</a>
+      <div class="cs-nav-links">
+        <a href="about.html">About</a>
+        <a href="resume.pdf" target="_blank" rel="noopener">Resume</a>
+      </div>
+    </nav>
+    <div class="cs-hero-stage">
+      <h1 class="cs-hero-title">E2E Design of a unified ecosystem for <em>Animal Disease Monitoring</em> for India</h1>
+      <div class="cs-hero-product"><img src="assets/images/ap-hero-product.png" alt="Animal disease monitoring dashboard product shot"></div>
+    </div>
+  </div>
+</header>
+
+<div class="cs-body">
+  <nav class="cs-sidenav">
+    <a class="cs-sidenav-home" href="index.html#top">
+      <img src="assets/images/ap-icon-caret-right.svg" alt="">
+      <span>HOME</span>
+    </a>
+    <div class="cs-sidenav-links">
+      <a href="#context" class="active">Context</a>
+      <a href="#problem">The Problem</a>
+      <a href="#brief-role">Brief &amp; Role</a>
+      <a href="#process">Process</a>
+      <a href="#product-hmws">Product HMWs</a>
+      <a href="#user-groups">User Groups</a>
+      <a href="#solutions">Solutions</a>
+      <a href="#little-wins">Little Wins</a>
+    </div>
+  </nav>
+
+  <main class="cs-content">
+    <section class="cs-section reveal">
+      <div class="cs-meta-row">
+        <div class="cs-meta"><p>MY ROLE</p><p>Product Designer</p></div>
+        <div class="cs-meta"><p>TEAM</p><p>Anushka G &middot; Ria G &middot; Me</p></div>
+        <div class="cs-meta"><p>DURATION</p><p>4 Months</p></div>
+        <div class="cs-meta"><p>CLIENT</p><p>ARTPARK &times; Parallel</p></div>
+      </div>
+    </section>
+
+    <section class="cs-section reveal" id="context">
+      <p class="cs-eyebrow">CONTEXT</p>
+      <h2 class="cs-h2">India has lost thousands of livestock due to <em>preventable diseases</em></h2>
+      <p class="cs-body-text">India&rsquo;s dairy sector is smallholder-dominated &mdash; roughly 75% of rural households keep 2&ndash;4 animals, and small/marginal farmers hold 60% of female cattle and buffaloes. FMD affecting even one animal can significantly dent household income.</p>
+      <p class="cs-body-text">In 2021, India saw <strong>19,363 FMD attacks</strong> across 116 districts.</p>
+      <div class="ap-context-row">
+        <div class="ap-stat-cards">
+          <div class="ap-stat-card">
+            <p class="ap-stat-num">2M+</p>
+            <p class="ap-stat-label">Cattle Affected</p>
+          </div>
+          <div class="ap-stat-card">
+            <p class="ap-stat-num">97k+</p>
+            <p class="ap-stat-label">Deaths across 15 states</p>
+          </div>
+        </div>
+        <div class="ap-context-img"><img src="assets/images/ap-context.png" alt="Context supporting image"></div>
+      </div>
+    </section>
+
+    <section class="cs-section reveal" id="problem">
+      <p class="cs-eyebrow">PROBLEM</p>
+      <h2 class="cs-h2">No centralised system to monitor animal diseases</h2>
+      <p class="cs-body-text">Currently the government has no centralised system to monitor animal diseases like FMD &amp; LSD. The surveillance of these diseases is initiated by multiple stakeholders and is fragmented across geographies and organisations.</p>
+      <p class="cs-body-text">This leads to <span class="cs-highlight">loss of data and delays in initiating vaccine drives.</span></p>
+      <div class="ap-problem-images">
+        <img src="assets/images/ap-problem-1.png" alt="Fragmented data sources">
+        <img src="assets/images/ap-problem-2.png" alt="Manual spreadsheet tracking">
+        <img src="assets/images/ap-problem-3.png" alt="WhatsApp based reporting">
+      </div>
+      <div class="ap-problem-box">
+        <p>Sample data is collected and stored across multiple forms, Google Sheets, apps and WhatsApp chains &mdash; with no single source of truth.</p>
+      </div>
+    </section>
+
+    <section class="cs-section reveal" id="brief-role">
+      <p class="cs-eyebrow">ARTPARK&rsquo;S BRIEF</p>
+      <h2 class="cs-h2">To design an <span class="ap-hl">MVP to digitize &amp; standardize</span> legacy, <span class="ap-hl">manual processes &amp; eliminate data fragmentation</span> through a unified ecosystem for government officials, diagnostic labs &amp; sample collectors.</h2>
+    </section>
+
+    <section class="cs-section reveal" id="process">
+      <p class="cs-eyebrow">PROJECT PROCESS</p>
+      <h2 class="cs-h2">Where I stepped in</h2>
+      <img class="ap-process-img" src="assets/images/ap-process.png" alt="Project process timeline">
+      <p class="cs-body-text wide">I stepped in during the <strong>&lsquo;Building from 0&rarr;1&rsquo; phase</strong>, where I had to <strong>absorb 6 weeks worth of research insights</strong> and analysis in a week to start with the design phase.</p>
+    </section>
+
+    <section class="cs-section reveal" id="product-hmws">
+      <p class="cs-eyebrow">PRODUCT LEVEL HMWs</p>
+      <h2 class="cs-h2">Framing the core system-level challenges before diving into user needs</h2>
+      <p class="cs-body-text wide">Before looking at individual user journeys, we framed the overarching system challenges that would shape the entire platform architecture.</p>
+      <div class="ap-hmw-grid">
+        <div class="ap-hmw-card">
+          <p class="ap-hmw-num">HMW 01</p>
+          <p class="ap-hmw-question">Unify &amp; standardize a process &amp; format of data collection &amp; documentation across job roles?</p>
+        </div>
+        <div class="ap-hmw-card">
+          <p class="ap-hmw-num">HMW 02</p>
+          <p class="ap-hmw-question">Build flexibility to seamlessly switch between automated and manual data entry at different parts of the process?</p>
+        </div>
+        <div class="ap-hmw-card">
+          <p class="ap-hmw-num">HMW 03</p>
+          <p class="ap-hmw-question">Create a modular platform that adapts to different org structures &amp; needs?</p>
+        </div>
+        <div class="ap-hmw-card">
+          <p class="ap-hmw-num">HMW 04</p>
+          <p class="ap-hmw-question">Accommodate varying data needs for tracking &amp; reporting across roles &amp; projects?</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-section reveal" id="user-groups">
+      <p class="cs-eyebrow">KEY STAKEHOLDERS</p>
+      <h2 class="cs-h2">How does information flow?</h2>
+      <p class="cs-body-text wide">We identified the main stakeholders and understood how information flows between each pillar.</p>
+      <div class="ap-stakeholders">
+        <div class="ap-stakeholder-card">
+          <div class="ap-stakeholder-icon"><img src="assets/images/ap-icon-testtube.svg" alt=""></div>
+          <p class="ap-stakeholder-title">Sample Collectors</p>
+          <p class="ap-stakeholder-desc">Sample collectors visit dairy farms &amp; sheds to collect environmental samples and send it to assigned labs</p>
+        </div>
+        <img class="ap-stakeholder-arrow" src="assets/images/ap-icon-arrow.svg" alt="">
+        <div class="ap-stakeholder-card">
+          <div class="ap-stakeholder-icon"><img src="assets/images/ap-icon-dna.svg" alt=""></div>
+          <p class="ap-stakeholder-title">Lab Diagnosticians</p>
+          <p class="ap-stakeholder-desc">Labs safely store the samples, test and generate reports</p>
+        </div>
+        <img class="ap-stakeholder-arrow" src="assets/images/ap-icon-arrow.svg" alt="">
+        <div class="ap-stakeholder-card">
+          <div class="ap-stakeholder-icon"><img src="assets/images/ap-icon-chartbar.svg" alt=""></div>
+          <p class="ap-stakeholder-title">Data Consumers</p>
+          <p class="ap-stakeholder-desc">Medical officers track &amp; monitor disease data, report to higher officials</p>
+        </div>
+        <img class="ap-stakeholder-arrow" src="assets/images/ap-icon-arrow.svg" alt="">
+        <div class="ap-stakeholder-card">
+          <div class="ap-stakeholder-icon"><img src="assets/images/ap-icon-binoculars.svg" alt=""></div>
+          <p class="ap-stakeholder-title">Admins &amp; Super Admins</p>
+          <p class="ap-stakeholder-desc">Project leads who set-up surveillance projects, onboard partners, monitors orgs &amp; surveillance workflows</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-section reveal" id="solutions">
+      <div class="ap-solution-header">
+        <div class="ap-solution-icon"><img src="assets/images/ap-icon-testtube-1.svg" alt=""></div>
+        <div>
+          <p class="cs-eyebrow" style="margin-bottom:2px;">SOLUTIONS</p>
+          <h2 class="cs-h2" style="margin:0;">Sample Collectors</h2>
+        </div>
+      </div>
+
+      <div class="ap-insight-pair">
+        <div class="ap-insight-box">
+          <p class="ap-box-eyebrow">INSIGHT 01</p>
+          <p class="ap-insight-title">Tedious and inefficient data entry</p>
+          <p class="ap-insight-body">Collectors find data entry long and tedious, often reverting to manual sheets when the app fails, leading to frustration.</p>
+        </div>
+        <div class="ap-hmw-box">
+          <p class="ap-box-eyebrow">HOW MIGHT WE</p>
+          <p class="ap-hmw-text">Ensure <span class="ap-hl">quick, efficient</span> and <span class="ap-hl">error-free data</span> entry for sample collectors who may lack context?</p>
+        </div>
+      </div>
+      <div class="cs-image-card" style="margin-bottom:20px;">
+        <img src="assets/images/ap-sc-1.png" alt="Sample collector flow" style="aspect-ratio:3536/1690; object-fit:cover;">
+        <div class="cs-image-caption">Sample collector flow &mdash; quick site selection, pre-filled samples, barcode scanning</div>
+      </div>
+
+      <div class="ap-insight-pair">
+        <div class="ap-insight-box">
+          <p class="ap-box-eyebrow">INSIGHT 02</p>
+          <p class="ap-insight-title">Lack of Process Context</p>
+          <p class="ap-insight-body">Collectors may not always possess the appropriate context or knowledge about the process, which leads to errors</p>
+        </div>
+        <div class="ap-hmw-box">
+          <p class="ap-box-eyebrow">HOW MIGHT WE</p>
+          <p class="ap-hmw-text">Better inform the collector of all collection &amp; storage requirements to <span class="ap-hl">minimize error and maintain sample integrity?</span></p>
+        </div>
+      </div>
+      <div class="cs-image-card">
+        <img src="assets/images/ap-sc-2.png" alt="Collection requirements guidance" style="aspect-ratio:3434/2020; object-fit:cover;">
+      </div>
+    </section>
+
+    <section class="cs-section reveal">
+      <div class="ap-solution-header">
+        <div class="ap-solution-icon"><img src="assets/images/ap-icon-dna-1.svg" alt=""></div>
+        <div>
+          <p class="cs-eyebrow" style="margin-bottom:2px;">SOLUTIONS</p>
+          <h2 class="cs-h2" style="margin:0;">Lab Diagnosticians</h2>
+        </div>
+      </div>
+
+      <div class="ap-insight-pair">
+        <div class="ap-insight-box">
+          <p class="ap-box-eyebrow">INSIGHT 01</p>
+          <p class="ap-insight-title">Inefficient Tracking of Samples</p>
+          <p class="ap-insight-body">Updates or external communication is done manually through spreadsheets and emails. Keeping a track &amp; storage is tedious.</p>
+        </div>
+        <div class="ap-hmw-box">
+          <p class="ap-box-eyebrow">HOW MIGHT WE</p>
+          <p class="ap-hmw-text">Enable labs to <span class="ap-hl">track and report critical milestones</span> related to diagnostic processes and results?</p>
+        </div>
+      </div>
+      <div class="cs-image-card" style="margin-bottom:20px;">
+        <img src="assets/images/ap-ld-1.png" alt="Lab tracking dashboard" style="aspect-ratio:4096/2388; object-fit:cover;">
+      </div>
+
+      <div class="ap-insight-pair">
+        <div class="ap-insight-box">
+          <p class="ap-box-eyebrow">INSIGHT 02</p>
+          <p class="ap-insight-title">Tedious and Inefficient Manual Data entry</p>
+          <p class="ap-insight-body">Updates or external communication is done manually through spreadsheets and emails. Keeping a track &amp; storage is tedious.</p>
+        </div>
+        <div class="ap-hmw-box">
+          <p class="ap-box-eyebrow">HOW MIGHT WE</p>
+          <p class="ap-hmw-text">Enable diagnosticians to <span class="ap-hl">quickly &amp; efficiently document their task progress</span> at each step of the process</p>
+        </div>
+      </div>
+      <div class="cs-image-card">
+        <img src="assets/images/ap-ld-2.png" alt="Diagnostician task progress flow" style="aspect-ratio:1920/1379; object-fit:cover;">
+      </div>
+    </section>
+
+    <section class="cs-section reveal">
+      <div class="ap-solution-header">
+        <div class="ap-solution-icon"><img src="assets/images/ap-icon-chartbar-1.svg" alt=""></div>
+        <div>
+          <p class="cs-eyebrow" style="margin-bottom:2px;">SOLUTIONS</p>
+          <h2 class="cs-h2" style="margin:0;">Data Consumers</h2>
+        </div>
+      </div>
+
+      <div class="ap-insight-pair">
+        <div class="ap-insight-box">
+          <p class="ap-box-eyebrow">INSIGHT 01</p>
+          <p class="ap-insight-title">Hard-to-Track Disease Progress</p>
+          <p class="ap-insight-body">Disjointed data sources and manual spreadsheets made generating insights slow and unreliable.</p>
+        </div>
+        <div class="ap-hmw-box">
+          <p class="ap-box-eyebrow">HOW MIGHT WE</p>
+          <p class="ap-hmw-text">Enable users to <span class="ap-hl">track, and analyze report critical milestones related to the disease?</span></p>
+        </div>
+      </div>
+      <div class="cs-image-card" style="margin-bottom:20px;">
+        <img src="assets/images/ap-dc-1.png" alt="Disease progress tracking dashboard" style="aspect-ratio:1920/1602; object-fit:cover;">
+      </div>
+
+      <div class="ap-insight-pair">
+        <div class="ap-insight-box">
+          <p class="ap-box-eyebrow">INSIGHT 02</p>
+          <p class="ap-insight-title">Scattered Tracking of ES Activities</p>
+          <p class="ap-insight-body">Data fragmented across multiple tools &mdash; users have to refer to various reports, spreadsheets, emails &amp; WhatsApp for sample updates, disease data analysis etc.</p>
+        </div>
+        <div class="ap-hmw-box">
+          <p class="ap-box-eyebrow">HOW MIGHT WE</p>
+          <p class="ap-hmw-text">Provide <span class="ap-hl">better visibility to track all ES collection &amp; diagnostic activities</span> being carried out (end-to-end)?</p>
+        </div>
+      </div>
+      <div class="cs-image-card">
+        <img src="assets/images/ap-dc-2.png" alt="ES activity visibility dashboard" style="aspect-ratio:1920/1617; object-fit:cover;">
+      </div>
+    </section>
+
+    <section class="cs-section reveal">
+      <div class="ap-solution-header">
+        <div class="ap-solution-icon"><img src="assets/images/ap-icon-binoculars.svg" alt=""></div>
+        <div>
+          <p class="cs-eyebrow" style="margin-bottom:2px;">SOLUTIONS</p>
+          <h2 class="cs-h2" style="margin:0;">Admins &amp; Super Admins</h2>
+        </div>
+      </div>
+
+      <div class="ap-insight-pair">
+        <div class="ap-insight-box">
+          <p class="ap-box-eyebrow">INSIGHT 01</p>
+          <p class="ap-insight-title">Distributed Lab Operations</p>
+          <p class="ap-insight-body">Testing &amp; Sequencing activities aren&rsquo;t always executed by one lab, sometimes it&rsquo;s also outsourced to external orgs.</p>
+        </div>
+        <div class="ap-hmw-box">
+          <p class="ap-box-eyebrow">HOW MIGHT WE</p>
+          <p class="ap-hmw-text">Create a modular platform that adapts to different org structures &amp; needs?</p>
+        </div>
+      </div>
+      <div class="cs-image-card" style="margin-bottom:20px;">
+        <img src="assets/images/ap-admin-1.png" alt="Multi-org scoped access" style="aspect-ratio:1920/962; object-fit:cover;">
+        <div class="cs-image-caption">Built for a multi-org reality &mdash; each partner declares their role, gets scoped access, and nothing bleeds across org boundaries.</div>
+      </div>
+
+      <div class="ap-insight-pair">
+        <div class="ap-insight-box">
+          <p class="ap-box-eyebrow">INSIGHT 02</p>
+          <p class="ap-insight-title">Lack of Visibility Into Team Progress</p>
+          <p class="ap-insight-body">Admins can&rsquo;t track subordinate progress in the app and must rely on scattered Google Sheets or email updates.</p>
+        </div>
+        <div class="ap-hmw-box">
+          <p class="ap-box-eyebrow">HOW MIGHT WE</p>
+          <p class="ap-hmw-text"><span class="ap-hl">Improve the admin visibility of tasks</span> performed by all collection &amp; lab users to help them <span class="ap-hl">monitor and inform ES processes</span></p>
+        </div>
+      </div>
+      <div class="cs-image-card">
+        <img src="assets/images/ap-admin-2.png" alt="Admin team progress visibility" style="aspect-ratio:1920/1080; object-fit:cover;">
+      </div>
+    </section>
+
+    <section class="cs-section reveal" id="little-wins">
+      <p class="cs-eyebrow">REFLECTION</p>
+      <h2 class="cs-h2"><em>Little wins</em> from this project</h2>
+      <div class="cs-wins">
+        <div class="cs-win">
+          <span class="cs-win-mark">&#10022;</span>
+          <p>Ensured a frictionless design handoff, staying closely aligned with developers through full implementation.</p>
+        </div>
+        <div class="cs-win">
+          <span class="cs-win-mark">&#10022;</span>
+          <p>Demonstrated fast learning agility, quickly digesting deep research and shaping early solution directions.</p>
+        </div>
+        <div class="cs-win">
+          <span class="cs-win-mark">&#10022;</span>
+          <p>Felt the reward of designing with real societal impact, as the tools support government public health programs.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="checker-strip checker-blue"></div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-cta">
+      <h2>Thanks for making it till here!</h2>
+      <p class="credit">Designed + coded by <span class="logo-inline"><span class="script script-sp">S</span>iddy :)</span></p>
+    </div>
+    <div class="footer-links">
+      <div class="col">
+        <p class="col-title">SAY HI</p>
+        <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LINKEDIN</a>
+        <a href="mailto:siddarthpuranik@gmail.com">GMAIL</a>
+      </div>
+      <div class="col">
+        <p class="col-title">PAGE</p>
+        <a href="index.html#top">HOME</a>
+        <a href="about.html">ABOUT</a>
+        <a href="resume.pdf" target="_blank" rel="noopener">RESUME</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-game">
+    <div class="bc-hud">
+      <div class="bc-score">Score: <span id="bcScore">0</span></div>
+      <div class="bc-timer">Time: <span id="bcTime">30</span>s</div>
+    </div>
+    <div class="bc-canvas-wrap">
+      <canvas id="bcCanvas"></canvas>
+    </div>
+  </div>
+</footer>
+</div>
+
+<div class="cs-mobile">
+  <header class="m-hero">
+    <div class="m-header">
+      <a href="index.html#top" class="cs-logo"><span class="script script-sp">S</span>iddy :)</a>
+      <div class="m-nav-links">
+        <a href="about.html">About</a>
+        <a href="resume.pdf" target="_blank" rel="noopener">Resume</a>
+      </div>
+    </div>
+    <div class="m-hero-body">
+      <h1 class="m-hero-title">E2E Design of a unified ecosystem for <em>Animal Disease Monitoring</em> for India</h1>
+      <div class="m-hero-product"><img src="assets/images/ap-hero-product.png" alt="Animal disease monitoring dashboard product shot"></div>
+    </div>
+  </header>
+
+  <section class="m-section m-meta-row reveal">
+    <div class="m-meta"><p>MY ROLE</p><p>Product Designer</p></div>
+    <div class="m-meta"><p>DURATION</p><p>4 Months</p></div>
+    <div class="m-meta"><p>TEAM</p><p>Anushka G &middot; Ria G &middot; Me</p></div>
+    <div class="m-meta"><p>CLIENT</p><p>ARTPARK &times; Parallel</p></div>
+  </section>
+
+  <section class="m-section reveal">
+    <p class="m-eyebrow">CONTEXT</p>
+    <h2 class="m-h2">India has lost thousands of livestock due to preventable diseases</h2>
+    <p class="m-body">India&rsquo;s dairy sector is smallholder-dominated &mdash; roughly 75% of rural households keep 2&ndash;4 animals, and small/marginal farmers hold 60% of female cattle and buffaloes. Foot &amp; Mouth Disease (FMD) affecting even one animal can significantly dent household income.</p>
+    <p class="m-body">In 2021, India saw <strong>19,363 FMD attacks</strong> across 116 districts.</p>
+    <div class="ap-m-stat-cards">
+      <div class="ap-m-stat-card"><p class="ap-m-stat-num">2M+</p><p class="ap-m-stat-label">Cattle Affected</p></div>
+      <div class="ap-m-stat-card"><p class="ap-m-stat-num">97k+</p><p class="ap-m-stat-label">Deaths across 15 states</p></div>
+    </div>
+    <div class="m-figure" style="aspect-ratio:350/177;"><img src="assets/images/ap-m-context.png" alt="Context supporting image"></div>
+  </section>
+
+  <section class="m-section reveal">
+    <p class="m-eyebrow">PROBLEM</p>
+    <h2 class="m-h2">No centralised system to monitor animal diseases</h2>
+    <p class="m-body">Currently the government has no centralised system to monitor animal diseases like FMD &amp; LSD. The surveillance of these diseases is initiated by multiple stakeholders and is fragmented across geographies and organisations.</p>
+    <p class="m-body">This leads to <span class="cs-highlight">loss of data and delays in initiating vaccine drives.</span></p>
+    <div class="ap-m-problem-visuals">
+      <div class="m-figure" style="aspect-ratio:350/203;"><img src="assets/images/ap-m-problem-1.png" alt="Fragmented data sources"></div>
+      <div class="ap-m-problem-pair">
+        <div class="m-figure"><img src="assets/images/ap-m-problem-2.png" alt="Manual spreadsheet tracking"></div>
+        <div class="m-figure"><img src="assets/images/ap-m-problem-3.png" alt="WhatsApp based reporting"></div>
+      </div>
+    </div>
+    <div class="ap-m-problem-box">
+      <p>Sample data is collected and stored across multiple forms, Google Sheets, apps and WhatsApp chains &mdash; with no single source of truth.</p>
+    </div>
+  </section>
+
+  <section class="m-section reveal">
+    <p class="m-eyebrow">ARTPARK&rsquo;S BRIEF</p>
+    <h2 class="m-h2" style="font-size:22px;">To design an <span class="ap-hl">MVP to digitize &amp; standardize</span> legacy, <span class="ap-hl">manual processes &amp; eliminate data fragmentation</span> through a unified ecosystem for government officials, diagnostic labs &amp; sample collectors.</h2>
+  </section>
+
+  <section class="m-section reveal">
+    <p class="m-eyebrow">PROJECT PROCESS</p>
+    <h2 class="m-h2">Where I stepped in</h2>
+    <div class="m-figure" style="aspect-ratio:350/61.5; margin-bottom:16px;"><img src="assets/images/ap-m-process.png" alt="Project process timeline"></div>
+    <p class="m-body"><strong>I stepped in during the &lsquo;Building from 0&rarr;1&rsquo; phase</strong>, where I had to <strong>absorb 6 weeks worth of research insights</strong> and analysis in a week to start with the design phase.</p>
+  </section>
+
+  <section class="m-section reveal">
+    <p class="m-eyebrow">PRODUCT LEVEL HMWs</p>
+    <h2 class="m-h2">Framing the core system-level challenges before diving into user needs</h2>
+    <div class="ap-m-hmw-stack" style="margin-top:20px;">
+      <div class="ap-m-hmw-card"><p class="ap-m-hmw-num">HMW 01</p><p class="ap-m-hmw-question">Unify &amp; standardize a process &amp; format of data collection &amp; documentation across job roles?</p></div>
+      <div class="ap-m-hmw-card"><p class="ap-m-hmw-num">HMW 02</p><p class="ap-m-hmw-question">Build flexibility to seamlessly switch between automated and manual data entry at different parts of the process?</p></div>
+      <div class="ap-m-hmw-card"><p class="ap-m-hmw-num">HMW 03</p><p class="ap-m-hmw-question">Create a modular platform that adapts to different org structures &amp; needs?</p></div>
+      <div class="ap-m-hmw-card"><p class="ap-m-hmw-num">HMW 04</p><p class="ap-m-hmw-question">Accommodate varying data needs for tracking &amp; reporting across roles &amp; projects?</p></div>
+    </div>
+  </section>
+
+  <section class="m-section reveal">
+    <p class="m-eyebrow">KEY STAKEHOLDERS</p>
+    <h2 class="m-h2">How does information flow?</h2>
+    <p class="m-body">We identified the main stakeholders and understood how information flows between each pillar.</p>
+    <div class="ap-m-stakeholder-flow">
+      <div class="ap-m-stakeholder-card">
+        <div class="ap-m-stakeholder-icon"><img src="assets/images/ap-icon-testtube.svg" alt=""></div>
+        <div><p class="ap-m-stakeholder-title">Sample Collectors</p><p class="ap-m-stakeholder-desc">Sample collectors visit dairy farms &amp; sheds to collect environmental samples and send it to assigned labs.</p></div>
+      </div>
+      <div class="ap-m-stakeholder-connector"><img src="assets/images/ap-icon-arrow.svg" alt="" style="transform:rotate(90deg);"></div>
+      <div class="ap-m-stakeholder-card">
+        <div class="ap-m-stakeholder-icon"><img src="assets/images/ap-icon-dna.svg" alt=""></div>
+        <div><p class="ap-m-stakeholder-title">Lab Diagnosticians</p><p class="ap-m-stakeholder-desc">Labs safely store the samples, test and generate reports.</p></div>
+      </div>
+      <div class="ap-m-stakeholder-connector"><img src="assets/images/ap-icon-arrow.svg" alt="" style="transform:rotate(90deg);"></div>
+      <div class="ap-m-stakeholder-card">
+        <div class="ap-m-stakeholder-icon"><img src="assets/images/ap-icon-chartbar.svg" alt=""></div>
+        <div><p class="ap-m-stakeholder-title">Data Consumers</p><p class="ap-m-stakeholder-desc">Medical officers track &amp; monitor disease data, report to higher officials.</p></div>
+      </div>
+      <div class="ap-m-stakeholder-connector"><img src="assets/images/ap-icon-arrow.svg" alt="" style="transform:rotate(90deg);"></div>
+      <div class="ap-m-stakeholder-card">
+        <div class="ap-m-stakeholder-icon"><img src="assets/images/ap-icon-binoculars.svg" alt=""></div>
+        <div><p class="ap-m-stakeholder-title">Admins &amp; Super Admins</p><p class="ap-m-stakeholder-desc">Project leads who set-up surveillance projects, onboard partners, monitors orgs &amp; surveillance workflows.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="m-section reveal">
+    <div class="ap-m-solution-header">
+      <div class="ap-m-solution-icon"><img src="assets/images/ap-icon-testtube-1.svg" alt=""></div>
+      <div><p class="m-eyebrow" style="margin-bottom:2px;">SOLUTIONS</p><h2 class="m-h2" style="margin:0;font-size:22px;">Sample Collectors</h2></div>
+    </div>
+    <div class="ap-m-insight-box"><p class="ap-m-box-eyebrow">INSIGHT 01</p><p class="ap-m-insight-title">Tedious and inefficient data entry</p><p class="ap-m-insight-body">Collectors find data entry long and tedious, often reverting to manual sheets when the app fails, leading to frustration.</p></div>
+    <div class="ap-m-hmw-box"><p class="ap-m-box-eyebrow">HOW MIGHT WE</p><p class="ap-m-hmw-text">Ensure <span class="ap-hl">quick, efficient</span> and <span class="ap-hl">error-free data</span> entry for sample collectors who may lack context?</p></div>
+    <div class="m-image-card">
+      <div class="m-figure" style="aspect-ratio:350/167;"><img src="assets/images/ap-m-sc-1.png" alt="Sample collector flow"></div>
+      <p class="m-image-caption">Sample collector flow &mdash; quick site selection, pre-filled samples, barcode scanning</p>
+    </div>
+    <div class="ap-m-insight-box"><p class="ap-m-box-eyebrow">INSIGHT 02</p><p class="ap-m-insight-title">Lack of Process Context</p><p class="ap-m-insight-body">Collectors may not always possess the appropriate context or knowledge about the process, which leads to errors.</p></div>
+    <div class="ap-m-hmw-box"><p class="ap-m-box-eyebrow">HOW MIGHT WE</p><p class="ap-m-hmw-text">Better inform the collector of all collection &amp; storage requirements to <span class="ap-hl">minimize error and maintain sample integrity?</span></p></div>
+    <div class="m-figure" style="aspect-ratio:350/206;"><img src="assets/images/ap-m-sc-2.png" alt="Collection requirements guidance"></div>
+  </section>
+
+  <section class="m-section reveal">
+    <div class="ap-m-solution-header">
+      <div class="ap-m-solution-icon"><img src="assets/images/ap-icon-dna-1.svg" alt=""></div>
+      <div><p class="m-eyebrow" style="margin-bottom:2px;">SOLUTIONS</p><h2 class="m-h2" style="margin:0;font-size:22px;">Lab Diagnosticians</h2></div>
+    </div>
+    <div class="ap-m-insight-box"><p class="ap-m-box-eyebrow">INSIGHT 01</p><p class="ap-m-insight-title">Inefficient Tracking of Samples</p><p class="ap-m-insight-body">Updates or external communication is done manually through spreadsheets and emails. Keeping a track &amp; storage is tedious.</p></div>
+    <div class="ap-m-hmw-box"><p class="ap-m-box-eyebrow">HOW MIGHT WE</p><p class="ap-m-hmw-text">Enable labs to <span class="ap-hl">track and report critical milestones</span> related to diagnostic processes and results?</p></div>
+    <div class="m-figure" style="aspect-ratio:350/204; margin-bottom:16px;"><img src="assets/images/ap-m-ld-1.png" alt="Lab tracking dashboard"></div>
+    <div class="ap-m-insight-box"><p class="ap-m-box-eyebrow">INSIGHT 02</p><p class="ap-m-insight-title">Tedious and Inefficient Manual Data entry</p><p class="ap-m-insight-body">Updates or external communication is done manually through spreadsheets and emails. Keeping a track &amp; storage is tedious.</p></div>
+    <div class="ap-m-hmw-box"><p class="ap-m-box-eyebrow">HOW MIGHT WE</p><p class="ap-m-hmw-text">Enable diagnosticians to <span class="ap-hl">quickly &amp; efficiently document their task progress</span> at each step of the process</p></div>
+    <div class="m-figure" style="aspect-ratio:350/251;"><img src="assets/images/ap-m-ld-2.png" alt="Diagnostician task progress flow"></div>
+  </section>
+
+  <section class="m-section reveal">
+    <div class="ap-m-solution-header">
+      <div class="ap-m-solution-icon"><img src="assets/images/ap-icon-chartbar-1.svg" alt=""></div>
+      <div><p class="m-eyebrow" style="margin-bottom:2px;">SOLUTIONS</p><h2 class="m-h2" style="margin:0;font-size:22px;">Data Consumers</h2></div>
+    </div>
+    <div class="ap-m-insight-box"><p class="ap-m-box-eyebrow">INSIGHT 01</p><p class="ap-m-insight-title">Hard-to-Track Disease Progress</p><p class="ap-m-insight-body">Disjointed data sources and manual spreadsheets made generating insights slow and unreliable.</p></div>
+    <div class="ap-m-hmw-box"><p class="ap-m-box-eyebrow">HOW MIGHT WE</p><p class="ap-m-hmw-text">Enable users to <span class="ap-hl">track, and analyze report critical milestones related to the disease?</span></p></div>
+    <div class="m-figure" style="aspect-ratio:350/292; margin-bottom:16px;"><img src="assets/images/ap-m-dc-1.png" alt="Disease progress tracking dashboard"></div>
+    <div class="ap-m-insight-box"><p class="ap-m-box-eyebrow">INSIGHT 02</p><p class="ap-m-insight-title">Scattered Tracking of ES Activities</p><p class="ap-m-insight-body">Data fragmented across multiple tools &mdash; users have to refer to various reports, spreadsheets, emails &amp; WhatsApp for sample updates, disease data analysis etc.</p></div>
+    <div class="ap-m-hmw-box"><p class="ap-m-box-eyebrow">HOW MIGHT WE</p><p class="ap-m-hmw-text">Provide <span class="ap-hl">better visibility to track all ES collection &amp; diagnostic activities</span> being carried out (end-to-end)?</p></div>
+    <div class="m-figure" style="aspect-ratio:350/295;"><img src="assets/images/ap-m-dc-2.png" alt="ES activity visibility dashboard"></div>
+  </section>
+
+  <section class="m-section reveal">
+    <p class="m-eyebrow">ORGANISATIONAL MODULARITY</p>
+    <h2 class="m-h2">Admins &amp; Super Admins</h2>
+    <div class="ap-m-insight-box" style="margin-top:20px;"><p class="ap-m-box-eyebrow">INSIGHT 01</p><p class="ap-m-insight-title">Distributed Lab Operations</p><p class="ap-m-insight-body">Testing &amp; Sequencing activities aren&rsquo;t always executed by one lab, sometimes it&rsquo;s also outsourced to external orgs.</p></div>
+    <div class="ap-m-hmw-box"><p class="ap-m-box-eyebrow">HOW MIGHT WE</p><p class="ap-m-hmw-text">Create a modular platform that adapts to different org structures &amp; needs?</p></div>
+    <div class="m-image-card">
+      <div class="m-figure" style="aspect-ratio:350/175;"><img src="assets/images/ap-m-admin-1.png" alt="Multi-org scoped access"></div>
+      <p class="m-image-caption">Built for a multi-org reality &mdash; each partner declares their role, gets scoped access, and nothing bleeds across org boundaries.</p>
+    </div>
+    <div class="ap-m-insight-box"><p class="ap-m-box-eyebrow">INSIGHT 02</p><p class="ap-m-insight-title">Lack of Visibility Into Team Progress</p><p class="ap-m-insight-body">Admins can&rsquo;t track subordinate progress in the app and must rely on scattered Google Sheets or email updates.</p></div>
+    <div class="ap-m-hmw-box"><p class="ap-m-box-eyebrow">HOW MIGHT WE</p><p class="ap-m-hmw-text"><span class="ap-hl">Improve the admin visibility of tasks</span> performed by all collection &amp; lab users to help them <span class="ap-hl">monitor and inform ES processes</span></p></div>
+    <div class="m-figure" style="aspect-ratio:350/197;"><img src="assets/images/ap-m-admin-2.png" alt="Admin team progress visibility"></div>
+  </section>
+
+  <section class="m-section reveal">
+    <p class="m-eyebrow">REFLECTION</p>
+    <h2 class="m-h2"><em>Little wins</em> from this project</h2>
+    <div class="m-wins">
+      <div class="m-win"><span class="m-win-mark">&#10022;</span><p>Ensured a frictionless design handoff, staying closely aligned with developers through full implementation.</p></div>
+      <div class="m-win"><span class="m-win-mark">&#10022;</span><p>Demonstrated fast learning agility, quickly digesting deep research and shaping early solution directions.</p></div>
+      <div class="m-win"><span class="m-win-mark">&#10022;</span><p>Felt the reward of designing with real societal impact, as the tools support government public health programs.</p></div>
+    </div>
+  </section>
+
+  <div class="checker-strip checker-blue"></div>
+
+  <footer class="m-footer">
+    <div class="m-footer-credit">
+      <p>Designed + coded by</p>
+      <span class="logo-inline"><span class="script script-sp">S</span>iddy :)</span>
+    </div>
+    <div class="m-footer-cols">
+      <div class="m-footer-col">
+        <p class="m-footer-col-title">SAY HI</p>
+        <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LINKEDIN</a>
+        <a href="mailto:siddarthpuranik@gmail.com">GMAIL</a>
+      </div>
+      <div class="m-footer-col">
+        <p class="m-footer-col-title">PAGE</p>
+        <a href="index.html#top">HOME</a>
+        <a href="about.html">ABOUT</a>
+        <a href="resume.pdf" target="_blank" rel="noopener">RESUME</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+/* ---------- checker-blue dither (matches other case-study pages) ---------- */
+function paintDitherStrip(el, cellSize, baseColor, fillColor) {
+  const w = Math.ceil(el.clientWidth);
+  const h = Math.ceil(el.clientHeight);
+  if (!w || !h) return;
+  const cvs = document.createElement('canvas');
+  cvs.width = w;
+  cvs.height = h;
+  const cx = cvs.getContext('2d');
+  cx.fillStyle = baseColor;
+  cx.fillRect(0, 0, w, h);
+  cx.fillStyle = fillColor;
+  const cols = Math.ceil(w / cellSize);
+  const rows = Math.ceil(h / cellSize);
+  for (let r = 0; r < rows; r++) {
+    const t = rows === 1 ? 0 : r / (rows - 1);
+    const prob = Math.pow(1 - t, 1.4);
+    for (let c = 0; c < cols; c++) {
+      if (Math.random() < prob) cx.fillRect(c * cellSize, r * cellSize, cellSize, cellSize);
+    }
+  }
+  el.style.backgroundImage = `url(${cvs.toDataURL()})`;
+}
+function paintAllDitherStrips() {
+  document.querySelectorAll('.checker-blue').forEach(el => {
+    paintDitherStrip(el, 14, '#07239a', '#ffffff');
+  });
+}
+paintAllDitherStrips();
+let ditherResizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(ditherResizeTimer);
+  ditherResizeTimer = setTimeout(paintAllDitherStrips, 200);
+});
+</script>
+
+<script src="assets/js/scroll-reveal.js" defer></script>
+
+<script>
+/* ---------- Bunny Catch (footer game, shared with other case-study pages) ---------- */
+(function () {
+  const W = 1200, H = 420, PX = 6;
+  const ROUND_MS = 30000;
+
+  const canvas = document.getElementById('bcCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const scoreEl = document.getElementById('bcScore');
+  const timeEl = document.getElementById('bcTime');
+
+  if (document.fonts && document.fonts.load) {
+    document.fonts.load("700 32px 'PP NeueBit'");
+  }
+
+  function fitCanvas() {
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.imageSmoothingEnabled = false;
+  }
+  fitCanvas();
+  window.addEventListener('resize', fitCanvas);
+
+  function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+
+  function loadImg(src) { const i = new Image(); i.src = src; return i; }
+  const PLAYER_IMG = loadImg('assets/images/bc-bunny.png');
+  const CLOUD_IMG = loadImg('assets/images/bc-cloud.png');
+
+  function drawBlocks(blocks, ox, oy) {
+    for (let i = 0; i < blocks.length; i++) {
+      const b = blocks[i];
+      ctx.fillStyle = b[4];
+      ctx.fillRect(Math.round(ox + b[0] * PX), Math.round(oy + b[1] * PX), b[2] * PX, b[3] * PX);
+    }
+  }
+
+  const CLOUDS = [
+    { x: 60, y: 50, w: 150, speed: 0.006 },
+    { x: 280, y: 110, w: 90, speed: 0.0048 },
+    { x: 500, y: 60, w: 120, speed: 0.0072 },
+    { x: 720, y: 100, w: 80, speed: 0.0052 },
+    { x: 940, y: 70, w: 130, speed: 0.0065 }
+  ];
+  const CLOUD_SRC = { x: 27, y: 38, w: 191, h: 51 };
+
+  const ITEM_TYPES = [
+    { key: 'arrow', points: 1, weight: 28, color: '#F5C518', img: loadImg('assets/images/bc-item-arrow.png'), ar: 126 / 138 },
+    { key: 'comment', points: 1, weight: 22, color: '#F0DE8A', img: loadImg('assets/images/bc-item-comment.png'), ar: 1256 / 1336 },
+    { key: 'pen', points: 2, weight: 18, color: '#B39DDB', img: loadImg('assets/images/bc-item-pen.png'), ar: 158 / 162 },
+    { key: 'bullian', points: 2, weight: 14, color: '#7C93E0', img: loadImg('assets/images/bc-item-bullian.png'), ar: 1348 / 1268 },
+    { key: 'component', points: 3, weight: 10, color: '#9B7FE0', img: loadImg('assets/images/bc-item-component.png'), ar: 166 / 152 },
+    { key: 'plugins', points: 4, weight: 6, color: '#F5A623', img: loadImg('assets/images/bc-item-plugins.png'), ar: 1686 / 1638 },
+    { key: 'figma', points: 5, weight: 4, color: '#A259FF', img: loadImg('assets/images/bc-item-figma.png'), ar: 118 / 130 },
+    {
+      key: 'error', points: -2, weight: 10, color: '#FF4444', gw: 6, gh: 6,
+      blocks: [
+        [0, 0, 1, 1, '#FF4444'], [1, 1, 1, 1, '#FF4444'], [2, 2, 1, 1, '#FF4444'], [3, 3, 1, 1, '#FF4444'], [4, 4, 1, 1, '#FF4444'], [5, 5, 1, 1, '#FF4444'],
+        [5, 0, 1, 1, '#FF4444'], [4, 1, 1, 1, '#FF4444'], [3, 2, 1, 1, '#FF4444'], [2, 3, 1, 1, '#FF4444'], [1, 4, 1, 1, '#FF4444'], [0, 5, 1, 1, '#FF4444']
+      ]
+    }
+  ];
+  const ITEM_WEIGHT_TOTAL = ITEM_TYPES.reduce((s, t) => s + t.weight, 0);
+  function pickItemType() {
+    let r = Math.random() * ITEM_WEIGHT_TOTAL;
+    for (let i = 0; i < ITEM_TYPES.length; i++) {
+      if (r < ITEM_TYPES[i].weight) return ITEM_TYPES[i];
+      r -= ITEM_TYPES[i].weight;
+    }
+    return ITEM_TYPES[ITEM_TYPES.length - 1];
+  }
+  const ITEM_SIZE = 50;
+  function drawItem(type, x, y) {
+    if (type.blocks) {
+      drawBlocks(type.blocks, x - (type.gw * PX) / 2, y - (type.gh * PX) / 2);
+      return;
+    }
+    if (!type.img.complete || !type.img.naturalWidth) return;
+    const h = ITEM_SIZE, w = h * type.ar;
+    ctx.drawImage(type.img, Math.round(x - w / 2), Math.round(y - h / 2), Math.round(w), Math.round(h));
+  }
+
+  const RATINGS = [
+    { min: 51, text: 'You might be a design tool yourself' },
+    { min: 31, text: 'Figma pro reflexes!' },
+    { min: 16, text: 'Solid catching!' },
+    { min: 0, text: 'Warming up! Try again?' }
+  ];
+  function ratingFor(s) {
+    for (let i = 0; i < RATINGS.length; i++) if (s >= RATINGS[i].min) return RATINGS[i].text;
+    return RATINGS[RATINGS.length - 1].text;
+  }
+
+  const basketY = H - 60;
+  const basket = { x: W / 2, w: 130 };
+  let targetBasketX = W / 2;
+
+  let state = 'idle'; // idle | playing | gameover
+  let score = 0;
+  let timeRemaining = ROUND_MS;
+  let elapsedInRound = 0;
+  let items = [];
+  let particles = [];
+  let popups = [];
+  let bgItems = [];
+  let spawnTimer = 0;
+  let lastSpawnX = null;
+  let flashTimer = 0;
+  let gameOverAt = null;
+
+  function initBgItems() {
+    bgItems = [];
+    for (let i = 0; i < 4; i++) {
+      bgItems.push({
+        type: pickItemType(),
+        x: 60 + Math.random() * (W - 120),
+        y: Math.random() * H,
+        vy: 0.3 + Math.random() * 0.2
+      });
+    }
+  }
+  initBgItems();
+
+  function setPointerX(clientX) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = W / rect.width;
+    targetBasketX = clamp((clientX - rect.left) * scaleX, 0, W);
+  }
+  canvas.addEventListener('mousemove', function (e) { setPointerX(e.clientX); });
+  canvas.addEventListener('touchstart', function (e) { if (e.touches[0]) setPointerX(e.touches[0].clientX); }, { passive: true });
+  canvas.addEventListener('touchmove', function (e) {
+    e.preventDefault();
+    if (e.touches[0]) setPointerX(e.touches[0].clientX);
+  }, { passive: false });
+
+  function spawnItem() {
+    if (items.length >= 6) return;
+    let x, attempts = 0;
+    do {
+      x = 60 + Math.random() * (W - 120);
+      attempts++;
+    } while (lastSpawnX !== null && Math.abs(x - lastSpawnX) < 80 && attempts < 10);
+    lastSpawnX = x;
+    items.push({
+      type: pickItemType(),
+      x: x, baseX: x, y: -20, t: 0,
+      phase: Math.random() * Math.PI * 2,
+      vy: 1.5 * (0.85 + Math.random() * 0.3)
+    });
+  }
+
+  function addParticles(x, y, color, count) {
+    const budget = Math.max(0, 50 - particles.length);
+    const n = Math.min(count, budget);
+    for (let i = 0; i < n; i++) {
+      const ang = Math.random() * Math.PI * 2;
+      const spd = 1 + Math.random() * 2.5;
+      particles.push({ x: x, y: y, vx: Math.cos(ang) * spd, vy: Math.sin(ang) * spd - 1, life: 1, color: color });
+    }
+  }
+  function addPopup(x, y, text, color) {
+    popups.push({ x: x, y: y, text: text, color: color, life: 1 });
+  }
+
+  function updateHUD() {
+    scoreEl.textContent = score;
+    timeEl.textContent = Math.max(0, Math.ceil(timeRemaining / 1000));
+  }
+
+  function startGame() {
+    score = 0;
+    timeRemaining = ROUND_MS;
+    elapsedInRound = 0;
+    items = [];
+    particles = [];
+    popups = [];
+    spawnTimer = 0;
+    lastSpawnX = null;
+    flashTimer = 0;
+    gameOverAt = null;
+    state = 'playing';
+    updateHUD();
+  }
+  function endGame() {
+    state = 'gameover';
+    gameOverAt = performance.now();
+  }
+  window.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
+    const rect = canvas.getBoundingClientRect();
+    const inView = rect.top < window.innerHeight && rect.bottom > 0;
+    if (!inView) return;
+    if (e.key === ' ' || e.key === 'Spacebar') e.preventDefault();
+    if (state === 'idle' || state === 'gameover') startGame();
+  });
+
+  function updateClouds(dt) {
+    for (let i = 0; i < CLOUDS.length; i++) {
+      const c = CLOUDS[i];
+      c.x += c.speed * dt;
+      if (c.x - c.w > W) c.x = -c.w;
+    }
+  }
+
+  function update(dt) {
+    updateClouds(dt);
+    if (state === 'idle') {
+      for (let i = 0; i < bgItems.length; i++) {
+        const b = bgItems[i];
+        b.y += b.vy;
+        if (b.y > H + 20) { b.y = -20; b.x = 60 + Math.random() * (W - 120); }
+      }
+      return;
+    }
+
+    if (state === 'playing') {
+      elapsedInRound += dt;
+      timeRemaining -= dt;
+      if (timeRemaining <= 0) { timeRemaining = 0; updateHUD(); endGame(); return; }
+
+      basket.x += (targetBasketX - basket.x) * 0.15;
+
+      const progress = clamp(elapsedInRound / ROUND_MS, 0, 1);
+      const speedMult = 1 + 0.5 * progress;
+      const spawnInterval = 1200 - 400 * progress;
+
+      spawnTimer -= dt;
+      if (spawnTimer <= 0) { spawnItem(); spawnTimer = spawnInterval; }
+
+      for (let i = items.length - 1; i >= 0; i--) {
+        const it = items[i];
+        it.t += dt;
+        it.y += it.vy * speedMult;
+        it.x = it.baseX + Math.sin(it.t * 0.003 + it.phase) * 6;
+
+        const withinX = Math.abs(it.x - basket.x) < (basket.w / 2 + 12);
+        const withinY = it.y > basketY - 12 && it.y < basketY + 16;
+        if (withinX && withinY) {
+          score = Math.max(0, score + it.type.points);
+          addParticles(it.x, basketY, it.type.color, 9);
+          addPopup(it.x, basketY - 10, (it.type.points > 0 ? '+' : '') + it.type.points, it.type.points < 0 ? '#FF6B6B' : '#FFFFFF');
+          if (it.type.key === 'error') flashTimer = 100;
+          items.splice(i, 1);
+          continue;
+        }
+        if (it.y - 20 > H) items.splice(i, 1);
+      }
+
+      if (flashTimer > 0) flashTimer = Math.max(0, flashTimer - dt);
+      updateHUD();
+    }
+
+    if (state === 'gameover') {
+      const elapsed = performance.now() - gameOverAt;
+      if (elapsed >= 600 && items.length) items = [];
+    }
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.x += p.vx; p.y += p.vy; p.vy += 0.08;
+      p.life -= dt / 500;
+    }
+    particles = particles.filter(function (p) { return p.life > 0; });
+
+    for (let i = 0; i < popups.length; i++) {
+      const p = popups[i];
+      p.y -= dt * 0.03;
+      p.life -= dt / 800;
+    }
+    popups = popups.filter(function (p) { return p.life > 0; });
+  }
+
+  function drawBasketAndBunny() {
+    const bx = basket.x, by = basketY;
+
+    let bob = 0;
+    if (state === 'playing') {
+      bob = Math.sin(performance.now() * 0.008) * 1.5;
+    } else if (state === 'gameover' && gameOverAt !== null) {
+      const elapsed = performance.now() - gameOverAt;
+      if (elapsed > 600) bob = Math.abs(Math.sin((elapsed - 600) * 0.006)) * 6;
+    }
+
+    if (PLAYER_IMG.complete && PLAYER_IMG.naturalWidth) {
+      const h = 100, w = h * (288 / 232);
+      ctx.drawImage(PLAYER_IMG, Math.round(bx - w / 2), Math.round(by - h * 0.42 - bob), Math.round(w), Math.round(h));
+    }
+  }
+
+  function drawClouds() {
+    if (!CLOUD_IMG.complete || !CLOUD_IMG.naturalWidth) return;
+    ctx.globalAlpha = 0.9;
+    for (let i = 0; i < CLOUDS.length; i++) {
+      const c = CLOUDS[i];
+      const h = c.w * (CLOUD_SRC.h / CLOUD_SRC.w);
+      ctx.drawImage(
+        CLOUD_IMG, CLOUD_SRC.x, CLOUD_SRC.y, CLOUD_SRC.w, CLOUD_SRC.h,
+        Math.round(c.x), Math.round(c.y), Math.round(c.w), Math.round(h)
+      );
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function drawGround() {
+    const groundY = basketY + 40;
+    const dashW = 40, gap = 24, dashH = 3;
+    ctx.fillStyle = 'rgba(255,255,255,0.35)';
+    for (let x = 0; x < W; x += dashW + gap) {
+      ctx.fillRect(Math.round(x), Math.round(groundY), dashW, dashH);
+    }
+    const dashW2 = 18, gap2 = 30, dashH2 = 2;
+    ctx.fillStyle = 'rgba(255,255,255,0.18)';
+    for (let x = -20; x < W; x += dashW2 + gap2) {
+      ctx.fillRect(Math.round(x), Math.round(groundY + 10), dashW2, dashH2);
+    }
+  }
+
+  function render() {
+    ctx.fillStyle = '#07239A';
+    ctx.fillRect(0, 0, W, H);
+
+    drawClouds();
+    drawGround();
+
+    if (state === 'idle') {
+      ctx.globalAlpha = 0.4;
+      for (let i = 0; i < bgItems.length; i++) drawItem(bgItems[i].type, bgItems[i].x, bgItems[i].y);
+      ctx.globalAlpha = 1;
+    } else {
+      let alpha = 1;
+      if (state === 'gameover' && gameOverAt !== null) {
+        alpha = clamp(1 - (performance.now() - gameOverAt) / 600, 0, 1);
+      }
+      ctx.globalAlpha = alpha;
+      for (let i = 0; i < items.length; i++) drawItem(items[i].type, items[i].x, items[i].y);
+      ctx.globalAlpha = 1;
+    }
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      ctx.globalAlpha = clamp(p.life, 0, 1);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(Math.round(p.x - 2), Math.round(p.y - 2), 4, 4);
+    }
+    ctx.globalAlpha = 1;
+
+    drawBasketAndBunny();
+
+    ctx.textAlign = 'center';
+    for (let i = 0; i < popups.length; i++) {
+      const p = popups[i];
+      ctx.globalAlpha = clamp(p.life, 0, 1);
+      ctx.fillStyle = p.color;
+      ctx.font = "700 20px 'Instrument Sans', Arial, sans-serif";
+      ctx.fillText(p.text, p.x, p.y);
+    }
+    ctx.globalAlpha = 1;
+
+    if (flashTimer > 0) {
+      const a = (flashTimer / 100) * 0.5;
+      ctx.fillStyle = 'rgba(255,68,68,' + a + ')';
+      const t = 20;
+      ctx.fillRect(0, 0, W, t);
+      ctx.fillRect(0, H - t, W, t);
+      ctx.fillRect(0, 0, t, H);
+      ctx.fillRect(W - t, 0, t, H);
+    }
+
+    if (state === 'idle') {
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'center';
+      ctx.font = "700 44px 'PP NeueBit', 'Instrument Sans', Arial, sans-serif";
+      ctx.fillText("Let's test your reflexes", W / 2, H / 2 - 64);
+      ctx.font = "500 20px 'Instrument Sans', Arial, sans-serif";
+      ctx.fillStyle = 'rgba(255,255,255,0.85)';
+      ctx.fillText('Press space to start', W / 2, H / 2 - 34);
+    }
+
+    if (state === 'gameover' && gameOverAt !== null) {
+      const elapsed = performance.now() - gameOverAt;
+      const overlayA = clamp(elapsed / 600, 0, 0.8);
+      ctx.fillStyle = 'rgba(4,20,90,' + overlayA + ')';
+      ctx.fillRect(0, 0, W, H);
+      if (elapsed > 500) {
+        ctx.globalAlpha = clamp((elapsed - 500) / 300, 0, 1);
+        ctx.textAlign = 'center';
+        ctx.fillStyle = '#fff';
+        ctx.font = "700 56px 'Instrument Sans', Arial, sans-serif";
+        ctx.fillText(String(score), W / 2, H / 2 - 6);
+        ctx.font = "600 20px 'Instrument Sans', Arial, sans-serif";
+        ctx.fillText(ratingFor(score), W / 2, H / 2 + 24);
+        ctx.fillStyle = 'rgba(255,255,255,0.75)';
+        ctx.font = "500 16px 'Instrument Sans', Arial, sans-serif";
+        ctx.fillText('Play again', W / 2, H / 2 + 52);
+        ctx.globalAlpha = 1;
+      }
+    }
+  }
+
+  let lastTime = null;
+  let rafId = null;
+
+  function loop(now) {
+    if (lastTime === null) lastTime = now;
+    const dt = Math.min(now - lastTime, 100);
+    lastTime = now;
+    update(dt);
+    render();
+    rafId = requestAnimationFrame(loop);
+  }
+  rafId = requestAnimationFrame(loop);
+
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = null;
+    } else if (!rafId) {
+      lastTime = null;
+      rafId = requestAnimationFrame(loop);
+    }
+  });
+
+  updateHUD();
+})();
+</script>
+
+<script>
+/* ---------- side-nav scrollspy ---------- */
+(function () {
+  const links = Array.from(document.querySelectorAll('.cs-sidenav-links a'));
+  const targets = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  if (!targets.length) return;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const idx = targets.indexOf(entry.target);
+      if (idx === -1) return;
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        links[idx].classList.add('active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -50% 0px' });
+  targets.forEach(t => io.observe(t));
+})();
+</script>
+</body>
+</html>

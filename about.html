@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About &mdash; Siddarth Puranik</title>
+<meta name="description" content="Namaskara, I'm Siddarth Puranik &mdash; a product designer in Bangalore with 2.5+ years turning complexity into confidence.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: 'Bellisa Script';
+    src: url('fonts/BellisaScript-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'PP NeueBit';
+    src: url('fonts/PPNeueBit-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  :root {
+    --blue-deep: #07239a;
+    --blue-tag: #0726ad;
+    --ink: #2f2d2d;
+    --ink-2: #313131;
+    --muted: #80828d;
+    --muted-2: #8b8b8b;
+    --muted-3: #585858;
+    --muted-4: #83848a;
+    --stroke: #cfcfcf;
+    --panel: #eff0f3;
+    --underline: #d1eaff;
+    --max: 1280px;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Instrument Sans', sans-serif;
+    color: var(--ink);
+    background: #fff;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; display: block; }
+  a { text-decoration: none; color: inherit; }
+
+  .script { font-family: 'Bellisa Script', cursive; font-weight: 400; }
+  .script-sp { margin-right: 0.3em; }
+
+  /* ---------- NAV ---------- */
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    border-bottom: 1px solid var(--stroke);
+  }
+  .logo {
+    font-family: 'PP NeueBit', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    color: var(--blue-deep);
+    white-space: nowrap;
+  }
+  .logo .script { font-size: 32px; }
+  .nav-links {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    color: var(--blue-deep);
+    font-size: 18px;
+  }
+  .nav-links a:hover { text-decoration: underline; }
+
+  /* ---------- SHOP ILLUSTRATION ---------- */
+  .shop-section { padding: 48px 40px 0; }
+  .shop-wrap {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+    aspect-ratio: 1800 / 887;
+  }
+  .shop-placeholder {
+    position: absolute;
+    inset: 0;
+    background: var(--panel);
+    border-radius: 12px;
+  }
+  .shop-bg { position: absolute; inset: 0; }
+  .shop-bg-layer {
+    position: absolute;
+    display: block;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+  }
+  .shop-bg-layer.loaded { opacity: 1; }
+  .shop-hotspots { position: absolute; inset: 0; }
+  .shop-dim-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(20, 20, 30, 0);
+    pointer-events: none;
+    transition: background 0.2s ease;
+    border-radius: 12px;
+  }
+  .shop-dim-overlay.active { background: rgba(20, 20, 30, 0.35); pointer-events: auto; }
+
+  .hotspot {
+    position: absolute;
+    cursor: pointer;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .hotspot:hover,
+  .hotspot:focus-visible,
+  .hotspot.popped {
+    z-index: 10;
+  }
+  .hotspot:focus-visible { box-shadow: 0 0 0 3px rgba(7, 35, 154, 0.5); border-radius: 6px; }
+  .hotspot-sprite {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+    transform-origin: center center;
+    transition: transform 0.2s ease-out, filter 0.2s ease-out, opacity 0.15s ease;
+    will-change: transform;
+  }
+  .hotspot:hover .hotspot-sprite,
+  .hotspot:focus-visible .hotspot-sprite,
+  .hotspot.popped .hotspot-sprite {
+    transform: scale(1.15) translateY(-8px);
+    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
+  }
+  .hotspot.dimmed .hotspot-sprite { opacity: 0.5; }
+
+  .shop-hint { display: none; text-align: center; font-size: 13px; color: var(--muted); margin: 14px 0 0; }
+
+  /* two-layer pixel border: a black staircase shape behind, a smaller
+     white staircase inset by exactly one border-width on top. A plain
+     `border` can't follow a stair-stepped clip-path (it only fills the
+     flat rectangular strips), so the corners must be built from fills. */
+  .shop-tooltip {
+    position: absolute;
+    z-index: 20;
+    background: #1b1b1b;
+    clip-path: polygon(
+      12px 0, calc(100% - 12px) 0,
+      calc(100% - 12px) 4px, calc(100% - 8px) 4px, calc(100% - 8px) 8px, calc(100% - 4px) 8px, calc(100% - 4px) 12px, 100% 12px,
+      100% calc(100% - 12px),
+      calc(100% - 4px) calc(100% - 12px), calc(100% - 4px) calc(100% - 8px), calc(100% - 8px) calc(100% - 8px), calc(100% - 8px) calc(100% - 4px), calc(100% - 12px) calc(100% - 4px), calc(100% - 12px) 100%,
+      12px 100%,
+      12px calc(100% - 4px), 8px calc(100% - 4px), 8px calc(100% - 8px), 4px calc(100% - 8px), 4px calc(100% - 12px), 0 calc(100% - 12px),
+      0 12px,
+      4px 12px, 4px 8px, 8px 8px, 8px 4px, 12px 4px, 12px 0
+    );
+    filter: drop-shadow(4px 4px 0 rgba(0, 0, 0, 0.2));
+    padding: 4px;
+    max-width: 228px;
+    width: max-content;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+  }
+  .shop-tooltip.visible { opacity: 1; visibility: visible; }
+  .shop-tooltip .tt-inner {
+    background: #ffffff;
+    clip-path: polygon(
+      8px 0, calc(100% - 8px) 0,
+      calc(100% - 8px) 4px, calc(100% - 4px) 4px, calc(100% - 4px) 8px, 100% 8px,
+      100% calc(100% - 8px),
+      calc(100% - 4px) calc(100% - 8px), calc(100% - 4px) calc(100% - 4px), calc(100% - 8px) calc(100% - 4px), calc(100% - 8px) 100%,
+      8px 100%,
+      8px calc(100% - 4px), 4px calc(100% - 4px), 4px calc(100% - 8px), 0 calc(100% - 8px),
+      0 8px,
+      4px 8px, 4px 4px, 8px 4px, 8px 0
+    );
+    padding: 8px 12px;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .shop-tooltip .tt-title { font-weight: 500; color: #1b1b1b; }
+  .shop-tooltip .tt-sub { color: #585858; font-size: 12px; margin-top: 2px; }
+
+  /* the pointer tail must be a sibling, not a pseudo-element of .shop-tooltip —
+     clip-path on a parent also clips its descendants, so anything positioned
+     outside the parent's own box (like a tail hanging below via top:100%)
+     gets silently clipped away along with it. */
+  .shop-tooltip-tail {
+    position: absolute;
+    z-index: 21;
+    width: 16px;
+    height: 8px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+  }
+  .shop-tooltip-tail.visible { opacity: 1; visibility: visible; }
+  .shop-tooltip-tail::before,
+  .shop-tooltip-tail::after {
+    content: '';
+    position: absolute;
+    left: 0;
+  }
+  /* white notch overlaps 4px up into the box's own border, cutting a gap in
+     it, instead of drawing a second border-color strip directly beneath it */
+  .shop-tooltip-tail::before { width: 8px; height: 4px; left: 4px; top: -4px; background: #ffffff; }
+  .shop-tooltip-tail::after {
+    width: 16px;
+    height: 8px;
+    background: #1b1b1b;
+    clip-path: polygon(4px 0, 12px 0, 8px 8px);
+  }
+  .shop-tooltip-tail.arrow-top { transform: scaleY(-1); }
+
+  /* ---------- BIO ---------- */
+  .bio-section { padding: 56px 60px 80px; }
+  .bio-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: 64px;
+    align-items: flex-start;
+  }
+  .bio-name-block { flex-shrink: 0; width: 300px; }
+  .bio-kicker { font-size: 18px; font-weight: 400; color: var(--blue-deep); margin: 0 0 4px; }
+  .bio-name {
+    font-family: 'PP NeueBit', sans-serif;
+    font-weight: 700;
+    font-size: 42px;
+    line-height: 1.05;
+    color: var(--blue-deep);
+    margin: 0;
+    letter-spacing: -0.5px;
+  }
+  .bio-name .script { font-size: 1.1em; }
+  .bio-text { flex: 1; min-width: 0; max-width: 640px; }
+  .bio-text p { font-size: 16px; line-height: 1.7; color: #444444; margin: 0 0 20px; }
+  .bio-text p:last-child { margin-bottom: 0; }
+  .bio-text strong { font-weight: 600; color: #1b1b1b; }
+
+  /* ---------- CHECKER DIVIDER ---------- */
+  .checker-strip {
+    height: 100px;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    image-rendering: pixelated;
+  }
+  .checker-blue { background-color: var(--blue-deep); }
+
+  /* ---------- FOOTER ---------- */
+  .footer {
+    background: var(--blue-deep);
+    padding: 90px 0 100px;
+  }
+  .footer-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 48px;
+  }
+  .footer-cta h2 {
+    font-family: 'PP NeueBit', sans-serif;
+    font-weight: 700;
+    font-size: 42px;
+    line-height: 1;
+    color: #fff;
+    margin: 0 0 14px;
+  }
+  .footer-cta .credit {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 24px;
+    color: #fff;
+    margin: 0;
+  }
+  .footer-cta .credit .logo-inline {
+    font-family: 'PP NeueBit', sans-serif;
+    font-weight: 700;
+    font-size: 1em;
+  }
+  .footer-links {
+    display: flex;
+    gap: 80px;
+    font-size: 20px;
+    letter-spacing: 2px;
+  }
+  .footer-links .col { display: flex; flex-direction: column; gap: 15px; }
+  .footer-links .col-title { color: var(--muted-4); margin: 0; }
+  .footer-links a { color: #fff; }
+  .footer-links a:hover { text-decoration: underline; }
+
+  /* ---------- FOOTER GAME (Bunny Catch) ---------- */
+  /* edge-to-edge: .footer itself carries no horizontal padding (moved onto
+     .footer-inner/.bc-hud instead — see above), so this just needs
+     width:100% to reach the true viewport edge. No vw/negative-margin
+     breakout needed, and no scrollbar-width rounding issues either. */
+  .footer-game {
+    width: 100%;
+    margin-top: 56px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  .bc-hud {
+    max-width: var(--max);
+    margin: 0 auto 10px;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: rgba(255,255,255,0.75);
+    font-family: 'PP NeueBit', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+  }
+  .bc-hud .bc-timer { text-align: right; }
+  .bc-canvas-wrap {
+    width: 100%;
+    overflow: hidden;
+  }
+  #bcCanvas {
+    width: 100%;
+    aspect-ratio: 1200 / 420;
+    display: block;
+    background: var(--blue-deep);
+    touch-action: none;
+  }
+
+  /* ---------- SCROLL REVEAL ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+  .reveal-1 { transition-delay: 0.08s; }
+  .reveal-2 { transition-delay: 0.16s; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 767px) {
+    .shop-section { padding: 28px 16px 0; }
+    .shop-hint { display: block; }
+    .bio-section { padding: 40px 20px 56px; }
+    .bio-inner { flex-direction: column; gap: 18px; }
+    .bio-name-block { width: 100%; }
+    .bio-name { font-size: 34px; }
+    .bio-text p { font-size: 15px; }
+  }
+  @media (max-width: 640px) {
+    .nav { padding: 16px 20px; }
+    .logo { font-size: 24px; }
+    .logo .script { font-size: 24px; }
+    .nav-links { font-size: 15px; gap: 14px; }
+    .footer { padding: 60px 0 70px; }
+    .footer-inner { padding: 0 20px; }
+    .bc-hud { padding: 0 20px; }
+    .footer-links { gap: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html#top" class="logo"><span class="script script-sp">S</span>iddy :)</a>
+  <div class="nav-links">
+    <a href="about.html">About</a>
+    <a href="resume.pdf" target="_blank" rel="noopener">Resume</a>
+  </div>
+</nav>
+
+<main>
+  <section class="shop-section">
+    <div class="shop-wrap reveal" id="shopWrap" aria-label="Siddy's Store — an illustrated shop counter with hoverable items representing skills, tools, interests, and experience">
+      <div class="shop-placeholder" id="shopPlaceholder"></div>
+      <div class="shop-bg" id="shopBg"></div>
+      <div class="shop-hotspots" id="shopHotspots"></div>
+      <div class="shop-dim-overlay" id="shopDim"></div>
+    </div>
+    <p class="shop-hint">Tap items to explore</p>
+  </section>
+
+  <section class="bio-section">
+    <div class="bio-inner">
+      <div class="bio-name-block reveal">
+        <p class="bio-kicker">Namaskara, I&rsquo;m</p>
+        <h1 class="bio-name"><span class="script script-sp">S</span>iddarth Puranik</h1>
+      </div>
+      <div class="bio-text reveal reveal-1">
+        <p>A product designer in Bangalore with <strong>2.5 years of experience</strong> turning complexity into confidence (yes, that&rsquo;s also my tagline).</p>
+        <p>At Parallel UX Studio, I&rsquo;ve led design across fintech, SaaS, and social impact. From redesigning lending journeys at SAVii to building a disease monitoring ecosystem with IISc Bangalore. I&rsquo;m drawn to problems where systems are messy, stakeholders have competing needs, and the &ldquo;right&rdquo; answer isn&rsquo;t obvious yet.</p>
+        <p>When I&rsquo;m not obsessing over pixels in Figma, you&rsquo;ll find me deep in a Netflix crime thriller rabbit hole, attempting whatever recipe I bookmarked at 2 AM, or at the gym convincing myself that one more set was worth it.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="checker-strip checker-blue"></div>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-cta reveal">
+      <h2>Thanks for making it till here!</h2>
+      <p class="credit">Designed + coded by <span class="logo-inline"><span class="script script-sp">S</span>iddy :)</span></p>
+    </div>
+    <div class="footer-links">
+      <div class="col">
+        <p class="col-title">SAY HI</p>
+        <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LINKEDIN</a>
+        <a href="mailto:siddarthpuranik@gmail.com">GMAIL</a>
+      </div>
+      <div class="col">
+        <p class="col-title">PAGE</p>
+        <a href="index.html#top">HOME</a>
+        <a href="about.html">ABOUT</a>
+        <a href="resume.pdf" target="_blank" rel="noopener">RESUME</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-game">
+    <div class="bc-hud">
+      <div class="bc-score">Score: <span id="bcScore">0</span></div>
+      <div class="bc-timer">Time: <span id="bcTime">30</span>s</div>
+    </div>
+    <div class="bc-canvas-wrap">
+      <canvas id="bcCanvas"></canvas>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---------- Siddy's Store — hotspots + tooltips ---------- */
+(function () {
+  const wrap = document.getElementById('shopWrap');
+  const bgEl = document.getElementById('shopBg');
+  const hotspotsEl = document.getElementById('shopHotspots');
+  const dimEl = document.getElementById('shopDim');
+  const placeholder = document.getElementById('shopPlaceholder');
+  if (!wrap || !bgEl || !hotspotsEl) return;
+
+  /* Background layers extracted from the flat illustration via canvas
+     template-matching (search for the pixel offset of each isolated piece
+     export against the combined reference image), converted to % of the
+     1800x887 source. Ordered back to front. */
+  const BGDIR = 'assets/images/about-bg/';
+  const BACKGROUND = [
+    { src: BGDIR + 'bg-shelf.png',   left: 0,     top: 13.64, w: 45.67, h: 85.57, z: 1 },
+    { src: BGDIR + 'bg-vending.png', left: 57.39, top: 2.48,  w: 42.61, h: 96.73, z: 2 },
+    { src: BGDIR + 'bg-photo.png',   left: 34.83, top: 14.66, w: 39.06, h: 85.34, z: 4 },
+    { src: BGDIR + 'bg-desk.png',    left: 28.22, top: 56.26, w: 50.22, h: 43.74, z: 5 }
+  ];
+
+  let bgLoadedCount = 0;
+  const bgFrag = document.createDocumentFragment();
+  BACKGROUND.forEach(function (b) {
+    const layer = document.createElement('img');
+    layer.className = 'shop-bg-layer';
+    layer.style.left = b.left + '%';
+    layer.style.top = b.top + '%';
+    layer.style.width = b.w + '%';
+    layer.style.height = b.h + '%';
+    layer.style.zIndex = b.z;
+    layer.alt = '';
+    function onLoad() {
+      layer.classList.add('loaded');
+      bgLoadedCount++;
+      if (bgLoadedCount === BACKGROUND.length && placeholder) placeholder.style.display = 'none';
+    }
+    layer.addEventListener('load', onLoad);
+    layer.src = b.src;
+    if (layer.complete && layer.naturalWidth) onLoad();
+    bgFrag.appendChild(layer);
+  });
+  bgEl.appendChild(bgFrag);
+
+  /* Positions extracted from the illustration via pixel-content bounding-box
+     detection (canvas scan against local background), then converted to % of
+     the 1800x887 source so hotspots stay aligned as the image scales. */
+  const EL = 'assets/images/about-elements/';
+  const HOTSPOTS = [
+    { left: 34.83, top: 14.66, w: 39.06, h: 85.34, noDim: true, body: 'Hello! 👋' },
+    { left: 0.56,  top: 15.00, w: 13.83, h: 18.72, body: "Today's special: Complexity → Confidence" },
+    { left: 15.00, top: 18.94, w: 30.11, h: 14.88, body: 'Welcome! Look around, hover on things' },
+    { left: 35.50, top: 0,     w: 10.22, h: 22.32, img: EL + 'about-el-cat.png', body: 'Curious as a cat. Always poking around new problems' },
+    { left: 4.06,  top: 28.64, w: 10.33, h: 31.34, img: EL + 'about-el-lego.png', body: 'Thinks in systems, builds in components' },
+    { left: 16.11, top: 38.11, w: 13.67, h: 13.08, img: EL + 'about-el-creative-juice.png', title: 'Creative Juice', body: 'Always brewing. Creative juice never runs dry' },
+    { left: 30.94, top: 31.12, w: 13.11, h: 22.44, img: EL + 'about-el-visual-wand.png', behindPhoto: true, body: 'Turns wireframes into craft. Visual storytelling is the superpower' },
+    { left: 28.78, top: 35.40, w: 13.06, h: 26.27, img: EL + 'about-el-research.png', behindPhoto: true, body: 'Digs deep before designing. Research first, pixels later' },
+    { left: 4.06,  top: 58.06, w: 4.28,  h: 11.61, img: EL + 'about-el-figma.png', title: 'Figma', body: 'Where the magic happens. Prototyping, systems, and pixel-level craft' },
+    { left: 11.78, top: 57.38, w: 5.94,  h: 12.29, img: EL + 'about-el-claude.png', title: 'Claude', body: 'The coding partner. Built this entire portfolio without writing a line myself' },
+    { left: 20.33, top: 56.48, w: 6.61,  h: 13.19, img: EL + 'about-el-chatgpt.png', title: 'ChatGPT', body: 'The brainstorm buddy. When rubber-ducking needs a smarter duck' },
+    { left: 1.44,  top: 72.60, w: 10.78, h: 20.52, img: EL + 'about-el-cd.png', body: 'Designing in silence? Never. Lo-fi on, flow state activated' },
+    { left: 10.61, top: 72.60, w: 8.17,  h: 18.60, img: EL + 'about-el-films.png', body: 'Crime thrillers fuel the problem-solving brain' },
+    { left: 19.39, top: 77.90, w: 8.44,  h: 13.30, img: EL + 'about-el-chef.png', body: 'Follows 2 AM Instagram recipes with the same energy as a design spec' },
+    { left: 71.89, top: 23.34, w: 6.22,  h: 12.51, img: EL + 'about-el-parallel-logo.png', title: 'Parallel UX Studio', body: 'Product Designer I · Apr 2026 – Jul 2026' },
+    { left: 79.61, top: 23.34, w: 6.22,  h: 12.51, img: EL + 'about-el-parallel-logo.png', title: 'Parallel UX Studio', body: 'Associate Product Designer · Dec 2024 – Mar 2026' },
+    { left: 86.67, top: 23.34, w: 6.22,  h: 12.51, img: EL + 'about-el-bsh-logo.png', title: 'B/S/H Home Appliances', body: 'UX Design Intern · Feb 2024 – Jul 2024' },
+    { left: 73.67, top: 44.19, w: 9.06,  h: 18.04, img: EL + 'about-el-grad.png', behindPhoto: true, title: 'Strate School of Design', body: 'B.Sc Interaction Design · 2021 – 2024' },
+    { left: 85.56, top: 41.94, w: 6.67,  h: 17.81, img: EL + 'about-el-reward.png', title: 'DSource Design Challenge', body: 'Winner, Game Design · IIT Bombay, 2023' }
+  ];
+
+  const isTouch = window.matchMedia('(hover: none)').matches || 'ontouchstart' in window;
+
+  /* build hotspots */
+  const frag = document.createDocumentFragment();
+  HOTSPOTS.forEach(function (h) {
+    const el = document.createElement('div');
+    el.className = 'hotspot' + (h.noDim ? ' no-dim' : '');
+    el.style.left = h.left + '%';
+    el.style.top = h.top + '%';
+    el.style.width = h.w + '%';
+    el.style.height = h.h + '%';
+    el.style.zIndex = h.noDim ? 1 : (h.behindPhoto ? 3 : 6);
+    el.setAttribute('role', 'button');
+    el.setAttribute('tabindex', '0');
+    el.setAttribute('aria-label', h.title ? (h.title + '. ' + h.body) : h.body);
+    el.dataset.title = h.title || '';
+    el.dataset.body = h.body;
+    if (h.img) {
+      const sprite = document.createElement('img');
+      sprite.className = 'hotspot-sprite';
+      sprite.src = h.img;
+      sprite.alt = '';
+      el.appendChild(sprite);
+    }
+    frag.appendChild(el);
+  });
+  hotspotsEl.appendChild(frag);
+
+  /* shared tooltip element — content lives in a nested .tt-inner so the
+     outer element can be the border-color fill and the inner one the
+     white fill, each with its own (differently inset) staircase clip-path */
+  const tooltip = document.createElement('div');
+  tooltip.className = 'shop-tooltip';
+  tooltip.setAttribute('role', 'tooltip');
+  const tooltipInner = document.createElement('div');
+  tooltipInner.className = 'tt-inner';
+  tooltip.appendChild(tooltipInner);
+  wrap.appendChild(tooltip);
+
+  /* the pointer tail is a sibling, not a child of .shop-tooltip — see the
+     CSS comment on .shop-tooltip-tail for why it can't live inside it */
+  const tail = document.createElement('div');
+  tail.className = 'shop-tooltip-tail';
+  wrap.appendChild(tail);
+
+  let activeHotspot = null;
+
+  function positionTooltip(hotspotEl) {
+    const wrapRect = wrap.getBoundingClientRect();
+    const hRect = hotspotEl.getBoundingClientRect();
+
+    tooltip.style.left = '0px';
+    tooltip.style.top = '0px';
+    tooltip.classList.add('visible');
+    tail.classList.add('visible');
+    const ttRect = tooltip.getBoundingClientRect();
+
+    let left = (hRect.left + hRect.width / 2 - wrapRect.left) - ttRect.width / 2;
+    let top = (hRect.top - wrapRect.top) - ttRect.height - 14;
+    let arrowBelow = true;
+
+    if (hRect.top - ttRect.height - 14 < 8) {
+      top = (hRect.bottom - wrapRect.top) + 14;
+      arrowBelow = false;
+    }
+    left = Math.max(8, Math.min(left, wrapRect.width - ttRect.width - 8));
+
+    tooltip.style.left = left + 'px';
+    tooltip.style.top = top + 'px';
+    tooltip.classList.toggle('arrow-bottom', arrowBelow);
+    tooltip.classList.toggle('arrow-top', !arrowBelow);
+
+    tail.style.left = (left + ttRect.width / 2 - 8) + 'px';
+    tail.style.top = (arrowBelow ? (top + ttRect.height) : (top - 8)) + 'px';
+    tail.classList.toggle('arrow-top', !arrowBelow);
+  }
+
+  const hotspotEls = Array.from(hotspotsEl.querySelectorAll('.hotspot'));
+
+  /* dim every other item while one is hovered/focused/tapped, per spec —
+     the photo (.no-dim) never dims and is excluded from this entirely */
+  function updateDimming(activeEl) {
+    hotspotEls.forEach(function (el) {
+      if (el.classList.contains('no-dim')) return;
+      el.classList.toggle('dimmed', el !== activeEl);
+    });
+  }
+  function clearDimming() {
+    hotspotEls.forEach(function (el) { el.classList.remove('dimmed'); });
+  }
+
+  function showTooltip(hotspotEl) {
+    const title = hotspotEl.dataset.title;
+    const body = hotspotEl.dataset.body;
+    tooltipInner.innerHTML = title
+      ? '<div class="tt-title">' + title + '</div><div class="tt-sub">' + body + '</div>'
+      : '<div class="tt-title">' + body + '</div>';
+    activeHotspot = hotspotEl;
+    positionTooltip(hotspotEl);
+    updateDimming(hotspotEl);
+    if (isTouch) {
+      dimEl.classList.add('active');
+      hotspotEl.classList.add('popped');
+    }
+  }
+
+  function hideTooltip() {
+    tooltip.classList.remove('visible');
+    tail.classList.remove('visible');
+    if (activeHotspot) activeHotspot.classList.remove('popped');
+    activeHotspot = null;
+    dimEl.classList.remove('active');
+    clearDimming();
+  }
+
+  if (isTouch) {
+    hotspotEls.forEach(function (el) {
+      el.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (activeHotspot === el) { hideTooltip(); return; }
+        showTooltip(el);
+      });
+    });
+    dimEl.addEventListener('click', hideTooltip);
+    wrap.addEventListener('click', function (e) {
+      if (!e.target.closest('.hotspot')) hideTooltip();
+    });
+  } else {
+    hotspotEls.forEach(function (el) {
+      el.addEventListener('mouseenter', function () { showTooltip(el); });
+      el.addEventListener('mouseleave', hideTooltip);
+      el.addEventListener('focus', function () { showTooltip(el); });
+      el.addEventListener('blur', hideTooltip);
+      el.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          if (activeHotspot === el) hideTooltip();
+          else showTooltip(el);
+        }
+      });
+    });
+  }
+
+  let resizeTimer = null;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      if (activeHotspot) hideTooltip();
+    }, 150);
+  });
+})();
+</script>
+
+<script>
+function paintDitherStrip(el, cellSize, baseColor, fillColor) {
+  const w = Math.ceil(el.clientWidth);
+  const h = Math.ceil(el.clientHeight);
+  if (!w || !h) return;
+  const cvs = document.createElement('canvas');
+  cvs.width = w;
+  cvs.height = h;
+  const cx = cvs.getContext('2d');
+  cx.fillStyle = baseColor;
+  cx.fillRect(0, 0, w, h);
+  cx.fillStyle = fillColor;
+  const cols = Math.ceil(w / cellSize);
+  const rows = Math.ceil(h / cellSize);
+  for (let r = 0; r < rows; r++) {
+    const t = rows === 1 ? 0 : r / (rows - 1);
+    const prob = Math.pow(1 - t, 1.4);
+    for (let c = 0; c < cols; c++) {
+      if (Math.random() < prob) {
+        cx.fillRect(c * cellSize, r * cellSize, cellSize, cellSize);
+      }
+    }
+  }
+  el.style.backgroundImage = `url(${cvs.toDataURL()})`;
+}
+
+function paintAllDitherStrips() {
+  const blue = document.querySelector('.checker-blue');
+  if (blue) paintDitherStrip(blue, 14, '#07239a', '#ffffff');
+}
+
+paintAllDitherStrips();
+let ditherResizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(ditherResizeTimer);
+  ditherResizeTimer = setTimeout(paintAllDitherStrips, 200);
+});
+</script>
+
+<script src="assets/js/scroll-reveal.js" defer></script>
+
+<script>
+/* ---------- Bunny Catch (footer game) ---------- */
+(function () {
+  const W = 1200, H = 420, PX = 6;
+  const ROUND_MS = 30000;
+
+  const canvas = document.getElementById('bcCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const scoreEl = document.getElementById('bcScore');
+  const timeEl = document.getElementById('bcTime');
+
+  if (document.fonts && document.fonts.load) {
+    document.fonts.load("700 32px 'PP NeueBit'");
+  }
+
+  function fitCanvas() {
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.imageSmoothingEnabled = false;
+  }
+  fitCanvas();
+  window.addEventListener('resize', fitCanvas);
+
+  function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+
+  function loadImg(src) { const i = new Image(); i.src = src; return i; }
+  const PLAYER_IMG = loadImg('assets/images/bc-bunny.png');
+  const CLOUD_IMG = loadImg('assets/images/bc-cloud.png');
+
+  function drawBlocks(blocks, ox, oy) {
+    for (let i = 0; i < blocks.length; i++) {
+      const b = blocks[i];
+      ctx.fillStyle = b[4];
+      ctx.fillRect(Math.round(ox + b[0] * PX), Math.round(oy + b[1] * PX), b[2] * PX, b[3] * PX);
+    }
+  }
+
+  const CLOUDS = [
+    { x: 60, y: 50, w: 150, speed: 0.006 },
+    { x: 280, y: 110, w: 90, speed: 0.0048 },
+    { x: 500, y: 60, w: 120, speed: 0.0072 },
+    { x: 720, y: 100, w: 80, speed: 0.0052 },
+    { x: 940, y: 70, w: 130, speed: 0.0065 }
+  ];
+  const CLOUD_SRC = { x: 27, y: 38, w: 191, h: 51 };
+
+  const ITEM_TYPES = [
+    { key: 'arrow', points: 1, weight: 28, color: '#F5C518', img: loadImg('assets/images/bc-item-arrow.png'), ar: 126 / 138 },
+    { key: 'comment', points: 1, weight: 22, color: '#F0DE8A', img: loadImg('assets/images/bc-item-comment.png'), ar: 1256 / 1336 },
+    { key: 'pen', points: 2, weight: 18, color: '#B39DDB', img: loadImg('assets/images/bc-item-pen.png'), ar: 158 / 162 },
+    { key: 'bullian', points: 2, weight: 14, color: '#7C93E0', img: loadImg('assets/images/bc-item-bullian.png'), ar: 1348 / 1268 },
+    { key: 'component', points: 3, weight: 10, color: '#9B7FE0', img: loadImg('assets/images/bc-item-component.png'), ar: 166 / 152 },
+    { key: 'plugins', points: 4, weight: 6, color: '#F5A623', img: loadImg('assets/images/bc-item-plugins.png'), ar: 1686 / 1638 },
+    { key: 'figma', points: 5, weight: 4, color: '#A259FF', img: loadImg('assets/images/bc-item-figma.png'), ar: 118 / 130 },
+    {
+      key: 'error', points: -2, weight: 10, color: '#FF4444', gw: 6, gh: 6,
+      blocks: [
+        [0, 0, 1, 1, '#FF4444'], [1, 1, 1, 1, '#FF4444'], [2, 2, 1, 1, '#FF4444'], [3, 3, 1, 1, '#FF4444'], [4, 4, 1, 1, '#FF4444'], [5, 5, 1, 1, '#FF4444'],
+        [5, 0, 1, 1, '#FF4444'], [4, 1, 1, 1, '#FF4444'], [3, 2, 1, 1, '#FF4444'], [2, 3, 1, 1, '#FF4444'], [1, 4, 1, 1, '#FF4444'], [0, 5, 1, 1, '#FF4444']
+      ]
+    }
+  ];
+  const ITEM_WEIGHT_TOTAL = ITEM_TYPES.reduce((s, t) => s + t.weight, 0);
+  function pickItemType() {
+    let r = Math.random() * ITEM_WEIGHT_TOTAL;
+    for (let i = 0; i < ITEM_TYPES.length; i++) {
+      if (r < ITEM_TYPES[i].weight) return ITEM_TYPES[i];
+      r -= ITEM_TYPES[i].weight;
+    }
+    return ITEM_TYPES[ITEM_TYPES.length - 1];
+  }
+  const ITEM_SIZE = 50;
+  function drawItem(type, x, y) {
+    if (type.blocks) {
+      drawBlocks(type.blocks, x - (type.gw * PX) / 2, y - (type.gh * PX) / 2);
+      return;
+    }
+    if (!type.img.complete || !type.img.naturalWidth) return;
+    const h = ITEM_SIZE, w = h * type.ar;
+    ctx.drawImage(type.img, Math.round(x - w / 2), Math.round(y - h / 2), Math.round(w), Math.round(h));
+  }
+
+  const RATINGS = [
+    { min: 51, text: 'You might be a design tool yourself' },
+    { min: 31, text: 'Figma pro reflexes!' },
+    { min: 16, text: 'Solid catching!' },
+    { min: 0, text: 'Warming up! Try again?' }
+  ];
+  function ratingFor(s) {
+    for (let i = 0; i < RATINGS.length; i++) if (s >= RATINGS[i].min) return RATINGS[i].text;
+    return RATINGS[RATINGS.length - 1].text;
+  }
+
+  const basketY = H - 60;
+  const basket = { x: W / 2, w: 130 };
+  let targetBasketX = W / 2;
+
+  let state = 'idle';
+  let score = 0;
+  let timeRemaining = ROUND_MS;
+  let elapsedInRound = 0;
+  let items = [];
+  let particles = [];
+  let popups = [];
+  let bgItems = [];
+  let spawnTimer = 0;
+  let lastSpawnX = null;
+  let flashTimer = 0;
+  let gameOverAt = null;
+
+  function initBgItems() {
+    bgItems = [];
+    for (let i = 0; i < 4; i++) {
+      bgItems.push({
+        type: pickItemType(),
+        x: 60 + Math.random() * (W - 120),
+        y: Math.random() * H,
+        vy: 0.3 + Math.random() * 0.2
+      });
+    }
+  }
+  initBgItems();
+
+  function setPointerX(clientX) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = W / rect.width;
+    targetBasketX = clamp((clientX - rect.left) * scaleX, 0, W);
+  }
+  canvas.addEventListener('mousemove', function (e) { setPointerX(e.clientX); });
+  canvas.addEventListener('touchstart', function (e) { if (e.touches[0]) setPointerX(e.touches[0].clientX); }, { passive: true });
+  canvas.addEventListener('touchmove', function (e) {
+    e.preventDefault();
+    if (e.touches[0]) setPointerX(e.touches[0].clientX);
+  }, { passive: false });
+
+  function spawnItem() {
+    if (items.length >= 6) return;
+    let x, attempts = 0;
+    do {
+      x = 60 + Math.random() * (W - 120);
+      attempts++;
+    } while (lastSpawnX !== null && Math.abs(x - lastSpawnX) < 80 && attempts < 10);
+    lastSpawnX = x;
+    items.push({
+      type: pickItemType(),
+      x: x, baseX: x, y: -20, t: 0,
+      phase: Math.random() * Math.PI * 2,
+      vy: 1.5 * (0.85 + Math.random() * 0.3)
+    });
+  }
+
+  function addParticles(x, y, color, count) {
+    const budget = Math.max(0, 50 - particles.length);
+    const n = Math.min(count, budget);
+    for (let i = 0; i < n; i++) {
+      const ang = Math.random() * Math.PI * 2;
+      const spd = 1 + Math.random() * 2.5;
+      particles.push({ x: x, y: y, vx: Math.cos(ang) * spd, vy: Math.sin(ang) * spd - 1, life: 1, color: color });
+    }
+  }
+  function addPopup(x, y, text, color) {
+    popups.push({ x: x, y: y, text: text, color: color, life: 1 });
+  }
+
+  function updateHUD() {
+    scoreEl.textContent = score;
+    timeEl.textContent = Math.max(0, Math.ceil(timeRemaining / 1000));
+  }
+
+  function startGame() {
+    score = 0;
+    timeRemaining = ROUND_MS;
+    elapsedInRound = 0;
+    items = [];
+    particles = [];
+    popups = [];
+    spawnTimer = 0;
+    lastSpawnX = null;
+    flashTimer = 0;
+    gameOverAt = null;
+    state = 'playing';
+    updateHUD();
+  }
+  function endGame() {
+    state = 'gameover';
+    gameOverAt = performance.now();
+  }
+  window.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
+    const rect = canvas.getBoundingClientRect();
+    const inView = rect.top < window.innerHeight && rect.bottom > 0;
+    if (!inView) return;
+    if (e.key === ' ' || e.key === 'Spacebar') e.preventDefault();
+    if (state === 'idle' || state === 'gameover') startGame();
+  });
+
+  function updateClouds(dt) {
+    for (let i = 0; i < CLOUDS.length; i++) {
+      const c = CLOUDS[i];
+      c.x += c.speed * dt;
+      if (c.x - c.w > W) c.x = -c.w;
+    }
+  }
+
+  function update(dt) {
+    updateClouds(dt);
+    if (state === 'idle') {
+      for (let i = 0; i < bgItems.length; i++) {
+        const b = bgItems[i];
+        b.y += b.vy;
+        if (b.y > H + 20) { b.y = -20; b.x = 60 + Math.random() * (W - 120); }
+      }
+      return;
+    }
+
+    if (state === 'playing') {
+      elapsedInRound += dt;
+      timeRemaining -= dt;
+      if (timeRemaining <= 0) { timeRemaining = 0; updateHUD(); endGame(); return; }
+
+      basket.x += (targetBasketX - basket.x) * 0.15;
+
+      const progress = clamp(elapsedInRound / ROUND_MS, 0, 1);
+      const speedMult = 1 + 0.5 * progress;
+      const spawnInterval = 1200 - 400 * progress;
+
+      spawnTimer -= dt;
+      if (spawnTimer <= 0) { spawnItem(); spawnTimer = spawnInterval; }
+
+      for (let i = items.length - 1; i >= 0; i--) {
+        const it = items[i];
+        it.t += dt;
+        it.y += it.vy * speedMult;
+        it.x = it.baseX + Math.sin(it.t * 0.003 + it.phase) * 6;
+
+        const withinX = Math.abs(it.x - basket.x) < (basket.w / 2 + 12);
+        const withinY = it.y > basketY - 12 && it.y < basketY + 16;
+        if (withinX && withinY) {
+          score = Math.max(0, score + it.type.points);
+          addParticles(it.x, basketY, it.type.color, 9);
+          addPopup(it.x, basketY - 10, (it.type.points > 0 ? '+' : '') + it.type.points, it.type.points < 0 ? '#FF6B6B' : '#FFFFFF');
+          if (it.type.key === 'error') flashTimer = 100;
+          items.splice(i, 1);
+          continue;
+        }
+        if (it.y - 20 > H) items.splice(i, 1);
+      }
+
+      if (flashTimer > 0) flashTimer = Math.max(0, flashTimer - dt);
+      updateHUD();
+    }
+
+    if (state === 'gameover') {
+      const elapsed = performance.now() - gameOverAt;
+      if (elapsed >= 600 && items.length) items = [];
+    }
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.x += p.vx; p.y += p.vy; p.vy += 0.08;
+      p.life -= dt / 500;
+    }
+    particles = particles.filter(function (p) { return p.life > 0; });
+
+    for (let i = 0; i < popups.length; i++) {
+      const p = popups[i];
+      p.y -= dt * 0.03;
+      p.life -= dt / 800;
+    }
+    popups = popups.filter(function (p) { return p.life > 0; });
+  }
+
+  function drawBasketAndBunny() {
+    const bx = basket.x, by = basketY;
+
+    let bob = 0;
+    if (state === 'playing') {
+      bob = Math.sin(performance.now() * 0.008) * 1.5;
+    } else if (state === 'gameover' && gameOverAt !== null) {
+      const elapsed = performance.now() - gameOverAt;
+      if (elapsed > 600) bob = Math.abs(Math.sin((elapsed - 600) * 0.006)) * 6;
+    }
+
+    if (PLAYER_IMG.complete && PLAYER_IMG.naturalWidth) {
+      const h = 100, w = h * (288 / 232);
+      ctx.drawImage(PLAYER_IMG, Math.round(bx - w / 2), Math.round(by - h * 0.42 - bob), Math.round(w), Math.round(h));
+    }
+  }
+
+  function drawClouds() {
+    if (!CLOUD_IMG.complete || !CLOUD_IMG.naturalWidth) return;
+    ctx.globalAlpha = 0.9;
+    for (let i = 0; i < CLOUDS.length; i++) {
+      const c = CLOUDS[i];
+      const h = c.w * (CLOUD_SRC.h / CLOUD_SRC.w);
+      ctx.drawImage(
+        CLOUD_IMG, CLOUD_SRC.x, CLOUD_SRC.y, CLOUD_SRC.w, CLOUD_SRC.h,
+        Math.round(c.x), Math.round(c.y), Math.round(c.w), Math.round(h)
+      );
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function drawGround() {
+    const groundY = basketY + 40;
+    const dashW = 40, gap = 24, dashH = 3;
+    ctx.fillStyle = 'rgba(255,255,255,0.35)';
+    for (let x = 0; x < W; x += dashW + gap) {
+      ctx.fillRect(Math.round(x), Math.round(groundY), dashW, dashH);
+    }
+    const dashW2 = 18, gap2 = 30, dashH2 = 2;
+    ctx.fillStyle = 'rgba(255,255,255,0.18)';
+    for (let x = -20; x < W; x += dashW2 + gap2) {
+      ctx.fillRect(Math.round(x), Math.round(groundY + 10), dashW2, dashH2);
+    }
+  }
+
+  function render() {
+    ctx.fillStyle = '#07239A';
+    ctx.fillRect(0, 0, W, H);
+
+    drawClouds();
+    drawGround();
+
+    if (state === 'idle') {
+      ctx.globalAlpha = 0.4;
+      for (let i = 0; i < bgItems.length; i++) drawItem(bgItems[i].type, bgItems[i].x, bgItems[i].y);
+      ctx.globalAlpha = 1;
+    } else {
+      let alpha = 1;
+      if (state === 'gameover' && gameOverAt !== null) {
+        alpha = clamp(1 - (performance.now() - gameOverAt) / 600, 0, 1);
+      }
+      ctx.globalAlpha = alpha;
+      for (let i = 0; i < items.length; i++) drawItem(items[i].type, items[i].x, items[i].y);
+      ctx.globalAlpha = 1;
+    }
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      ctx.globalAlpha = clamp(p.life, 0, 1);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(Math.round(p.x - 2), Math.round(p.y - 2), 4, 4);
+    }
+    ctx.globalAlpha = 1;
+
+    drawBasketAndBunny();
+
+    ctx.textAlign = 'center';
+    for (let i = 0; i < popups.length; i++) {
+      const p = popups[i];
+      ctx.globalAlpha = clamp(p.life, 0, 1);
+      ctx.fillStyle = p.color;
+      ctx.font = "700 20px 'Instrument Sans', Arial, sans-serif";
+      ctx.fillText(p.text, p.x, p.y);
+    }
+    ctx.globalAlpha = 1;
+
+    if (flashTimer > 0) {
+      const a = (flashTimer / 100) * 0.5;
+      ctx.fillStyle = 'rgba(255,68,68,' + a + ')';
+      const t = 20;
+      ctx.fillRect(0, 0, W, t);
+      ctx.fillRect(0, H - t, W, t);
+      ctx.fillRect(0, 0, t, H);
+      ctx.fillRect(W - t, 0, t, H);
+    }
+
+    if (state === 'idle') {
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'center';
+      ctx.font = "700 44px 'PP NeueBit', 'Instrument Sans', Arial, sans-serif";
+      ctx.fillText("Let's test your reflexes", W / 2, H / 2 - 64);
+      ctx.font = "500 20px 'Instrument Sans', Arial, sans-serif";
+      ctx.fillStyle = 'rgba(255,255,255,0.85)';
+      ctx.fillText('Press space to start', W / 2, H / 2 - 34);
+    }
+
+    if (state === 'gameover' && gameOverAt !== null) {
+      const elapsed = performance.now() - gameOverAt;
+      const overlayA = clamp(elapsed / 600, 0, 0.8);
+      ctx.fillStyle = 'rgba(4,20,90,' + overlayA + ')';
+      ctx.fillRect(0, 0, W, H);
+      if (elapsed > 500) {
+        ctx.globalAlpha = clamp((elapsed - 500) / 300, 0, 1);
+        ctx.textAlign = 'center';
+        ctx.fillStyle = '#fff';
+        ctx.font = "700 56px 'Instrument Sans', Arial, sans-serif";
+        ctx.fillText(String(score), W / 2, H / 2 - 6);
+        ctx.font = "600 20px 'Instrument Sans', Arial, sans-serif";
+        ctx.fillText(ratingFor(score), W / 2, H / 2 + 24);
+        ctx.fillStyle = 'rgba(255,255,255,0.75)';
+        ctx.font = "500 16px 'Instrument Sans', Arial, sans-serif";
+        ctx.fillText('Play again', W / 2, H / 2 + 52);
+        ctx.globalAlpha = 1;
+      }
+    }
+  }
+
+  let lastTime = null;
+  let rafId = null;
+
+  function loop(now) {
+    if (lastTime === null) lastTime = now;
+    const dt = Math.min(now - lastTime, 100);
+    lastTime = now;
+    update(dt);
+    render();
+    rafId = requestAnimationFrame(loop);
+  }
+  rafId = requestAnimationFrame(loop);
+
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = null;
+    } else if (!rafId) {
+      lastTime = null;
+      rafId = requestAnimationFrame(loop);
+    }
+  });
+
+  updateHUD();
+})();
+</script>
+
+</body>
+</html>

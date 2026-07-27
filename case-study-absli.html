@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research that Streamlined ABSLI&rsquo;s Complex Sales Workflows &mdash; Siddarth Puranik</title>
+<meta name="description" content="Case study: 34 interviews, 3 cities, 3 languages, 17,000+ data points &mdash; research that uncovered why ABSLI's fragmented 5-app sales ecosystem was losing the company business, and shaped a phased product strategy to fix it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: 'Bellisa Script';
+    src: url('fonts/BellisaScript-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'PP NeueBit';
+    src: url('fonts/PPNeueBit-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  :root {
+    --blue-deep: #07239a;
+    --blue-tag: #0726ad;
+    --muted-4: #83848a;
+    --max: 1280px;
+
+    --cs-heading: #302e3d;
+    --cs-body: rgba(48,46,61,0.8);
+    --cs-label: rgba(48,46,61,0.9);
+    --cs-border: #e0ddd8;
+    --cs-border-2: #cfcfcf;
+
+    --ab-navy: #302e3d;
+    --ab-muted-num: #adadac;
+    --ab-red-bg: #fde8e8;
+    --ab-red-text: #b91c1c;
+    --ab-amber-bg: #fef3c7;
+    --ab-amber-text: #92400e;
+    --ab-quote-bg: #f8f7f4;
+    --ab-purple: #463c6e;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Instrument Sans', sans-serif;
+    color: var(--cs-heading);
+    background: #fff;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; display: block; }
+  a { text-decoration: none; color: inherit; }
+
+  .script { font-family: 'Bellisa Script', cursive; font-weight: 400; }
+  .script-sp { margin-right: 0.3em; }
+
+  /* ---------- NAV ---------- */
+  .cs-nav {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    width: 100%;
+  }
+  .cs-logo {
+    font-family: 'PP NeueBit', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    color: #302e3d;
+  }
+  .cs-nav-links {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 20px;
+    color: #302e3d;
+  }
+  .cs-nav-links a:hover { text-decoration: underline; }
+
+  /* ---------- HERO ---------- */
+  .ab-hero {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--cs-border-2);
+    background: linear-gradient(180deg,
+      #e6e2e8 0%,
+      #dcd3e2 20%,
+      #d0c1dd 40%,
+      #c6b0d8 60%,
+      #bfa3d4 80%,
+      #baa0d2 100%);
+  }
+  .ab-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.6;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+  .ab-hero-nav, .ab-hero-stage-wrap { position: relative; z-index: 2; }
+  .ab-hero-stage-wrap { padding-bottom: 24px; }
+  .ab-hero-stage {
+    position: relative;
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    aspect-ratio: 1440 / 731;
+  }
+  .ab-hero-title {
+    position: absolute;
+    left: 50%;
+    top: 4.5%;
+    transform: translateX(-50%);
+    width: 54%;
+    text-align: center;
+    font-family: 'Alegreya', serif;
+    font-weight: 400;
+    font-size: clamp(26px, 4.44vw, 64px);
+    line-height: 1.15;
+    letter-spacing: -0.04em;
+    color: #1e1f24;
+    margin: 0;
+  }
+  .ab-hero-collage { position: absolute; inset: 0; }
+  .ab-hero-collage .ab-line { position: absolute; display: block; }
+  .ab-hero-collage .ab-glow { position: absolute; display: block; pointer-events: none; }
+  .ab-hero-collage .ab-center {
+    position: absolute;
+    background: #fff;
+    border: 8px dashed #b4afc9;
+    border-radius: 24px;
+    box-shadow: 0 4px 8px 3px rgba(0,0,0,0.15), 0 1px 3px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ab-hero-collage .ab-center img { width: 62%; height: 62%; }
+  .ab-hero-collage .ab-sticker {
+    position: absolute;
+    border-radius: 14px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 2px 6px 2px rgba(0,0,0,0.15);
+    overflow: hidden;
+    transition: transform 0.25s ease;
+  }
+  .ab-hero-collage .ab-sticker img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ab-hero-collage .ab-sticker:hover { z-index: 4; }
+
+  /* ---------- BODY / SIDE NAV / CONTENT ---------- */
+  .cs-body {
+    max-width: 1440px;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-start;
+    padding-left: 40px;
+  }
+  .cs-sidenav {
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 200px;
+    flex-shrink: 0;
+    padding: 60px 0;
+  }
+  .cs-sidenav-home {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .cs-sidenav-home img { width: 24px; height: 24px; transform: rotate(180deg) scaleY(-1); }
+  .cs-sidenav-home span {
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 1.44px;
+    color: var(--blue-tag);
+  }
+  .cs-sidenav-links { display: flex; flex-direction: column; gap: 2px; }
+  .cs-sidenav-links a {
+    display: flex;
+    align-items: center;
+    height: 28px;
+    padding-left: 16px;
+    border-left: 2px solid #e0ddd8;
+    font-size: 14px;
+    line-height: 1.4;
+    color: rgba(48,46,61,0.45);
+  }
+  .cs-sidenav-links a.active { border-left-color: #302e3d; color: #302e3d; }
+
+  .cs-content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-left: 1px solid var(--cs-border-2);
+    padding-bottom: 40px;
+  }
+  .cs-section { width: 1010px; max-width: 100%; padding: 64px 60px; border-bottom: 1px solid var(--cs-border); }
+  .cs-section:last-child { border-bottom: none; }
+  .cs-eyebrow { font-size: 11px; letter-spacing: 1.32px; color: var(--cs-label); margin: 0 0 8px; }
+  .cs-h2 {
+    font-family: 'Alegreya', serif;
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 1.3;
+    letter-spacing: -1.44px;
+    color: var(--cs-heading);
+    margin: 0 0 8px;
+    max-width: 890px;
+  }
+  .cs-h2 .accent { font-style: italic; }
+  .ab-hl { color: var(--ab-purple); font-style: italic; }
+  .cs-body-text { font-size: 16px; line-height: 1.75; color: var(--cs-body); max-width: 620px; margin: 0; }
+  .cs-body-text.wide { max-width: 890px; }
+  .cs-body-text + .cs-body-text { margin-top: 12px; }
+  .cs-highlight { font-weight: 700; color: #0077b8; }
+
+  /* Meta row */
+  .cs-meta-row { display: flex; gap: 60px; flex-wrap: wrap; }
+  .cs-meta { display: flex; flex-direction: column; gap: 6px; }
+  .cs-meta p:first-child { font-size: 11px; letter-spacing: 1.1px; color: var(--cs-label); margin: 0; }
+  .cs-meta p:last-child { font-family: 'Alegreya', serif; font-size: 20px; letter-spacing: -0.8px; color: var(--cs-heading); margin: 0; }
+
+  /* ---------- CONTEXT: stats + image ---------- */
+  .ab-context-row { display: flex; gap: 40px; align-items: center; }
+  .ab-context-col { display: flex; flex-direction: column; gap: 20px; flex: 1; min-width: 0; }
+  .ab-scale-stats { display: flex; width: 100%; text-align: center; border: 1px solid var(--cs-border); border-radius: 12px; overflow: hidden; }
+  .ab-stat { flex: 1; padding: 28px 24px; display: flex; flex-direction: column; gap: 6px; }
+  .ab-stat + .ab-stat { border-left: 1px solid var(--cs-border); }
+  .ab-stat .num { font-family: 'Alegreya', serif; font-size: 40px; letter-spacing: -1.6px; color: var(--cs-heading); margin: 0; }
+  .ab-stat .lbl { font-size: 13px; color: var(--cs-label); margin: 0; }
+  .ab-context-image { flex-shrink: 0; align-self: stretch; }
+  .ab-context-image img { height: 100%; width: auto; max-width: 240px; aspect-ratio: 216/402; object-fit: cover; border: 1px solid var(--cs-border-2); border-radius: 16px; }
+
+  /* ---------- PROBLEM cards ---------- */
+  .ab-problem-row { display: flex; align-items: center; justify-content: space-between; margin-top: 32px; gap: 8px; }
+  .ab-problem-card { display: flex; flex-direction: column; align-items: flex-start; gap: 24px; }
+  .ab-icon-circle { display: flex; align-items: center; justify-content: center; width: 80px; height: 80px; border-radius: 99px; background: #f7f7f7; }
+  .ab-icon-circle img { width: 40px; height: 40px; }
+  .ab-problem-card p { font-size: 20px; font-weight: 600; color: #232121; margin: 0; max-width: 170px; }
+  .ab-problem-card.danger p { color: #d01c37; }
+  .ab-chevron { width: 47px; height: 74px; flex-shrink: 0; align-self: center; opacity: 0.9; }
+
+  /* ---------- CONTRIBUTIONS ---------- */
+  .ab-contrib-row { display: flex; align-items: stretch; gap: 24px; margin-top: 24px; }
+  .ab-contrib-card { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 38px; }
+  .ab-contrib-card + .ab-contrib-card { padding-left: 24px; border-left: 1px solid var(--cs-border); }
+  .ab-contrib-card p { font-size: 22px; line-height: 1.25; margin: 0; color: var(--cs-body); }
+  .ab-contrib-card p strong { color: var(--ab-purple); font-weight: 700; }
+
+  /* ---------- DISCOVERY SPRINT image ---------- */
+  .ab-discovery-image { margin-top: 24px; width: 100%; border-radius: 12px; overflow: hidden; }
+  .ab-discovery-image img { width: 100%; display: block; }
+
+  /* ---------- PRIORITIES grid ---------- */
+  .ab-priorities-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
+  .ab-priority-card { display: flex; gap: 16px; padding: 22px 24px; border: 1px solid var(--cs-border); border-radius: 10px; }
+  .ab-priority-card .num { font-family: 'Alegreya', serif; font-size: 32px; letter-spacing: -1.28px; color: var(--ab-muted-num); margin: 0; flex-shrink: 0; }
+  .ab-priority-card .body { display: flex; flex-direction: column; gap: 4px; }
+  .ab-priority-card h3 { font-size: 15px; font-weight: 600; color: var(--cs-heading); margin: 0; }
+  .ab-priority-card p { font-size: 13px; line-height: 1.5; color: var(--cs-label); margin: 0; }
+
+  /* ---------- EXEC STEPS + DATA CALLOUT ---------- */
+  .ab-exec-steps { margin-top: 24px; }
+  .ab-exec-step { display: flex; gap: 24px; padding: 24px 0; border-bottom: 1px solid var(--cs-border); }
+  .ab-exec-steps .ab-exec-step:last-child { border-bottom: none; }
+  .ab-exec-step .num { font-family: 'Alegreya', serif; font-size: 32px; letter-spacing: -1.28px; color: var(--ab-muted-num); margin: 0; width: 40px; flex-shrink: 0; }
+  .ab-exec-step .body { display: flex; flex-direction: column; gap: 4px; }
+  .ab-exec-step h3 { font-size: 15px; font-weight: 600; color: var(--cs-heading); margin: 0; }
+  .ab-exec-step p { font-size: 14px; line-height: 1.6; color: var(--cs-label); margin: 0; }
+
+  .ab-data-callout { display: flex; align-items: center; gap: 40px; margin-top: 24px; padding: 36px 40px; background: var(--ab-navy); border-radius: 16px; }
+  .ab-data-callout .num { font-family: 'Alegreya', serif; font-size: 72px; letter-spacing: -2.88px; color: #fff; margin: 0; flex-shrink: 0; }
+  .ab-data-callout .desc { display: flex; flex-direction: column; gap: 6px; }
+  .ab-data-callout .desc h3 { font-size: 22px; font-weight: 500; color: #fff; margin: 0; }
+  .ab-data-callout .desc p { font-size: 18px; line-height: 1.6; color: rgba(255,255,255,0.85); margin: 0; }
+
+  /* ---------- THEMES grid ---------- */
+  .ab-themes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 24px; }
+  .ab-theme-card { border: 1px solid var(--cs-border); border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 6px; }
+  .ab-theme-card h3 { font-size: 14px; font-weight: 600; color: var(--cs-heading); margin: 0; }
+  .ab-theme-card p { font-size: 13px; line-height: 1.55; color: var(--cs-label); margin: 0; }
+
+  /* ---------- KEY INSIGHTS: theme-section / insight-block / chips / quotes ---------- */
+  .ab-theme-section { margin-top: 32px; }
+  .ab-theme-section:first-of-type { margin-top: 24px; }
+  .ab-theme-header { background: var(--ab-navy); border-radius: 12px 12px 0 0; padding: 20px 24px; display: flex; align-items: center; gap: 16px; }
+  .ab-theme-header .num { font-family: 'Alegreya', serif; font-size: 48px; letter-spacing: -1.92px; color: rgba(255,255,255,0.2); margin: 0; }
+  .ab-theme-header .title { display: flex; flex-direction: column; gap: 4px; }
+  .ab-theme-header .title h3 { font-family: 'Alegreya', serif; font-weight: 400; font-size: 22px; letter-spacing: -0.88px; color: #fff; margin: 0; }
+  .ab-theme-header .title p { font-size: 13px; color: rgba(255,255,255,0.6); margin: 0; }
+
+  .ab-insight-block { background: #fff; border: 1px solid var(--cs-border); border-top: none; padding: 32px; display: flex; flex-direction: column; gap: 16px; }
+  .ab-insight-block:last-child { border-radius: 0 0 12px 12px; }
+  .ab-insight-block .label { font-size: 10px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--cs-label); margin: 0 0 8px; }
+  .ab-insight-block h4 { font-family: 'Alegreya', serif; font-weight: 400; font-size: 26px; letter-spacing: -1.04px; color: var(--cs-heading); margin: 0; max-width: 816px; }
+  .ab-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ab-chip { padding: 5px 12px; border-radius: 999px; font-size: 11px; font-weight: 500; }
+  .ab-chip.red { background: var(--ab-red-bg); color: var(--ab-red-text); }
+  .ab-chip.amber { background: var(--ab-amber-bg); color: var(--ab-amber-text); }
+  .ab-insight-body { display: flex; flex-direction: column; gap: 8px; }
+  .ab-insight-body p { font-size: 14px; line-height: 1.7; color: rgba(48,46,61,0.75); margin: 0; max-width: 580px; }
+  .ab-quotes-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .ab-quote-card { flex: 1; min-width: 260px; background: var(--ab-quote-bg); border: 1px solid var(--cs-border); border-left-width: 3px; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+  .ab-quote-card p.q { font-style: italic; font-size: 15px; line-height: 1.55; color: var(--cs-heading); margin: 0; }
+  .ab-quote-card p.attr { font-size: 12px; color: var(--cs-label); margin: 0; }
+
+  /* ---------- RESULT ---------- */
+  .ab-result-stat { border-top: 1px solid var(--cs-border); border-bottom: 1px solid var(--cs-border); padding: 40px 0; margin-top: 20px; max-width: 680px; }
+  .ab-result-stat p { font-family: 'Alegreya', serif; font-style: italic; font-size: 28px; letter-spacing: -1.12px; line-height: 1.3; color: var(--cs-heading); margin: 0; }
+  .ab-nda-box { background: var(--ab-quote-bg); border: 1px solid var(--cs-border); border-radius: 12px; padding: 28px 32px; max-width: 680px; margin-top: 20px; }
+  .ab-nda-box p.label { font-size: 10px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--cs-label); margin: 0 0 8px; }
+  .ab-nda-box p.body { font-size: 15px; line-height: 1.7; color: rgba(48,46,61,0.7); margin: 0; }
+
+  /* ---------- REFLECTIONS ---------- */
+  .ab-wins-list { display: flex; flex-direction: column; gap: 16px; margin-top: 16px; max-width: 680px; }
+  .ab-win-item { display: flex; gap: 12px; padding: 20px 24px; border: 1px solid var(--cs-border); border-radius: 10px; }
+  .ab-win-item .mark { color: #c0252d; font-size: 15px; flex-shrink: 0; }
+  .ab-win-item p { font-size: 15px; line-height: 1.65; color: var(--cs-body); margin: 0; }
+
+  /* ---------- CHECKER + FOOTER (shared with other case-study pages) ---------- */
+  .checker-strip { height: 100px; width: 100%; background-repeat: no-repeat; background-size: 100% 100%; image-rendering: pixelated; }
+  .checker-blue { background-color: var(--blue-deep); }
+
+  .footer { background: var(--blue-deep); padding: 90px 0 100px; }
+  .footer-inner { max-width: var(--max); margin: 0 auto; padding: 0 40px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 48px; }
+  .footer-cta h2 { font-family: 'PP NeueBit', sans-serif; font-weight: 700; font-size: 42px; color: #fff; margin: 0 0 8px; text-shadow: 0 4px 4px rgba(0,0,0,0.25); }
+  .footer-cta .credit { display: flex; align-items: center; gap: 12px; font-size: 24px; color: #fff; text-shadow: 0 4px 4px rgba(0,0,0,0.25); }
+  .footer-cta .credit .logo-inline { font-family: 'PP NeueBit', sans-serif; font-weight: 700; }
+  .footer-links { display: flex; gap: 80px; font-size: 20px; letter-spacing: 2px; }
+  .footer-links .col { display: flex; flex-direction: column; gap: 15px; }
+  .footer-links .col-title { color: var(--muted-4); margin: 0; }
+  .footer-links a { color: #fff; }
+  .footer-links a:hover { text-decoration: underline; }
+
+  .footer-game { width: 100%; margin-top: 56px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.2); }
+  .bc-hud { max-width: var(--max); margin: 0 auto 10px; padding: 0 40px; display: flex; justify-content: space-between; align-items: center; color: rgba(255,255,255,0.75); font-family: 'PP NeueBit', sans-serif; font-size: 26px; font-weight: 700; letter-spacing: 0.2px; }
+  .bc-hud .bc-timer { text-align: right; }
+  .bc-canvas-wrap { width: 100%; overflow: hidden; }
+  #bcCanvas { width: 100%; aspect-ratio: 1200 / 420; display: block; background: var(--blue-deep); touch-action: none; }
+
+  /* ---------- SCROLL REVEAL ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+
+  /* ---------- RESPONSIVE (desktop layout breakpoints) ---------- */
+  @media (max-width: 1100px) {
+    .cs-body { flex-direction: column; padding-left: 0; }
+    .cs-sidenav { position: relative; flex-direction: row; flex-wrap: wrap; width: 100%; padding: 24px 40px; gap: 16px 32px; }
+    .cs-sidenav-links { flex-direction: row; flex-wrap: wrap; }
+    .cs-content { border-left: none; }
+    .cs-section { padding: 48px 24px; }
+  }
+  @media (max-width: 640px) {
+    .cs-nav { padding: 16px 20px; }
+    .footer { padding: 60px 0 70px; }
+    .footer-inner { padding: 0 20px; }
+    .bc-hud { padding: 0 20px; }
+  }
+
+  /* ---------- MOBILE (separate layout, shown only below 768px) ---------- */
+  .cs-mobile { display: none; }
+  @media (max-width: 767px) {
+    .cs-desktop { display: none; }
+    .cs-mobile { display: block; }
+  }
+
+  .m-header {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+  }
+  .m-header a.cs-logo { color: #1e1f24; }
+  .m-nav-links { display: flex; align-items: center; gap: 16px; font-size: 16px; color: #1e1f24; }
+
+  .ab-m-hero {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--cs-border-2);
+    background: linear-gradient(180deg,
+      #e6e2e8 0%,
+      #dcd3e2 25%,
+      #cfc0dd 50%,
+      #c2abd7 75%,
+      #baa0d2 100%);
+  }
+  .ab-m-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.6;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+  .ab-m-hero-body { position: relative; z-index: 2; display: flex; flex-direction: column; gap: 24px; padding: 0 20px 24px; }
+  .ab-m-hero-title { font-family: 'Alegreya', serif; font-weight: 400; font-size: 28px; line-height: 1.3; letter-spacing: -0.56px; color: #1e1f24; margin: 0; }
+  .ab-m-hero-collage { width: 100%; aspect-ratio: 1492/1056; }
+  .ab-m-hero-collage img { width: 100%; height: 100%; object-fit: contain; }
+
+  .m-section { padding: 32px 20px; border-bottom: 1px solid var(--cs-border); }
+  .cs-mobile .m-section:last-of-type { border-bottom: none; }
+  .m-eyebrow { font-size: 10px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--cs-label); margin: 0 0 4px; }
+  .m-h2 { font-family: 'Alegreya', serif; font-weight: 400; font-size: 24px; line-height: 1.3; letter-spacing: -0.96px; color: var(--cs-heading); margin: 0 0 12px; }
+  .m-h2 .accent { font-style: italic; }
+  .m-body { font-size: 15px; line-height: 1.6; color: var(--cs-body); margin: 0 0 12px; }
+  .m-body:last-child { margin-bottom: 0; }
+
+  .m-meta-row { display: flex; flex-direction: column; gap: 16px; }
+  .m-meta { display: flex; flex-direction: column; gap: 4px; }
+  .m-meta p:first-child { font-size: 10px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--cs-label); margin: 0; }
+  .m-meta p:last-child { font-family: 'Alegreya', serif; font-size: 16px; color: var(--cs-heading); margin: 0; }
+
+  .ab-m-context-image { margin-top: 20px; border-radius: 12px; overflow: hidden; border: 1px solid var(--cs-border-2); }
+  .ab-m-context-image img { width: 100%; display: block; aspect-ratio: 358/220; object-fit: cover; }
+  .ab-m-scale-stats { display: flex; flex-direction: column; border: 1px solid var(--cs-border); border-radius: 12px; overflow: hidden; margin-top: 20px; }
+  .ab-m-stat { padding: 20px; text-align: center; }
+  .ab-m-stat + .ab-m-stat { border-top: 1px solid var(--cs-border); }
+  .ab-m-stat .num { font-family: 'Alegreya', serif; font-size: 32px; color: var(--cs-heading); margin: 0 0 4px; }
+  .ab-m-stat .lbl { font-size: 13px; color: var(--cs-label); margin: 0; }
+
+  .ab-m-problem-list { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 24px; }
+  .ab-m-problem-card { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
+  .ab-m-icon-circle { width: 104px; height: 104px; border-radius: 99px; background: #f7f7f7; display: flex; align-items: center; justify-content: center; }
+  .ab-m-icon-circle img { width: 72px; height: 72px; }
+  .ab-m-problem-card p { font-size: 16px; font-weight: 600; color: #232121; margin: 0; }
+  .ab-m-problem-card.danger p { color: #d01c37; }
+  .ab-m-chevron { width: 24px; height: 24px; transform: rotate(90deg); opacity: 0.9; }
+
+  .ab-m-contrib-list { display: flex; flex-direction: column; margin-top: 20px; }
+  .ab-m-contrib-item { display: flex; flex-direction: column; gap: 16px; padding: 24px 0; border-bottom: 1px solid var(--cs-border); }
+  .ab-m-contrib-list .ab-m-contrib-item:last-child { border-bottom: none; }
+  .ab-m-icon-sm { width: 56px; height: 56px; border-radius: 99px; background: #f7f7f7; display: flex; align-items: center; justify-content: center; }
+  .ab-m-icon-sm img { width: 24px; height: 24px; }
+  .ab-m-contrib-item p { font-size: 15px; line-height: 1.55; color: var(--cs-body); margin: 0; }
+  .ab-m-contrib-item p strong { color: var(--ab-purple); font-weight: 700; }
+
+  .ab-m-circles { display: flex; flex-direction: column; gap: 16px; margin-top: 24px; }
+  .ab-m-circle { background: #f7f5f2; border: 1px solid var(--cs-border); border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+  .ab-m-circle .icon { width: 40px; height: 40px; border-radius: 20px; background: #fff; border: 1px solid var(--cs-border); display: flex; align-items: center; justify-content: center; }
+  .ab-m-circle .icon img { width: 20px; height: 20px; }
+  .ab-m-circle h3 { font-size: 16px; font-weight: 700; color: var(--cs-heading); margin: 0; }
+  .ab-m-circle .bullets { display: flex; flex-direction: column; gap: 8px; }
+  .ab-m-circle .bullets p { font-size: 14px; line-height: 1.5; color: rgba(48,46,61,0.8); margin: 0; }
+
+  .ab-m-priorities { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+  .ab-m-priority-card { display: flex; gap: 20px; padding: 16px; }
+  .ab-m-priority-card .num { font-family: 'Alegreya', serif; font-size: 24px; color: var(--ab-muted-num); margin: 0; flex-shrink: 0; }
+  .ab-m-priority-card h3 { font-size: 15px; font-weight: 600; color: var(--cs-heading); margin: 0 0 4px; }
+  .ab-m-priority-card p { font-size: 13px; line-height: 1.5; color: var(--cs-label); margin: 0; }
+
+  .ab-m-exec-steps { margin-top: 20px; }
+  .ab-m-exec-step { display: flex; gap: 12px; padding: 16px 0; border-bottom: 1px solid var(--cs-border); }
+  .ab-m-exec-steps .ab-m-exec-step:last-child { border-bottom: none; }
+  .ab-m-exec-step .num { font-family: 'Alegreya', serif; font-size: 20px; color: var(--ab-muted-num); margin: 0; flex-shrink: 0; }
+  .ab-m-exec-step h3 { font-size: 14px; font-weight: 600; color: var(--cs-heading); margin: 0 0 4px; }
+  .ab-m-exec-step p { font-size: 13px; line-height: 1.5; color: var(--cs-label); margin: 0; }
+
+  .ab-m-data-callout { margin-top: 20px; padding: 24px 20px; background: var(--ab-navy); border-radius: 16px; }
+  .ab-m-data-callout .num { font-family: 'Alegreya', serif; font-size: 40px; color: #fff; margin: 0 0 8px; }
+  .ab-m-data-callout h3 { font-size: 17px; font-weight: 500; color: #fff; margin: 0 0 8px; }
+  .ab-m-data-callout p { font-size: 14px; line-height: 1.55; color: rgba(255,255,255,0.85); margin: 0; }
+
+  .ab-m-themes-grid { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+  .ab-m-theme-card { border: 1px solid var(--cs-border); border-radius: 10px; padding: 16px; }
+  .ab-m-theme-card h3 { font-size: 14px; font-weight: 600; color: var(--cs-heading); margin: 0 0 6px; }
+  .ab-m-theme-card p { font-size: 13px; line-height: 1.5; color: var(--cs-label); margin: 0; }
+
+  .ab-m-theme-section { margin-top: 24px; }
+  .cs-mobile .ab-m-theme-section:first-of-type { margin-top: 20px; }
+  .ab-m-theme-header { background: var(--ab-navy); border-radius: 12px 12px 0 0; padding: 16px; display: flex; flex-direction: column; gap: 4px; }
+  .ab-m-theme-header .num { font-family: 'Alegreya', serif; font-size: 32px; color: rgba(255,255,255,0.2); margin: 0; }
+  .ab-m-theme-header h3 { font-family: 'Alegreya', serif; font-weight: 400; font-size: 18px; color: #fff; margin: 0; }
+  .ab-m-insight-block { background: #fff; border: 1px solid var(--cs-border); border-top: none; border-radius: 0 0 12px 12px; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+  .ab-m-insight-block h4 { font-family: 'Alegreya', serif; font-weight: 400; font-size: 20px; line-height: 1.3; color: var(--cs-heading); margin: 0; }
+  .ab-m-insight-block p.body { font-size: 14px; line-height: 1.6; color: rgba(48,46,61,0.75); margin: 0; }
+  .ab-m-quote-card { background: var(--ab-quote-bg); border: 1px solid var(--cs-border); border-left-width: 3px; border-radius: 8px; padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+  .ab-m-quote-card p.q { font-style: italic; font-size: 14px; line-height: 1.5; color: var(--cs-heading); margin: 0; }
+  .ab-m-quote-card p.attr { font-size: 12px; font-weight: 500; color: var(--cs-label); margin: 0; }
+
+  .ab-m-result-stat { border-top: 1px solid var(--cs-border); border-bottom: 1px solid var(--cs-border); padding: 24px 0; margin-top: 16px; }
+  .ab-m-result-stat p { font-family: 'Alegreya', serif; font-style: italic; font-size: 19px; line-height: 1.4; color: var(--cs-heading); margin: 0; }
+  .ab-m-nda-box { background: var(--ab-quote-bg); border: 1px solid var(--cs-border); border-radius: 12px; padding: 20px; margin-top: 16px; }
+  .ab-m-nda-box p.label { font-size: 10px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--cs-label); margin: 0 0 8px; }
+  .ab-m-nda-box p.body { font-size: 14px; line-height: 1.6; color: rgba(48,46,61,0.7); margin: 0; }
+
+  .ab-m-wins { display: flex; flex-direction: column; gap: 16px; margin-top: 16px; }
+  .ab-m-win { display: flex; gap: 12px; padding: 16px; border: 1px solid var(--cs-border); border-radius: 10px; }
+  .ab-m-win .mark { color: #c0252d; font-size: 14px; flex-shrink: 0; }
+  .ab-m-win p { font-size: 14px; line-height: 1.5; color: var(--cs-label); margin: 0; }
+
+  .m-footer { background: var(--blue-deep); padding: 40px 20px 48px; display: flex; flex-direction: column; gap: 32px; }
+  .m-footer-credit { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-align: left; }
+  .m-footer-credit p { font-size: 16px; color: #fff; margin: 0; }
+  .m-footer-credit .logo-inline { font-family: 'PP NeueBit', sans-serif; font-weight: 700; font-size: 32px; color: #fff; }
+  .m-footer-cols { display: flex; gap: 40px; }
+  .m-footer-col { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+  .m-footer-col-title { font-size: 14px; font-weight: 600; letter-spacing: 1.68px; color: var(--muted-4); margin: 0; }
+  .m-footer-col a { font-size: 16px; color: #fff; }
+</style>
+</head>
+<body>
+
+<div class="cs-desktop">
+<header class="ab-hero">
+  <nav class="cs-nav ab-hero-nav">
+    <a href="index.html#top" class="cs-logo"><span class="script script-sp">S</span>iddy :)</a>
+    <div class="cs-nav-links">
+      <a href="about.html">About</a>
+      <a href="resume.pdf" target="_blank" rel="noopener">Resume</a>
+    </div>
+  </nav>
+  <div class="ab-hero-stage-wrap">
+  <div class="ab-hero-stage">
+    <h1 class="ab-hero-title">Research that streamlined ABSLI&rsquo;s complex sales workflows</h1>
+    <div class="ab-hero-collage">
+      <img class="ab-line" style="left:34.31%;top:48.63%;width:13.40%;height:15.32%;" src="assets/images/absli-hero-line-1.svg" alt="">
+      <img class="ab-line" style="left:30.69%;top:63.81%;width:18.54%;height:7.80%;" src="assets/images/absli-hero-line-2.svg" alt="">
+      <img class="ab-line" style="left:34.72%;top:69.01%;width:14.31%;height:17.10%;" src="assets/images/absli-hero-line-3.svg" alt="">
+      <img class="ab-line" style="left:55.14%;top:51.51%;width:17.57%;height:14.09%;" src="assets/images/absli-hero-line-4.svg" alt="">
+      <img class="ab-line" style="left:57.57%;top:74.63%;width:15.14%;height:4.24%;" src="assets/images/absli-hero-line-5.svg" alt="">
+      <img class="ab-glow" style="left:36.66%;top:40.12%;width:28.90%;height:58.38%;" src="assets/images/absli-hero-ellipse.svg" alt="">
+      <div class="ab-center" style="left:42.19%;top:51.02%;width:17.95%;height:32.22%;">
+        <img src="assets/images/absli-hero-seal-question.svg" alt="">
+      </div>
+      <div class="ab-hero-sticker-list">
+        <div class="ab-sticker" style="left:27.19%;top:37.21%;width:8.53%;aspect-ratio:1/1;transform:rotate(17.9deg);">
+          <img src="assets/images/absli-hero-icon-1.png" alt="">
+        </div>
+        <div class="ab-sticker" style="left:24.24%;top:58.53%;width:7.83%;aspect-ratio:1/1;transform:rotate(-9.78deg);">
+          <img src="assets/images/absli-hero-icon-2.png" alt="">
+        </div>
+        <div class="ab-sticker" style="left:67.03%;top:44.48%;width:7.16%;aspect-ratio:1/1;transform:rotate(13.67deg); border-radius:0;">
+          <img src="assets/images/absli-hero-icon-3.png" alt="">
+        </div>
+        <div class="ab-sticker" style="left:29.40%;top:76.45%;width:8.19%;aspect-ratio:1/1;transform:rotate(13.79deg); border-radius:16px;">
+          <img src="assets/images/absli-hero-icon-4.png" alt="">
+        </div>
+        <div class="ab-sticker" style="left:67.03%;top:67.49%;width:8.24%;aspect-ratio:1/1;transform:rotate(-14.37deg);">
+          <img src="assets/images/absli-hero-icon-5.png" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</header>
+
+<div class="cs-body">
+  <nav class="cs-sidenav">
+    <a class="cs-sidenav-home" href="index.html#top">
+      <img src="assets/images/icon-caret-right.svg" alt="">
+      <span>HOME</span>
+    </a>
+    <div class="cs-sidenav-links">
+      <a href="#overview" class="active">Context</a>
+      <a href="#problem">The Problem</a>
+      <a href="#brief">Research Brief</a>
+      <a href="#role">Business Objectives</a>
+      <a href="#research">Field Research</a>
+      <a href="#themes">Interview Guide</a>
+      <a href="#insights">Key Themes</a>
+      <a href="#result">Result</a>
+    </div>
+  </nav>
+
+  <main class="cs-content">
+    <section class="cs-section reveal" id="overview">
+      <div class="cs-meta-row">
+        <div class="cs-meta"><p>MY ROLE</p><p>UX Researcher</p></div>
+        <div class="cs-meta"><p>TEAM</p><p>Tanay &middot; Pavan G &middot; Me</p></div>
+        <div class="cs-meta"><p>DURATION</p><p>3 Months</p></div>
+        <div class="cs-meta"><p>CLIENT</p><p>ABSLI &times; Parallel</p></div>
+      </div>
+    </section>
+
+    <section class="cs-section reveal">
+      <p class="cs-eyebrow">CONTEXT</p>
+      <h2 class="cs-h2">What is ABSLI?</h2>
+      <div class="ab-context-row">
+        <div class="ab-context-col">
+          <p class="cs-body-text">Aditya Birla Sun Life Insurance (ABSLI), part of Aditya Birla Capital, is one of India&rsquo;s leading life insurers &mdash; ranked 6th nationally and serving 20+ lakh customers across the country.</p>
+          <p class="cs-body-text">With a &#8377;99,000+ crore AUM and a distribution network of 430 branches and 65k+ agents, ABSLI offers protection, savings, investment, and retirement solutions tailored to India&rsquo;s evolving financial needs.</p>
+          <div class="ab-scale-stats">
+            <div class="ab-stat"><p class="num">6th</p><p class="lbl">Ranked nationally among life insurers</p></div>
+            <div class="ab-stat"><p class="num">20L+</p><p class="lbl">Customers served</p></div>
+            <div class="ab-stat"><p class="num">&#8377;99K Cr+</p><p class="lbl">Assets under management</p></div>
+          </div>
+        </div>
+        <div class="ab-context-image">
+          <img src="assets/images/absli-overview-phone.png" alt="ABSLI advertorial coverage on the ABCD app">
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-section reveal" id="problem">
+      <p class="cs-eyebrow">PROBLEM</p>
+      <h2 class="cs-h2">5 apps. 350 backend systems. <span class="accent">None talking to each other.</span></h2>
+      <p class="cs-body-text wide">ABSLI&rsquo;s sales and service ecosystem had become increasingly complex and fragmented. Each sales channel &mdash; Banks, Individual Agents, and In-house Teams &mdash; used different apps for every stage of the sales journey.</p>
+      <p class="cs-body-text wide">Each sales stage had its own app. Some apps were shared across channels, others were completely isolated. There were 5 primary applications and over 350 backend systems, none of which effectively communicated with each other.</p>
+      <div class="ab-problem-row">
+        <div class="ab-problem-card">
+          <div class="ab-icon-circle"><img src="assets/images/absli-icon-face-clouds.png" alt=""></div>
+          <p>Too many applications</p>
+        </div>
+        <img class="ab-chevron" src="assets/images/absli-icon-chevron.svg" alt="">
+        <div class="ab-problem-card">
+          <div class="ab-icon-circle"><img src="assets/images/absli-icon-snail.png" alt=""></div>
+          <p>Slow Processing</p>
+        </div>
+        <img class="ab-chevron" src="assets/images/absli-icon-chevron.svg" alt="">
+        <div class="ab-problem-card danger">
+          <div class="ab-icon-circle"><img src="assets/images/absli-icon-chart-decreasing.png" alt=""></div>
+          <p>Lost Customers + Lost Revenue</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-section reveal" id="brief">
+      <p class="cs-eyebrow">RESEARCH BRIEF</p>
+      <h2 class="cs-h2" style="max-width:890px;">The research aimed to evaluate whether ABSLI <span class="ab-hl">needed a unified app</span>, or a more focused <span class="ab-hl">product strategy to streamline workflows and improve efficiency</span> across sales channels.</h2>
+    </section>
+
+    <section class="cs-section reveal" id="role">
+      <p class="cs-eyebrow">MY ROLE</p>
+      <h2 class="cs-h2">My <span class="accent">contributions</span> to the research</h2>
+      <div class="ab-contrib-row">
+        <div class="ab-contrib-card">
+          <div class="ab-icon-circle"><img src="assets/images/absli-icon-handshake.svg" alt=""></div>
+          <p><strong>Facilitated a discovery sprint</strong> to align on client goals and research objectives</p>
+        </div>
+        <div class="ab-contrib-card">
+          <div class="ab-icon-circle"><img src="assets/images/absli-icon-notepencil.svg" alt=""></div>
+          <p><strong>Planned and developed interview scripts</strong> tailored to diverse user groups</p>
+        </div>
+        <div class="ab-contrib-card">
+          <div class="ab-icon-circle"><img src="assets/images/absli-icon-microphone.svg" alt=""></div>
+          <p><strong>Conducted multi-language user interviews</strong> &mdash; primarily owned the Mysore leg, and assisted with other cities&rsquo; sessions</p>
+        </div>
+        <div class="ab-contrib-card">
+          <div class="ab-icon-circle"><img src="assets/images/absli-icon-magnifyingglass.svg" alt=""></div>
+          <p><strong>Analyzed and synthesized</strong> insights that shaped the final product strategy</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-section reveal">
+      <p class="cs-eyebrow">DISCOVERY SPRINT</p>
+      <h2 class="cs-h2">Aligning on the problem <span class="accent">before solving it</span></h2>
+      <p class="cs-body-text wide">We began with a structured discovery workshop to align on key business priorities, understand the product ecosystem, and map advisor and customer journeys. This gave us a shared foundation before moving into research.</p>
+      <div class="ab-discovery-image">
+        <img src="assets/images/absli-discovery-circles.png" alt="Discovery sprint outcomes: Business Goals, Product Landscape, User Journey Mapping">
+      </div>
+    </section>
+
+    <section class="cs-section reveal" id="priorities">
+      <p class="cs-eyebrow">ABSLI&rsquo;s STRATEGIC PRIORITIES</p>
+      <h2 class="cs-h2">Six business objectives that <span class="accent">shaped our research direction</span></h2>
+      <p class="cs-body-text wide">We aligned on five core business objectives before fieldwork began &mdash; ensuring every interview question mapped back to a real business need.</p>
+      <div class="ab-priorities-grid">
+        <div class="ab-priority-card"><p class="num">1</p><div class="body"><h3>Improve market ranking</h3><p>Move from 7th to the Top 5 Indian life insurers</p></div></div>
+        <div class="ab-priority-card"><p class="num">2</p><div class="body"><h3>Grow term insurance penetration</h3><p>Increase term sales from &lt;5% to 10%</p></div></div>
+        <div class="ab-priority-card"><p class="num">3</p><div class="body"><h3>Enhance operational efficiency</h3><p>Improve margins through better processes and digital tooling</p></div></div>
+        <div class="ab-priority-card"><p class="num">4</p><div class="body"><h3>Optimise product mix</h3><p>Reduce ULIP share (35%&rarr;20%), increase guaranteed plans (60%&rarr;70%)</p></div></div>
+        <div class="ab-priority-card"><p class="num">5</p><div class="body"><h3>Strengthen advisor performance &amp; governance</h3><p>Upgrade advisor workflows and monitoring systems</p></div></div>
+        <div class="ab-priority-card"><p class="num">6</p><div class="body"><h3>Uncover insights for digital transformation</h3><p>Identify pain points and workarounds limiting advisor effectiveness</p></div></div>
+      </div>
+    </section>
+
+    <section class="cs-section reveal" id="research">
+      <p class="cs-eyebrow">FROM DISCOVERY TO RESEARCH EXECUTION</p>
+      <h2 class="cs-h2">34 interviews. 3 cities. <span class="accent">3 languages.</span></h2>
+      <p class="cs-body-text wide">After mapping the product landscape and stakeholder roles, we moved into structured user research. I owned the interview design, led sessions on the ground, and drove the synthesis.</p>
+      <div class="ab-exec-steps">
+        <div class="ab-exec-step"><p class="num">1</p><div class="body"><h3>Identified key user groups</h3><p>Mapped advisor roles across Agency, Banca, and Direct channels &mdash; understanding how each group&rsquo;s workflow and incentives differed.</p></div></div>
+        <div class="ab-exec-step"><p class="num">2</p><div class="body"><h3>Designed tailored interview scripts</h3><p>Created role-specific question sets to uncover motivations, workflows, and pain points &mdash; avoiding generic research that misses nuance.</p></div></div>
+        <div class="ab-exec-step"><p class="num">3</p><div class="body"><h3>Conducted 34 interviews across 3 cities in 3 languages</h3><p>Sessions conducted in Hindi, Kannada, and English across Rajkot, Mumbai and Mysore &mdash; ensuring inclusive insights that reflected the real diversity of ABSLI&rsquo;s salesforce.</p></div></div>
+        <div class="ab-exec-step"><p class="num">4</p><div class="body"><h3>Analysed 17,000+ data points in 3 weeks</h3><p>Transcribed all 34 interviews and synthesised over 17,000 notes into a coherent set of insights that shaped the final product strategy.</p></div></div>
+      </div>
+      <div class="ab-data-callout">
+        <p class="num">17K+</p>
+        <div class="desc">
+          <h3>Data points analysed</h3>
+          <p>34 interviews transcribed and synthesised in 3 weeks &mdash; turning raw field notes into a product strategy that moved a 6th-ranked insurer toward its top-5 ambition.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-section reveal" id="themes">
+      <p class="cs-eyebrow">USER INTERVIEWS &middot; KEY THEMES EXPLORED</p>
+      <h2 class="cs-h2">What we asked and <span class="accent">why it mattered</span></h2>
+      <p class="cs-body-text wide">The interviews focused on understanding how stakeholders work today, where they struggle, and how digital tools support &mdash; or hinder &mdash; their workflows.</p>
+      <div class="ab-themes-grid">
+        <div class="ab-theme-card"><h3>Current Usage &amp; Fit</h3><p>How well ABSLI&rsquo;s tools align with users&rsquo; real workflows and needs</p></div>
+        <div class="ab-theme-card"><h3>Pain Points</h3><p>Tasks and stages that are slow, complex, or error-prone in daily workflows</p></div>
+        <div class="ab-theme-card"><h3>Workarounds</h3><p>Alternate tools and manual processes used when platforms fall short</p></div>
+        <div class="ab-theme-card"><h3>Efficiency &amp; Usability</h3><p>How easily users can complete key responsibilities using existing tools</p></div>
+        <div class="ab-theme-card"><h3>Cross-Team Collaboration</h3><p>How well tools support coordination across channels and org levels</p></div>
+        <div class="ab-theme-card"><h3>Compliance vs Value</h3><p>Tools used primarily for compliance rather than meaningful user value</p></div>
+      </div>
+    </section>
+
+    <section class="cs-section reveal" id="insights">
+      <p class="cs-eyebrow">Key Insights</p>
+      <h2 class="cs-h2">Four themes. <span class="accent">One root cause.</span></h2>
+      <p class="cs-body-text wide">Every problem we uncovered traced back to the same thing &mdash; a fragmented system with no single source of truth. What looked like four separate issues were really four symptoms of the same structural failure.</p>
+
+      <div class="ab-theme-section">
+        <div class="ab-theme-header">
+          <p class="num">01</p>
+          <div class="title"><h3>Sales team lack visibility into real-time targets &amp; incentives</h3><p>Delayed clarity reduces motivation and risks revenue loss</p></div>
+        </div>
+        <div class="ab-insight-block">
+          <p class="label">Insight 01</p>
+          <h4>Lack of real-time visibility over current targets results in the team having no clear goals</h4>
+          <div class="ab-chips"><span class="ab-chip red">Reduced motivation</span><span class="ab-chip amber">Inefficient manual effort</span></div>
+          <div class="ab-insight-body">
+            <p>Sales roles are heavily dependent on MIS reports received from their managers. Low-level agency managers aren&rsquo;t able to leverage targets to drive more sales.</p>
+            <p>Only high agency managers track their branch&rsquo;s performance against competitors &mdash; leaving most of the salesforce operating blind.</p>
+          </div>
+          <div class="ab-quotes-row">
+            <div class="ab-quote-card"><p class="q">&ldquo;Incentive ka live update hota toh zyada acha hota.&rdquo; (If there was a live incentive update, it would be better.)</p><p class="attr">Anita &mdash; ACRH, Rajkot</p></div>
+            <div class="ab-quote-card"><p class="q">&ldquo;KPI ka list directly humein nahi aata. Chhup ke hai.&rdquo; (The KPI list isn&rsquo;t directly available. It&rsquo;s hidden.)</p><p class="attr">Kanchan &mdash; RO, Mumbai</p></div>
+          </div>
+        </div>
+        <div class="ab-insight-block">
+          <p class="label">Insight 02</p>
+          <h4>Lack of clarity on commission payouts and contest progress leads to poor participation and frustration</h4>
+          <div class="ab-chips"><span class="ab-chip red">Poor motivation</span></div>
+          <div class="ab-insight-body">
+            <p>Contest targets are shared infrequently, leaving sales teams without a roadmap. Commission credit calculations are not easily accessible, making it hard for advisors to track earnings.</p>
+            <p>In some sales forces, WhatsApp remains the primary channel for contest updates &mdash; making tracking inefficient and unreliable.</p>
+          </div>
+          <div class="ab-quotes-row">
+            <div class="ab-quote-card"><p class="q">&ldquo;Who tracks the old payouts? No one knows when they came, what tax was deducted, or how much was paid.&rdquo;</p><p class="attr">Nikunj &mdash; Advisor, Rajkot</p></div>
+            <div class="ab-quote-card"><p class="q">&ldquo;In the beginning they aggressively promote the contest, but later there&rsquo;s no follow-up or feedback.&rdquo;</p><p class="attr">Bharath &mdash; Advisor, Mysore</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ab-theme-section">
+        <div class="ab-theme-header">
+          <p class="num">02</p>
+          <div class="title"><h3>Governance team lacks visibility over sales and access to the right tools</h3><p>Leading to excessive manual follow-ups and reduced efficiency</p></div>
+        </div>
+        <div class="ab-insight-block">
+          <p class="label">Insight 01</p>
+          <h4>Governance roles have no visibility of their team&rsquo;s lead progress and policy status</h4>
+          <div class="ab-chips"><span class="ab-chip red">Wasted time on follow-ups</span><span class="ab-chip amber">Inconsistent reporting</span></div>
+          <div class="ab-insight-body">
+            <p>Governance roles don&rsquo;t get timely updates and resort to logging into Leap via their team&rsquo;s credentials to check progress of Policy Logging.</p>
+            <p>Lack of visibility leads to micromanagement &mdash; managers repeatedly following up over call just to know where things stand.</p>
+          </div>
+          <div class="ab-quotes-row">
+            <div class="ab-quote-card"><p class="q">&ldquo;Feel like a beggar to keep on calling them and asking them repeatedly.&rdquo;</p><p class="attr">Pragnesh &mdash; FLS, Rajkot</p></div>
+            <div class="ab-quote-card"><p class="q">&ldquo;I have 10-20 active advisors and calling all 20 in one day is impossible.&rdquo;</p><p class="attr">Nandeep &mdash; FLS, Mysore</p></div>
+          </div>
+        </div>
+        <div class="ab-insight-block">
+          <p class="label">Insight 02</p>
+          <h4>Governance needs to frequently step in for sales, but lacks the right tools and access</h4>
+          <div class="ab-chips"><span class="ab-chip red">Reduced efficiency</span></div>
+          <div class="ab-insight-body">
+            <p>Governance roles fill in for sales teams to log policies on Leap using the sales rep&rsquo;s credentials. They also track requirements to make sure the sales team is on top of it.</p>
+            <p>Majority of FLSs are asked for illustrations by their advisors &mdash; who send customer details over WhatsApp rather than using the platform.</p>
+          </div>
+          <div class="ab-quotes-row">
+            <div class="ab-quote-card"><p class="q">&ldquo;Few advisors generate their own presentations. Most ask me to do it for them.&rdquo;</p><p class="attr">Chamraj &mdash; FLS, Mysore</p></div>
+            <div class="ab-quote-card"><p class="q">&ldquo;I haven&rsquo;t logged a single application till date.&rdquo;</p><p class="attr">Ketan &mdash; Advisor, Mumbai</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ab-theme-section">
+        <div class="ab-theme-header">
+          <p class="num">03</p>
+          <div class="title"><h3>Broken underwriting and issuance processes</h3><p>Leading to delays in turnaround time and loss of business</p></div>
+        </div>
+        <div class="ab-insight-block">
+          <p class="label">Insight 01</p>
+          <h4>Lack of reasoning for underwriting requirements leads to back-and-forth with customer teams</h4>
+          <div class="ab-chips"><span class="ab-chip red">Delayed TAT</span><span class="ab-chip amber">Excessive dependency on Ops</span></div>
+          <div class="ab-insight-body">
+            <p>Users frequently reach out to CSEs to clarify reasons for rejection or requirements for more details. Sometimes they provide hard copies of documents directly to bypass the requirements process.</p>
+            <p>This forces Banca channel staff to visit the office in person &mdash; since CSEs aren&rsquo;t always available on call.</p>
+          </div>
+          <div class="ab-quotes-row">
+            <div class="ab-quote-card"><p class="q">&ldquo;They don&rsquo;t say what&rsquo;s wrong with the documents in one go. I had to visit the location at least 4-5 times.&rdquo;</p><p class="attr">Gopi &mdash; RO, Mysore</p></div>
+            <div class="ab-quote-card"><p class="q">&ldquo;Pata hi nahi chalta hai underwriting me chal kya raha hai.&rdquo; (You can&rsquo;t even tell what&rsquo;s happening in underwriting.)</p><p class="attr">Varun &mdash; RO, Mumbai</p></div>
+          </div>
+        </div>
+        <div class="ab-insight-block">
+          <p class="label">Insight 02</p>
+          <h4>Slower-than-competition issuance processes lead to lost business across Banca and Agency channels</h4>
+          <div class="ab-chips"><span class="ab-chip red">Lost business to competitors</span><span class="ab-chip amber">Customer frustration</span></div>
+          <div class="ab-insight-body">
+            <p>Bank SPs prefer companies with quicker issuance speed to meet their targets. They find ABSLI too slow and go to TATA or Max instead.</p>
+            <p>Particularly with NRI and HNI customers, it&rsquo;s harder to keep them engaged while waiting for policy issuance.</p>
+          </div>
+          <div class="ab-quotes-row">
+            <div class="ab-quote-card"><p class="q">&ldquo;ABSLI doing the issuance process slowly is losing them business.&rdquo;</p><p class="attr">Salman &mdash; SM, Mumbai</p></div>
+            <div class="ab-quote-card"><p class="q">&ldquo;Suppose ek case delay ho gaya, toh branch ne ek Birla ka dhandha gaya.&rdquo; (If one case gets delayed, the branch loses one Birla deal.)</p><p class="attr">Yash &mdash; RO, Rajkot</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ab-theme-section">
+        <div class="ab-theme-header">
+          <p class="num">04</p>
+          <div class="title"><h3>Digital tools are failing to cater to user requirements</h3><p>Leading to scattered data and low adoption</p></div>
+        </div>
+        <div class="ab-insight-block">
+          <p class="label">Insight 01</p>
+          <h4>Too many apps and lack of integration leads to inefficiencies and poor coordination between teams</h4>
+          <div class="ab-chips"><span class="ab-chip red">Data duplication and wasted effort</span><span class="ab-chip amber">Slower workflows</span><span class="ab-chip red">Low trust in digital tools</span></div>
+          <div class="ab-insight-body">
+            <p>Users are forced to log in to multiple apps daily &mdash; VYMO for lead tracking, SalesBuddy for illustrations, LEAP for policy logging &mdash; with no seamless data transfer between them.</p>
+            <p>Without a unified system, different teams work with different versions of the truth and begin relying on manual workarounds, leading to errors, confusion, and broken coordination.</p>
+          </div>
+          <div class="ab-quotes-row">
+            <div class="ab-quote-card"><p class="q">&ldquo;Ek hi app mein sab daal do.&rdquo; (Put everything in one app.)</p><p class="attr">Nikunj &mdash; Advisor, Rajkot</p></div>
+            <div class="ab-quote-card"><p class="q">&ldquo;I have to constantly remember login IDs and passwords for four different apps.&rdquo;</p><p class="attr">Ambadas &mdash; FLS, Mumbai</p></div>
+          </div>
+        </div>
+        <div class="ab-insight-block">
+          <p class="label">Insight 02</p>
+          <h4>Heavy dependency on workarounds for lead management, renewals and more</h4>
+          <div class="ab-chips"><span class="ab-chip red">Risk of lead loss and mismanagement</span><span class="ab-chip amber">Scattered customer data</span></div>
+          <div class="ab-insight-body">
+            <p>Almost all sales agents maintain personal Excel spreadsheets or diaries to track leads. They refer to WhatsApp chat logs to track discussions with leads.</p>
+            <p>DM channel advisors fear lead reassignment &mdash; which causes them to rely on manual tracking systems rather than ABSLI&rsquo;s official tools.</p>
+          </div>
+          <div class="ab-quotes-row">
+            <div class="ab-quote-card"><p class="q">&ldquo;If you want to be ahead, you maintain a diary for renewals.&rdquo;</p><p class="attr">Yash &mdash; RO, Rajkot</p></div>
+            <div class="ab-quote-card"><p class="q">&ldquo;If I lose a lead once, I won&rsquo;t get it back, so I write everything down.&rdquo;</p><p class="attr">Darshan &mdash; DSE, Rajkot</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-section reveal" id="result">
+      <p class="cs-eyebrow">RESULT</p>
+      <h2 class="cs-h2">34 interviews. 17,000+ data points. <span class="accent">One clear direction.</span></h2>
+      <p class="cs-body-text wide">Every insight pointed to the same structural failure &mdash; a fragmented ecosystem where no single tool served as a source of truth, and advisors had no choice but to work around the system rather than with it.</p>
+      <div class="ab-result-stat">
+        <p>&ldquo;Our research confirmed that a unified digital ecosystem was the right direction &mdash; one that all advisors were already asking for, in three different languages.&rdquo;</p>
+      </div>
+      <p class="cs-body-text wide" style="margin-top:20px;">Building on these insights, we proposed a phased product strategy that accounted for all technical constraints and regulatory requirements. The strategy is currently in active development.</p>
+      <div class="ab-nda-box">
+        <p class="label">NDA Notice</p>
+        <p class="body">The specifics of the proposed strategy are under NDA and cannot be disclosed. What I can share: the research shaped a clear, phased direction for unifying ABSLI&rsquo;s sales ecosystem &mdash; one that is currently being built.</p>
+      </div>
+    </section>
+
+    <section class="cs-section reveal">
+      <p class="cs-eyebrow">REFLECTIONS</p>
+      <h2 class="cs-h2 accent" style="font-style:italic;">What this project taught me</h2>
+      <div class="ab-wins-list">
+        <div class="ab-win-item"><span class="mark">&#10022;</span><p>Conducting research in three languages across three cities taught me how much nuance gets lost in translation &mdash; and how much richer insights become when you meet users on their own terms.</p></div>
+        <div class="ab-win-item"><span class="mark">&#10022;</span><p>Synthesising 17,000+ data points in 3 weeks was a test of speed and rigour. I learned to distinguish signal from noise fast &mdash; and to let the patterns speak rather than forcing a narrative.</p></div>
+        <div class="ab-win-item"><span class="mark">&#10022;</span><p>The discovery sprint before fieldwork was the most underrated part of the project. Aligning stakeholders on the problem before jumping to solutions saved weeks of misaligned research.</p></div>
+        <div class="ab-win-item"><span class="mark">&#10022;</span><p>Every user &mdash; from a field agent in Rajkot to a branch manager in Mumbai &mdash; was already telling us the answer. The job was just to listen well enough to hear it.</p></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="checker-strip checker-blue"></div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-cta">
+      <h2>Thanks for making it till here!</h2>
+      <p class="credit">Designed + coded by <span class="logo-inline"><span class="script script-sp">S</span>iddy :)</span></p>
+    </div>
+    <div class="footer-links">
+      <div class="col">
+        <p class="col-title">SAY HI</p>
+        <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LINKEDIN</a>
+        <a href="mailto:siddarthpuranik@gmail.com">GMAIL</a>
+      </div>
+      <div class="col">
+        <p class="col-title">PAGE</p>
+        <a href="index.html#top">HOME</a>
+        <a href="about.html">ABOUT</a>
+        <a href="resume.pdf" target="_blank" rel="noopener">RESUME</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-game">
+    <div class="bc-hud">
+      <div class="bc-score">Score: <span id="bcScore">0</span></div>
+      <div class="bc-timer">Time: <span id="bcTime">30</span>s</div>
+    </div>
+    <div class="bc-canvas-wrap">
+      <canvas id="bcCanvas"></canvas>
+    </div>
+  </div>
+</footer>
+</div>
+
+<div class="cs-mobile">
+  <header class="ab-m-hero">
+    <div class="m-header">
+      <a href="index.html#top" class="cs-logo"><span class="script script-sp">S</span>iddy :)</a>
+      <div class="m-nav-links">
+        <a href="about.html">About</a>
+        <a href="resume.pdf" target="_blank" rel="noopener">Resume</a>
+      </div>
+    </div>
+    <div class="ab-m-hero-body">
+      <h1 class="ab-m-hero-title">Research that streamlined ABSLI&rsquo;s complex sales workflows</h1>
+      <div class="ab-m-hero-collage"><img src="assets/images/absli-hero-mobile-collage.png" alt=""></div>
+    </div>
+  </header>
+
+  <section class="m-section m-meta-row reveal">
+    <div class="m-meta"><p>MY ROLE</p><p>UX Researcher</p></div>
+    <div class="m-meta"><p>DURATION</p><p>3 Months</p></div>
+    <div class="m-meta"><p>TEAM</p><p>Tanay &middot; Pavan G &middot; Me</p></div>
+    <div class="m-meta"><p>CLIENT</p><p>ABSLI &times; Parallel</p></div>
+  </section>
+
+  <section class="m-section reveal">
+    <p class="m-eyebrow">CONTEXT</p>
+    <h2 class="m-h2">What is ABSLI?</h2>
+    <p class="m-body">Aditya Birla Sun Life Insurance (ABSLI), part of Aditya Birla Capital, is one of India&rsquo;s leading life insurers &mdash; ranked 6th nationally and serving 20+ lakh customers across the country.</p>
+    <p class="m-body">With a &#8377;99,000+ crore AUM and a distribution network of 430 branches and 65k+ agents, ABSLI offers protection, savings, investment, and retirement solutions tailored to India&rsquo;s evolving financial needs.</p>
+    <div class="ab-m-scale-stats">
+      <div class="ab-m-stat"><p class="num">6th</p><p class="lbl">Ranked nationally among life insurers</p></div>
+      <div class="ab-m-stat"><p class="num">20L+</p><p class="lbl">Customers served</p></div>
+      <div class="ab-m-stat"><p class="num">&#8377;99K Cr+</p><p class="lbl">Assets under management</p></div>
+    </div>
+  </section>
+
+  <section class="m-section reveal">
+    <p class="m-eyebrow">PROBLEM</p>
+    <h2 class="m-h2">5 apps. 350 backend systems. <span class="accent">None talking to each other.</span></h2>
+    <p class="m-body">ABSLI&rsquo;s sales and service ecosystem had become increasingly complex and fragmented. Each sales channel &mdash; Banks, Individual Agents, and In-house Teams &mdash; used different apps for every stage of the sales journey.</p>
+    <p class="m-body">Each sales stage had its own app. Some apps were shared across channels, others were completely isolated. There were 5 primary applications and over 350 backend systems, none of which effectively communicated with each other.</p>
+    <div class="ab-m-problem-list">
+      <div class="ab-m-problem-card">
+        <div class="ab-m-icon-circle"><img src="assets/images/absli-icon-face-clouds.png" alt=""></div>
+        <p>Too many applications</p>
+      </div>
+      <img class="ab-m-chevron" src="assets/images/absli-icon-chevron.svg" alt="">
+      <div class="ab-m-problem-card">
+        <div class="ab-m-icon-circle"><img src="assets/images/absli-icon-snail.png" alt=""></div>
+        <p>Slow Processing</p>
+      </div>
+      <img class="ab-m-chevron" src="assets/images/absli-icon-chevron.svg" alt="">
+      <div class="ab-m-problem-card danger">
+        <div class="ab-m-icon-circle"><img src="assets/images/absli-icon-chart-decreasing.png" alt=""></div>
+        <p>Lost Customers + Lost Revenue</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="m-section reveal">
+    <p class="m-eyebrow">RESEARCH BRIEF</p>
+    <h2 class="m-h2" style="margin-bottom:0;">The research aimed to evaluate whether ABSLI <span class="ab-hl">needed a unified app</span>, or a more focused <span class="ab-hl">product strategy to streamline workflows and improve efficiency</span> across sales channels.</h2>
+  </section>
+
+  <section class="m-section reveal">
+    <p class="m-eyebrow">MY ROLE</p>
+    <h2 class="m-h2">My <span class="accent">contributions</span> to the research</h2>
+    <div class="ab-m-contrib-list">
+      <div class="ab-m-contrib-item">
+        <div class="ab-m-icon-sm"><img src="assets/images/absli-icon-handshake.svg" alt=""></div>
+        <p><strong>Facilitated a discovery sprint</strong> to align on client goals and research objectives.</p>
+      </div>
+      <div class="ab-m-contrib-item">
+        <div class="ab-m-icon-sm"><img src="assets/images/absli-icon-notepencil.svg" alt=""></div>
+        <p><strong>Planned and developed interview scripts</strong> tailored to diverse user groups.</p>
+      </div>
+      <div class="ab-m-contrib-item">
+        <div class="ab-m-icon-sm"><img src="assets/images/absli-icon-microphone.svg" alt=""></div>
+        <p><strong>Conducted multi-language user interviews</strong> &mdash; primarily owned the Mysore leg, and assisted with other cities&rsquo; sessions.</p>
+      </div>
+      <div class="ab-m-contrib-item">
+        <div class="ab-m-icon-sm"><img src="assets/images/absli-icon-magnifyingglass.svg" alt=""></div>
+        <p><strong>Analyzed and synthesized</strong> insights that shaped the final product strategy.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="m-section reveal">
+    <p class="m-eyebrow">DISCOVERY SPRINT</p>
+    <h2 class="m-h2">Aligning on the problem <span class="accent">before solving it</span></h2>
+    <p class="m-body">We began with a structured discovery workshop to align on key business priorities, understand the product ecosystem, and map advisor and customer journeys. This gave us a shared foundation before moving into research.</p>
+    <div class="ab-m-circles">
+      <div class="ab-m-circle">
+        <div class="icon"><img src="assets/images/absli-icon-briefcase.svg" alt=""></div>
+        <h3>Business Goals</h3>
+        <div class="bullets">
+          <p>&middot; Align on growth priorities</p>
+          <p>&middot; Understand revenue &amp; product targets</p>
+          <p>&middot; Define success metrics</p>
+        </div>
+      </div>
+      <div class="ab-m-circle">
+        <div class="icon"><img src="assets/images/absli-icon-clipboard.svg" alt=""></div>
+        <h3>Product Landscape</h3>
+        <div class="bullets">
+          <p>&middot; Map existing tools &amp; workflows</p>
+          <p>&middot; Identify system gaps &amp; dependencies</p>
+          <p>&middot; Review digital touchpoints</p>
+        </div>
+      </div>
+      <div class="ab-m-circle">
+        <div class="icon"><img src="assets/images/absli-icon-user.svg" alt=""></div>
+        <h3>User Journey Mapping</h3>
+        <div class="bullets">
+          <p>&middot; Chart advisor &amp; customer journeys</p>
+          <p>&middot; Surface pain points &amp; breaks</p>
+          <p>&middot; Spot opportunities for improvement</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="m-section reveal">
+    <p class="m-eyebrow">ABSLI&rsquo;s STRATEGIC PRIORITIES</p>
+    <h2 class="m-h2">Six business objectives that <span class="accent">shaped our research direction</span></h2>
+    <p class="m-body">We aligned on five core business objectives before fieldwork began &mdash; ensuring every interview question mapped back to a real business need.</p>
+    <div class="ab-m-priorities">
+      <div class="ab-m-priority-card"><p class="num">1</p><div><h3>Improve market ranking</h3><p>Move from 7th to the Top 5 Indian life insurers</p></div></div>
+      <div class="ab-m-priority-card"><p class="num">2</p><div><h3>Grow term insurance penetration</h3><p>Increase term sales from &lt;5% to 10%</p></div></div>
+      <div class="ab-m-priority-card"><p class="num">3</p><div><h3>Enhance operational efficiency</h3><p>Improve margins through better processes and digital tooling</p></div></div>
+      <div class="ab-m-priority-card"><p class="num">4</p><div><h3>Optimise product mix</h3><p>Reduce ULIP share (35%&rarr;20%), increase guaranteed plans (60%&rarr;70%)</p></div></div>
+      <div class="ab-m-priority-card"><p class="num">5</p><div><h3>Strengthen advisor performance &amp; governance</h3><p>Upgrade advisor workflows and monitoring systems</p></div></div>
+      <div class="ab-m-priority-card"><p class="num">6</p><div><h3>Uncover insights for digital transformation</h3><p>Identify pain points and workarounds limiting advisor effectiveness</p></div></div>
+    </div>
+  </section>
+
+  <section class="m-section reveal">
+    <p class="m-eyebrow">FROM DISCOVERY TO RESEARCH EXECUTION</p>
+    <h2 class="m-h2">34 interviews. 3 cities. <span class="accent">3 languages.</span></h2>
+    <p class="m-body">After mapping the product landscape and stakeholder roles, we moved into structured user research. I owned the interview design, led sessions on the ground, and drove the synthesis.</p>
+    <div class="ab-m-exec-steps">
+      <div class="ab-m-exec-step"><p class="num">1</p><div><h3>Identified key user groups</h3><p>Mapped advisor roles across Agency, Banca, and Direct channels.</p></div></div>
+      <div class="ab-m-exec-step"><p class="num">2</p><div><h3>Designed tailored interview scripts</h3><p>Created role-specific question sets to uncover motivations and workflows.</p></div></div>
+      <div class="ab-m-exec-step"><p class="num">3</p><div><h3>Conducted 34 interviews</h3><p>Sessions conducted in Hindi, Kannada, and English across Rajkot, Mumbai and Mysore.</p></div></div>
+      <div class="ab-m-exec-step"><p class="num">4</p><div><h3>Analysed 17,000+ data points</h3><p>Synthesised raw field notes into a coherent, actionable product strategy.</p></div></div>
+    </div>
+    <div class="ab-m-data-callout">
+      <p class="num">17K+</p>
+      <h3>Data points analysed</h3>
+      <p>34 interviews transcribed and synthesised in 3 weeks &mdash; turning raw field notes into a product strategy that moved a 6th-ranked insurer toward its top-5 ambition.</p>
+    </div>
+  </section>
+
+  <section class="m-section reveal">
+    <p class="m-eyebrow">USER INTERVIEWS &middot; KEY THEMES</p>
+    <h2 class="m-h2">What we asked and <span class="accent">why it mattered</span></h2>
+    <p class="m-body">The interviews focused on understanding how stakeholders work today, where they struggle, and how digital tools support &mdash; or hinder &mdash; their workflows.</p>
+    <div class="ab-m-themes-grid">
+      <div class="ab-m-theme-card"><h3>Current Usage &amp; Fit</h3><p>How well ABSLI&rsquo;s tools align with users&rsquo; real workflows</p></div>
+      <div class="ab-m-theme-card"><h3>Pain Points</h3><p>Tasks and stages that are slow or complex in daily workflows</p></div>
+      <div class="ab-m-theme-card"><h3>Workarounds</h3><p>Alternate tools and manual processes used when platforms fall short</p></div>
+      <div class="ab-m-theme-card"><h3>Efficiency &amp; Usability</h3><p>How easily users can complete key tasks using existing tools</p></div>
+      <div class="ab-m-theme-card"><h3>Cross-Team Collaboration</h3><p>How well tools support coordination across channels</p></div>
+      <div class="ab-m-theme-card"><h3>Compliance vs Value</h3><p>Tools used primarily for compliance rather than real user value</p></div>
+    </div>
+  </section>
+
+  <section class="m-section reveal">
+    <p class="m-eyebrow">KEY INSIGHTS</p>
+    <h2 class="m-h2">Four themes. <span class="accent">One root cause.</span></h2>
+    <p class="m-body">Every problem we uncovered traced back to the same thing &mdash; a fragmented system with no single source of truth. What looked like four separate issues were really four symptoms of the same structural failure.</p>
+
+    <div class="ab-m-theme-section">
+      <div class="ab-m-theme-header"><p class="num">01</p><h3>Sales team lack visibility into real-time targets &amp; incentives</h3></div>
+      <div class="ab-m-insight-block">
+        <h4>Lack of real-time visibility over current targets results in the team having no clear goals.</h4>
+        <div class="ab-chips"><span class="ab-chip red">Reduced motivation</span></div>
+        <p class="body">Sales roles are heavily dependent on MIS reports received from their managers. Low-level agency managers aren&rsquo;t able to leverage targets to drive more sales.</p>
+        <div class="ab-m-quote-card"><p class="q">&ldquo;Incentive ka live update hota toh zyada acha hota.&rdquo; (If there was a live incentive update, it would be better.)</p><p class="attr">Anita &mdash; ACRH, Rajkot</p></div>
+      </div>
+    </div>
+
+    <div class="ab-m-theme-section">
+      <div class="ab-m-theme-header"><p class="num">02</p><h3>Governance team lacks visibility over sales and access to the right tools</h3></div>
+      <div class="ab-m-insight-block">
+        <h4>Governance roles have no visibility of their team&rsquo;s lead progress and policy status.</h4>
+        <div class="ab-chips"><span class="ab-chip red">Excessive manual follow-up</span></div>
+        <p class="body">Lack of visibility leads to micromanagement &mdash; managers repeatedly following up over call just to know where things stand.</p>
+        <div class="ab-m-quote-card"><p class="q">&ldquo;Feel like a beggar to keep on calling them and asking them repeatedly.&rdquo;</p><p class="attr">Pragnesh &mdash; FLS, Rajkot</p></div>
+      </div>
+    </div>
+
+    <div class="ab-m-theme-section">
+      <div class="ab-m-theme-header"><p class="num">03</p><h3>Broken underwriting and issuance processes</h3></div>
+      <div class="ab-m-insight-block">
+        <h4>Slower-than-competition issuance processes lead to lost business across Banca and Agency channels.</h4>
+        <div class="ab-chips"><span class="ab-chip red">Lost business</span></div>
+        <p class="body">Bank partners prefer companies with quicker issuance speed to meet targets. They find ABSLI slow and direct deals elsewhere.</p>
+        <div class="ab-m-quote-card"><p class="q">&ldquo;ABSLI doing the issuance process slowly is losing them business.&rdquo;</p><p class="attr">Salman &mdash; SM, Mumbai</p></div>
+      </div>
+    </div>
+
+    <div class="ab-m-theme-section">
+      <div class="ab-m-theme-header"><p class="num">04</p><h3>Digital tools are failing to cater to user requirements</h3></div>
+      <div class="ab-m-insight-block">
+        <h4>Too many apps and lack of integration leads to data duplication and low adoption.</h4>
+        <div class="ab-chips"><span class="ab-chip red">Scattered customer data</span></div>
+        <p class="body">Users are forced to log in to multiple apps daily with no seamless data transfer, prompting heavy reliance on manual paper workarounds.</p>
+        <div class="ab-m-quote-card"><p class="q">&ldquo;I have to constantly remember login IDs and passwords for four different apps.&rdquo;</p><p class="attr">Ambadas &mdash; FLS, Mumbai</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="m-section reveal">
+    <p class="m-eyebrow">RESULT</p>
+    <h2 class="m-h2">34 interviews. 17,000+ data points. <span class="accent">One clear direction.</span></h2>
+    <div class="ab-m-result-stat">
+      <p>&ldquo;Our research confirmed that a unified digital ecosystem was the right direction &mdash; one that all advisors were already asking for, in three different languages.&rdquo;</p>
+    </div>
+    <p class="m-body" style="margin-top:16px;">Building on these insights, we proposed a phased product strategy that accounted for all technical constraints and regulatory requirements. The strategy is currently in active development.</p>
+    <div class="ab-m-nda-box">
+      <p class="label">NDA Notice</p>
+      <p class="body">The specifics of the proposed strategy are under NDA and cannot be disclosed. What I can share: the research shaped a clear, phased direction for unifying ABSLI&rsquo;s sales ecosystem &mdash; one that is currently being built.</p>
+    </div>
+  </section>
+
+  <section class="m-section reveal">
+    <p class="m-eyebrow">REFLECTIONS</p>
+    <h2 class="m-h2" style="font-style:italic;">What this project taught me</h2>
+    <div class="ab-m-wins">
+      <div class="ab-m-win"><span class="mark">&#10022;</span><p>Conducting research in three languages across three cities taught me how much nuance gets lost in translation &mdash; and how much richer insights become when you meet users on their own terms.</p></div>
+      <div class="ab-m-win"><span class="mark">&#10022;</span><p>Synthesising 17,000+ data points in 3 weeks was a test of speed and rigour. I learned to distinguish signal from noise fast &mdash; and to let the patterns speak rather than forcing a narrative.</p></div>
+      <div class="ab-m-win"><span class="mark">&#10022;</span><p>The discovery sprint before fieldwork was the most underrated part of the project. Aligning stakeholders on the problem before jumping to solutions saved weeks of misaligned research.</p></div>
+      <div class="ab-m-win"><span class="mark">&#10022;</span><p>Every user &mdash; from a field agent in Rajkot to a branch manager in Mumbai &mdash; was already telling us the answer. The job was just to listen well enough to hear it.</p></div>
+    </div>
+  </section>
+
+  <div class="checker-strip checker-blue"></div>
+
+  <footer class="m-footer">
+    <div class="m-footer-credit">
+      <p>Designed + coded by</p>
+      <span class="logo-inline"><span class="script script-sp">S</span>iddy :)</span>
+    </div>
+    <div class="m-footer-cols">
+      <div class="m-footer-col">
+        <p class="m-footer-col-title">SAY HI</p>
+        <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LINKEDIN</a>
+        <a href="mailto:siddarthpuranik@gmail.com">GMAIL</a>
+      </div>
+      <div class="m-footer-col">
+        <p class="m-footer-col-title">PAGE</p>
+        <a href="index.html#top">HOME</a>
+        <a href="about.html">ABOUT</a>
+        <a href="resume.pdf" target="_blank" rel="noopener">RESUME</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+/* ---------- checker-blue dither (matches other case-study pages) ---------- */
+function paintDitherStrip(el, cellSize, baseColor, fillColor) {
+  const w = Math.ceil(el.clientWidth);
+  const h = Math.ceil(el.clientHeight);
+  if (!w || !h) return;
+  const cvs = document.createElement('canvas');
+  cvs.width = w;
+  cvs.height = h;
+  const cx = cvs.getContext('2d');
+  cx.fillStyle = baseColor;
+  cx.fillRect(0, 0, w, h);
+  cx.fillStyle = fillColor;
+  const cols = Math.ceil(w / cellSize);
+  const rows = Math.ceil(h / cellSize);
+  for (let r = 0; r < rows; r++) {
+    const t = rows === 1 ? 0 : r / (rows - 1);
+    const prob = Math.pow(1 - t, 1.4);
+    for (let c = 0; c < cols; c++) {
+      if (Math.random() < prob) cx.fillRect(c * cellSize, r * cellSize, cellSize, cellSize);
+    }
+  }
+  el.style.backgroundImage = `url(${cvs.toDataURL()})`;
+}
+function paintAllDitherStrips() {
+  document.querySelectorAll('.checker-blue').forEach(el => {
+    paintDitherStrip(el, 14, '#07239a', '#ffffff');
+  });
+}
+paintAllDitherStrips();
+let ditherResizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(ditherResizeTimer);
+  ditherResizeTimer = setTimeout(paintAllDitherStrips, 200);
+});
+</script>
+
+<script src="assets/js/scroll-reveal.js" defer></script>
+
+<script>
+/* ---------- Side nav scroll-spy ---------- */
+(function () {
+  const links = Array.from(document.querySelectorAll('.cs-sidenav-links a'));
+  if (!links.length) return;
+  const targets = links
+    .map(link => ({ link, el: document.querySelector(link.getAttribute('href')) }))
+    .filter(t => t.el);
+  if (!targets.length) return;
+
+  function setActive(link) {
+    links.forEach(l => l.classList.toggle('active', l === link));
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const match = targets.find(t => t.el === entry.target);
+        if (match) setActive(match.link);
+      }
+    });
+  }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+
+  targets.forEach(t => observer.observe(t.el));
+})();
+</script>
+
+<script>
+/* ---------- Bunny Catch (footer game, shared with other case-study pages) ---------- */
+(function () {
+  const W = 1200, H = 420, PX = 6;
+  const ROUND_MS = 30000;
+
+  const canvas = document.getElementById('bcCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const scoreEl = document.getElementById('bcScore');
+  const timeEl = document.getElementById('bcTime');
+
+  if (document.fonts && document.fonts.load) {
+    document.fonts.load("700 32px 'PP NeueBit'");
+  }
+
+  function fitCanvas() {
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.imageSmoothingEnabled = false;
+  }
+  fitCanvas();
+  window.addEventListener('resize', fitCanvas);
+
+  function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+
+  function loadImg(src) { const i = new Image(); i.src = src; return i; }
+  const PLAYER_IMG = loadImg('assets/images/bc-bunny.png');
+  const CLOUD_IMG = loadImg('assets/images/bc-cloud.png');
+
+  function drawBlocks(blocks, ox, oy) {
+    for (let i = 0; i < blocks.length; i++) {
+      const b = blocks[i];
+      ctx.fillStyle = b[4];
+      ctx.fillRect(Math.round(ox + b[0] * PX), Math.round(oy + b[1] * PX), b[2] * PX, b[3] * PX);
+    }
+  }
+
+  const CLOUDS = [
+    { x: 60, y: 50, w: 150, speed: 0.006 },
+    { x: 280, y: 110, w: 90, speed: 0.0048 },
+    { x: 500, y: 60, w: 120, speed: 0.0072 },
+    { x: 720, y: 100, w: 80, speed: 0.0052 },
+    { x: 940, y: 70, w: 130, speed: 0.0065 }
+  ];
+  const CLOUD_SRC = { x: 27, y: 38, w: 191, h: 51 };
+
+  const ITEM_TYPES = [
+    { key: 'arrow', points: 1, weight: 28, color: '#F5C518', img: loadImg('assets/images/bc-item-arrow.png'), ar: 126 / 138 },
+    { key: 'comment', points: 1, weight: 22, color: '#F0DE8A', img: loadImg('assets/images/bc-item-comment.png'), ar: 1256 / 1336 },
+    { key: 'pen', points: 2, weight: 18, color: '#B39DDB', img: loadImg('assets/images/bc-item-pen.png'), ar: 158 / 162 },
+    { key: 'bullian', points: 2, weight: 14, color: '#7C93E0', img: loadImg('assets/images/bc-item-bullian.png'), ar: 1348 / 1268 },
+    { key: 'component', points: 3, weight: 10, color: '#9B7FE0', img: loadImg('assets/images/bc-item-component.png'), ar: 166 / 152 },
+    { key: 'plugins', points: 4, weight: 6, color: '#F5A623', img: loadImg('assets/images/bc-item-plugins.png'), ar: 1686 / 1638 },
+    { key: 'figma', points: 5, weight: 4, color: '#A259FF', img: loadImg('assets/images/bc-item-figma.png'), ar: 118 / 130 },
+    {
+      key: 'error', points: -2, weight: 10, color: '#FF4444', gw: 6, gh: 6,
+      blocks: [
+        [0, 0, 1, 1, '#FF4444'], [1, 1, 1, 1, '#FF4444'], [2, 2, 1, 1, '#FF4444'], [3, 3, 1, 1, '#FF4444'], [4, 4, 1, 1, '#FF4444'], [5, 5, 1, 1, '#FF4444'],
+        [5, 0, 1, 1, '#FF4444'], [4, 1, 1, 1, '#FF4444'], [3, 2, 1, 1, '#FF4444'], [2, 3, 1, 1, '#FF4444'], [1, 4, 1, 1, '#FF4444'], [0, 5, 1, 1, '#FF4444']
+      ]
+    }
+  ];
+  const ITEM_WEIGHT_TOTAL = ITEM_TYPES.reduce((s, t) => s + t.weight, 0);
+  function pickItemType() {
+    let r = Math.random() * ITEM_WEIGHT_TOTAL;
+    for (let i = 0; i < ITEM_TYPES.length; i++) {
+      if (r < ITEM_TYPES[i].weight) return ITEM_TYPES[i];
+      r -= ITEM_TYPES[i].weight;
+    }
+    return ITEM_TYPES[ITEM_TYPES.length - 1];
+  }
+  const ITEM_SIZE = 50;
+  function drawItem(type, x, y) {
+    if (type.blocks) {
+      drawBlocks(type.blocks, x - (type.gw * PX) / 2, y - (type.gh * PX) / 2);
+      return;
+    }
+    if (!type.img.complete || !type.img.naturalWidth) return;
+    const h = ITEM_SIZE, w = h * type.ar;
+    ctx.drawImage(type.img, Math.round(x - w / 2), Math.round(y - h / 2), Math.round(w), Math.round(h));
+  }
+
+  const RATINGS = [
+    { min: 51, text: 'You might be a design tool yourself' },
+    { min: 31, text: 'Figma pro reflexes!' },
+    { min: 16, text: 'Solid catching!' },
+    { min: 0, text: 'Warming up! Try again?' }
+  ];
+  function ratingFor(s) {
+    for (let i = 0; i < RATINGS.length; i++) if (s >= RATINGS[i].min) return RATINGS[i].text;
+    return RATINGS[RATINGS.length - 1].text;
+  }
+
+  const basketY = H - 60;
+  const basket = { x: W / 2, w: 130 };
+  let targetBasketX = W / 2;
+
+  let state = 'idle'; // idle | playing | gameover
+  let score = 0;
+  let timeRemaining = ROUND_MS;
+  let elapsedInRound = 0;
+  let items = [];
+  let particles = [];
+  let popups = [];
+  let bgItems = [];
+  let spawnTimer = 0;
+  let lastSpawnX = null;
+  let flashTimer = 0;
+  let gameOverAt = null;
+
+  function initBgItems() {
+    bgItems = [];
+    for (let i = 0; i < 4; i++) {
+      bgItems.push({
+        type: pickItemType(),
+        x: 60 + Math.random() * (W - 120),
+        y: Math.random() * H,
+        vy: 0.3 + Math.random() * 0.2
+      });
+    }
+  }
+  initBgItems();
+
+  function setPointerX(clientX) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = W / rect.width;
+    targetBasketX = clamp((clientX - rect.left) * scaleX, 0, W);
+  }
+  canvas.addEventListener('mousemove', function (e) { setPointerX(e.clientX); });
+  canvas.addEventListener('touchstart', function (e) { if (e.touches[0]) setPointerX(e.touches[0].clientX); }, { passive: true });
+  canvas.addEventListener('touchmove', function (e) {
+    e.preventDefault();
+    if (e.touches[0]) setPointerX(e.touches[0].clientX);
+  }, { passive: false });
+
+  function spawnItem() {
+    if (items.length >= 6) return;
+    let x, attempts = 0;
+    do {
+      x = 60 + Math.random() * (W - 120);
+      attempts++;
+    } while (lastSpawnX !== null && Math.abs(x - lastSpawnX) < 80 && attempts < 10);
+    lastSpawnX = x;
+    items.push({
+      type: pickItemType(),
+      x: x, baseX: x, y: -20, t: 0,
+      phase: Math.random() * Math.PI * 2,
+      vy: 1.5 * (0.85 + Math.random() * 0.3)
+    });
+  }
+
+  function addParticles(x, y, color, count) {
+    const budget = Math.max(0, 50 - particles.length);
+    const n = Math.min(count, budget);
+    for (let i = 0; i < n; i++) {
+      const ang = Math.random() * Math.PI * 2;
+      const spd = 1 + Math.random() * 2.5;
+      particles.push({ x: x, y: y, vx: Math.cos(ang) * spd, vy: Math.sin(ang) * spd - 1, life: 1, color: color });
+    }
+  }
+  function addPopup(x, y, text, color) {
+    popups.push({ x: x, y: y, text: text, color: color, life: 1 });
+  }
+
+  function updateHUD() {
+    scoreEl.textContent = score;
+    timeEl.textContent = Math.max(0, Math.ceil(timeRemaining / 1000));
+  }
+
+  function startGame() {
+    score = 0;
+    timeRemaining = ROUND_MS;
+    elapsedInRound = 0;
+    items = [];
+    particles = [];
+    popups = [];
+    spawnTimer = 0;
+    lastSpawnX = null;
+    flashTimer = 0;
+    gameOverAt = null;
+    state = 'playing';
+    updateHUD();
+  }
+  function endGame() {
+    state = 'gameover';
+    gameOverAt = performance.now();
+  }
+  window.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
+    const rect = canvas.getBoundingClientRect();
+    const inView = rect.top < window.innerHeight && rect.bottom > 0;
+    if (!inView) return;
+    if (e.key === ' ' || e.key === 'Spacebar') e.preventDefault();
+    if (state === 'idle' || state === 'gameover') startGame();
+  });
+
+  function updateClouds(dt) {
+    for (let i = 0; i < CLOUDS.length; i++) {
+      const c = CLOUDS[i];
+      c.x += c.speed * dt;
+      if (c.x - c.w > W) c.x = -c.w;
+    }
+  }
+
+  function update(dt) {
+    updateClouds(dt);
+    if (state === 'idle') {
+      for (let i = 0; i < bgItems.length; i++) {
+        const b = bgItems[i];
+        b.y += b.vy;
+        if (b.y > H + 20) { b.y = -20; b.x = 60 + Math.random() * (W - 120); }
+      }
+      return;
+    }
+
+    if (state === 'playing') {
+      elapsedInRound += dt;
+      timeRemaining -= dt;
+      if (timeRemaining <= 0) { timeRemaining = 0; updateHUD(); endGame(); return; }
+
+      basket.x += (targetBasketX - basket.x) * 0.15;
+
+      const progress = clamp(elapsedInRound / ROUND_MS, 0, 1);
+      const speedMult = 1 + 0.5 * progress;
+      const spawnInterval = 1200 - 400 * progress;
+
+      spawnTimer -= dt;
+      if (spawnTimer <= 0) { spawnItem(); spawnTimer = spawnInterval; }
+
+      for (let i = items.length - 1; i >= 0; i--) {
+        const it = items[i];
+        it.t += dt;
+        it.y += it.vy * speedMult;
+        it.x = it.baseX + Math.sin(it.t * 0.003 + it.phase) * 6;
+
+        const withinX = Math.abs(it.x - basket.x) < (basket.w / 2 + 12);
+        const withinY = it.y > basketY - 12 && it.y < basketY + 16;
+        if (withinX && withinY) {
+          score = Math.max(0, score + it.type.points);
+          addParticles(it.x, basketY, it.type.color, 9);
+          addPopup(it.x, basketY - 10, (it.type.points > 0 ? '+' : '') + it.type.points, it.type.points < 0 ? '#FF6B6B' : '#FFFFFF');
+          if (it.type.key === 'error') flashTimer = 100;
+          items.splice(i, 1);
+          continue;
+        }
+        if (it.y - 20 > H) items.splice(i, 1);
+      }
+
+      if (flashTimer > 0) flashTimer = Math.max(0, flashTimer - dt);
+      updateHUD();
+    }
+
+    if (state === 'gameover') {
+      const elapsed = performance.now() - gameOverAt;
+      if (elapsed >= 600 && items.length) items = [];
+    }
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.x += p.vx; p.y += p.vy; p.vy += 0.08;
+      p.life -= dt / 500;
+    }
+    particles = particles.filter(function (p) { return p.life > 0; });
+
+    for (let i = 0; i < popups.length; i++) {
+      const p = popups[i];
+      p.y -= dt * 0.03;
+      p.life -= dt / 800;
+    }
+    popups = popups.filter(function (p) { return p.life > 0; });
+  }
+
+  function drawBasketAndBunny() {
+    const bx = basket.x, by = basketY;
+
+    let bob = 0;
+    if (state === 'playing') {
+      bob = Math.sin(performance.now() * 0.008) * 1.5;
+    } else if (state === 'gameover' && gameOverAt !== null) {
+      const elapsed = performance.now() - gameOverAt;
+      if (elapsed > 600) bob = Math.abs(Math.sin((elapsed - 600) * 0.006)) * 6;
+    }
+
+    if (PLAYER_IMG.complete && PLAYER_IMG.naturalWidth) {
+      const h = 100, w = h * (288 / 232);
+      ctx.drawImage(PLAYER_IMG, Math.round(bx - w / 2), Math.round(by - h * 0.42 - bob), Math.round(w), Math.round(h));
+    }
+  }
+
+  function drawClouds() {
+    if (!CLOUD_IMG.complete || !CLOUD_IMG.naturalWidth) return;
+    ctx.globalAlpha = 0.9;
+    for (let i = 0; i < CLOUDS.length; i++) {
+      const c = CLOUDS[i];
+      const h = c.w * (CLOUD_SRC.h / CLOUD_SRC.w);
+      ctx.drawImage(
+        CLOUD_IMG, CLOUD_SRC.x, CLOUD_SRC.y, CLOUD_SRC.w, CLOUD_SRC.h,
+        Math.round(c.x), Math.round(c.y), Math.round(c.w), Math.round(h)
+      );
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function drawGround() {
+    const groundY = basketY + 40;
+    const dashW = 40, gap = 24, dashH = 3;
+    ctx.fillStyle = 'rgba(255,255,255,0.35)';
+    for (let x = 0; x < W; x += dashW + gap) {
+      ctx.fillRect(Math.round(x), Math.round(groundY), dashW, dashH);
+    }
+    const dashW2 = 18, gap2 = 30, dashH2 = 2;
+    ctx.fillStyle = 'rgba(255,255,255,0.18)';
+    for (let x = -20; x < W; x += dashW2 + gap2) {
+      ctx.fillRect(Math.round(x), Math.round(groundY + 10), dashW2, dashH2);
+    }
+  }
+
+  function render() {
+    ctx.fillStyle = '#07239A';
+    ctx.fillRect(0, 0, W, H);
+
+    drawClouds();
+    drawGround();
+
+    if (state === 'idle') {
+      ctx.globalAlpha = 0.4;
+      for (let i = 0; i < bgItems.length; i++) drawItem(bgItems[i].type, bgItems[i].x, bgItems[i].y);
+      ctx.globalAlpha = 1;
+    } else {
+      let alpha = 1;
+      if (state === 'gameover' && gameOverAt !== null) {
+        alpha = clamp(1 - (performance.now() - gameOverAt) / 600, 0, 1);
+      }
+      ctx.globalAlpha = alpha;
+      for (let i = 0; i < items.length; i++) drawItem(items[i].type, items[i].x, items[i].y);
+      ctx.globalAlpha = 1;
+    }
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      ctx.globalAlpha = clamp(p.life, 0, 1);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(Math.round(p.x - 2), Math.round(p.y - 2), 4, 4);
+    }
+    ctx.globalAlpha = 1;
+
+    drawBasketAndBunny();
+
+    ctx.textAlign = 'center';
+    for (let i = 0; i < popups.length; i++) {
+      const p = popups[i];
+      ctx.globalAlpha = clamp(p.life, 0, 1);
+      ctx.fillStyle = p.color;
+      ctx.font = "700 20px 'Instrument Sans', Arial, sans-serif";
+      ctx.fillText(p.text, p.x, p.y);
+    }
+    ctx.globalAlpha = 1;
+
+    if (flashTimer > 0) {
+      const a = (flashTimer / 100) * 0.5;
+      ctx.fillStyle = 'rgba(255,68,68,' + a + ')';
+      const t = 20;
+      ctx.fillRect(0, 0, W, t);
+      ctx.fillRect(0, H - t, W, t);
+      ctx.fillRect(0, 0, t, H);
+      ctx.fillRect(W - t, 0, t, H);
+    }
+
+    if (state === 'idle') {
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'center';
+      ctx.font = "700 44px 'PP NeueBit', 'Instrument Sans', Arial, sans-serif";
+      ctx.fillText("Let's test your reflexes", W / 2, H / 2 - 64);
+      ctx.font = "500 20px 'Instrument Sans', Arial, sans-serif";
+      ctx.fillStyle = 'rgba(255,255,255,0.85)';
+      ctx.fillText('Press space to start', W / 2, H / 2 - 34);
+    }
+
+    if (state === 'gameover' && gameOverAt !== null) {
+      const elapsed = performance.now() - gameOverAt;
+      const overlayA = clamp(elapsed / 600, 0, 0.8);
+      ctx.fillStyle = 'rgba(4,20,90,' + overlayA + ')';
+      ctx.fillRect(0, 0, W, H);
+      if (elapsed > 500) {
+        ctx.globalAlpha = clamp((elapsed - 500) / 300, 0, 1);
+        ctx.textAlign = 'center';
+        ctx.fillStyle = '#fff';
+        ctx.font = "700 56px 'Instrument Sans', Arial, sans-serif";
+        ctx.fillText(String(score), W / 2, H / 2 - 6);
+        ctx.font = "600 20px 'Instrument Sans', Arial, sans-serif";
+        ctx.fillText(ratingFor(score), W / 2, H / 2 + 24);
+        ctx.fillStyle = 'rgba(255,255,255,0.75)';
+        ctx.font = "500 16px 'Instrument Sans', Arial, sans-serif";
+        ctx.fillText('Play again', W / 2, H / 2 + 52);
+        ctx.globalAlpha = 1;
+      }
+    }
+  }
+
+  let lastTime = null;
+  let rafId = null;
+
+  function loop(now) {
+    if (lastTime === null) lastTime = now;
+    const dt = Math.min(now - lastTime, 100);
+    lastTime = now;
+    update(dt);
+    render();
+    rafId = requestAnimationFrame(loop);
+  }
+  rafId = requestAnimationFrame(loop);
+
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = null;
+    } else if (!rafId) {
+      lastTime = null;
+      rafId = requestAnimationFrame(loop);
+    }
+  });
+
+  updateHUD();
+})();
+</script>
+
+</body>
+</html>
