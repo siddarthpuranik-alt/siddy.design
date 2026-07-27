@@ -268,8 +268,17 @@
     font-weight: 400;
     font-size: 14px;
     padding: 8px 14px;
-    border-radius: 99px;
-    box-shadow: 0 12px 28px rgba(7, 35, 154, 0.35);
+    clip-path: polygon(
+      8px 0, calc(100% - 8px) 0,
+      calc(100% - 8px) 4px, calc(100% - 4px) 4px, calc(100% - 4px) 8px, 100% 8px,
+      100% calc(100% - 8px),
+      calc(100% - 4px) calc(100% - 8px), calc(100% - 4px) calc(100% - 4px), calc(100% - 8px) calc(100% - 4px), calc(100% - 8px) 100%,
+      8px 100%,
+      8px calc(100% - 4px), 4px calc(100% - 4px), 4px calc(100% - 8px), 0 calc(100% - 8px),
+      0 8px,
+      4px 8px, 4px 4px, 8px 4px, 8px 0
+    );
+    filter: drop-shadow(0 12px 28px rgba(7, 35, 154, 0.35));
     white-space: nowrap;
     pointer-events: none;
     opacity: 0;
