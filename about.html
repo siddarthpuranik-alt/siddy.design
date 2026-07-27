@@ -352,6 +352,9 @@
     background: var(--blue-deep);
     touch-action: none;
   }
+  @media (max-width: 1024px) {
+    .footer-game { display: none; }
+  }
 
   /* ---------- SCROLL REVEAL ---------- */
   .reveal {
@@ -731,6 +734,7 @@ window.addEventListener('resize', () => {
 
   const canvas = document.getElementById('bcCanvas');
   if (!canvas) return;
+  if (window.matchMedia('(max-width: 1024px)').matches) return;
   const ctx = canvas.getContext('2d');
   const scoreEl = document.getElementById('bcScore');
   const timeEl = document.getElementById('bcTime');
