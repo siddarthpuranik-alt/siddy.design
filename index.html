@@ -5,6 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Siddarth Puranik — Product Designer</title>
 <meta name="description" content="Siddarth is a product designer who turns complexity into confidence. 2.5+ years building across AI, Fintech and 0→1 MVPs.">
+
+<!-- Open Graph / link previews (WhatsApp, iMessage, Slack, etc.) -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://siddarthpuranik-design.vercel.app/">
+<meta property="og:title" content="Siddarth Puranik — Product Designer">
+<meta property="og:description" content="Siddarth is a product designer who turns complexity into confidence. 2.5+ years building across AI, Fintech and 0→1 MVPs.">
+<meta property="og:image" content="https://siddarthpuranik-design.vercel.app/assets/images/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Siddarth Puranik — Product Designer">
+<meta name="twitter:description" content="Siddarth is a product designer who turns complexity into confidence. 2.5+ years building across AI, Fintech and 0→1 MVPs.">
+<meta name="twitter:image" content="https://siddarthpuranik-design.vercel.app/assets/images/og-cover.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
@@ -526,6 +542,13 @@
   }
 
   /* ---------- RESPONSIVE ---------- */
+  /* Bridges the gap between the fixed 904px hero-content cap and the
+     960px rule below — without it, the yoe-tag (which is deliberately
+     positioned past hero-content's right edge) gets clipped by
+     .hero's overflow:hidden on tablet/small-laptop widths (~961-1240px). */
+  @media (min-width: 961px) and (max-width: 1240px) {
+    .hero-content { max-width: 70vw; }
+  }
   @media (max-width: 960px) {
     .project-grid { grid-template-columns: 1fr; }
     .brand-sticker { display: none; }
