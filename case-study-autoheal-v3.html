@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Designing the Evolving Knowledge Base for AccelOS | Siddarth Puranik</title>
+<meta name="description" content="Case study (draft): turning passive tool connections into a self-improving knowledge engine for AccelOS, an AI SRE platform.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: 'Bellisa Script';
+    src: url('fonts/BellisaScript-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'PP NeueBit';
+    src: url('fonts/PPNeueBit-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  :root {
+    --blue-deep: #07239a;
+    --blue-tag: #0726ad;
+    --muted-4: #83848a;
+    --max: 1280px;
+
+    --cs-heading: #302e3d;
+    --cs-body: rgba(48,46,61,0.8);
+    --cs-label: rgba(48,46,61,0.9);
+    --cs-border: #e0ddd8;
+    --cs-border-2: #cfcfcf;
+    --cs-badge-bg: #f3f4f6;
+    --cs-badge-text: #5a5961;
+    --cs-callout-bg: #f8f9fe;
+    --cs-callout-border: #1a3eb8;
+    --cs-accent-blue: #0077b8;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Instrument Sans', sans-serif;
+    color: var(--cs-heading);
+    background: #fff;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; display: block; }
+  a { text-decoration: none; color: inherit; }
+
+  .script { font-family: 'Bellisa Script', cursive; font-weight: 400; }
+  .script-sp { margin-right: 0.3em; }
+
+  /* ---------- NAV ---------- */
+  .cs-nav {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    width: 100%;
+  }
+  .cs-logo { font-family: 'PP NeueBit', sans-serif; font-weight: 700; font-size: 32px; color: #fff; }
+  .cs-nav-links { display: flex; align-items: center; gap: 16px; font-size: 20px; color: #fff; }
+  .cs-nav-links a:hover { text-decoration: underline; }
+
+  /* ---------- HERO ---------- */
+  .cs-hero {
+    position: relative;
+    border-bottom: 1px solid var(--cs-border-2);
+    overflow: hidden;
+    background: linear-gradient(180deg, #D14900 0%, #FFBB56 100%);
+  }
+  .cs-hero::before {
+    content: '';
+    position: absolute; inset: 0; z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.5; mix-blend-mode: overlay; pointer-events: none;
+  }
+  .cs-hero-inner { position: relative; z-index: 2; }
+  .cs-hero-stage { position: relative; width: 100%; padding: 4% 5% 0; display: flex; flex-direction: column; align-items: center; }
+  .cs-hero-title {
+    width: 100%; max-width: 780px; margin: 0 0 32px;
+    font-family: 'Alegreya', serif; font-weight: 400;
+    font-size: clamp(24px, 4.44vw, 56px); line-height: 1.15; letter-spacing: -0.03em;
+    text-align: center; color: #fff;
+  }
+  .cs-hero-title em { font-style: italic; }
+  .cs-hero-product {
+    position: relative; width: 100%; max-width: 900px;
+    border: clamp(4px, 0.6vw, 9px) solid rgba(255,255,255,0.3);
+    border-bottom: none; border-radius: 12px 12px 0 0; overflow: hidden; background: #fff;
+    transform: translateY(10%);
+  }
+  .cs-hero-product img { width: 100%; }
+
+  /* ---------- BODY / SIDE NAV / CONTENT ---------- */
+  .cs-body { max-width: 1440px; margin: 0 auto; display: flex; align-items: flex-start; padding-left: 40px; }
+  .cs-sidenav {
+    position: sticky; top: 0; display: flex; flex-direction: column; gap: 24px;
+    width: 190px; flex-shrink: 0; padding: 60px 0;
+  }
+  .cs-sidenav-home { display: flex; align-items: center; gap: 8px; }
+  .cs-sidenav-home svg { width: 16px; height: 16px; transform: rotate(180deg); }
+  .cs-sidenav-home span { font-family: 'Instrument Sans', sans-serif; font-weight: 500; font-size: 12px; letter-spacing: 1.44px; color: var(--blue-tag); }
+  .cs-sidenav-links { display: flex; flex-direction: column; gap: 2px; }
+  .cs-sidenav-links a {
+    display: flex; align-items: center; height: 28px; padding-left: 16px;
+    border-left: 2px solid #e0ddd8; font-size: 14px; line-height: 1.4; color: rgba(48,46,61,0.45);
+  }
+  .cs-sidenav-links a.active { border-left-color: #302e3d; color: #302e3d; }
+
+  .cs-content { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; border-left: 1px solid var(--cs-border-2); padding-bottom: 40px; }
+  .cs-section { width: 1010px; max-width: 100%; padding: 56px 60px; border-bottom: 1px solid var(--cs-border); }
+  .cs-section:last-child { border-bottom: none; }
+  .cs-eyebrow { font-size: 11px; letter-spacing: 1.32px; color: var(--cs-label); margin: 0 0 8px; text-transform: uppercase; }
+  .cs-h2 {
+    font-family: 'Alegreya', serif; font-weight: 400; font-size: 34px; line-height: 1.3;
+    letter-spacing: -1.3px; color: var(--cs-heading); margin: 0 0 8px; max-width: 890px;
+  }
+  .cs-h2 em, .cs-h2 i { font-style: italic; color: #0726AD; }
+  .cs-body-text { font-size: 16px; line-height: 1.75; color: var(--cs-body); max-width: 700px; margin: 0; }
+  .cs-body-text.wide { max-width: 780px; }
+  .cs-body-text + .cs-body-text { margin-top: 12px; }
+  .cs-highlight { font-weight: 700; color: #284db6; }
+
+  /* Meta row */
+  .cs-meta-row { display: flex; gap: 60px; flex-wrap: wrap; }
+  .cs-meta { display: flex; flex-direction: column; gap: 6px; }
+  .cs-meta p:first-child { font-size: 11px; letter-spacing: 1.1px; color: var(--cs-label); margin: 0; text-transform: uppercase; }
+  .cs-meta p:last-child { font-family: 'Alegreya', serif; font-size: 20px; letter-spacing: -0.8px; color: var(--cs-heading); margin: 0; }
+
+  .av-tldr { font-family: 'Alegreya', serif; font-weight: 400; font-size: 34px; line-height: 1.3; letter-spacing: -1.3px; color: var(--cs-heading); max-width: 890px; margin: 0; }
+  .av-tldr em { font-style: italic; color: #0726AD; }
+
+  /* Figures / images */
+  .cs-figure { width: 100%; margin-top: 20px; border-radius: 12px; overflow: hidden; }
+  .cs-figure.bordered { border: 1px solid var(--cs-border); }
+  .cs-figure img { width: 100%; display: block; }
+  .cs-image-caption { padding: 12px 18px; font-size: 13px; line-height: 1.5; color: var(--cs-label); border-top: 1px solid var(--cs-border); margin: 0; background: #fff; }
+  .av-note {
+    font-size: 13.5px; line-height: 1.6; color: var(--cs-label);
+    background: var(--cs-callout-bg); border-left: 3px solid var(--cs-callout-border); border-radius: 8px;
+    padding: 12px 16px; margin: 20px 0 0; max-width: 680px;
+  }
+  .av-note strong { color: var(--cs-heading); }
+
+  /* Sub-block labels (used inside decisions) */
+  .av-block { margin-top: 56px; }
+  .av-block:first-of-type { margin-top: 40px; }
+  .av-sub-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 1px; color: var(--blue-tag); text-transform: uppercase; margin: 0 0 8px; }
+  .av-sub-title { font-family: 'Alegreya', serif; font-size: 22px; letter-spacing: -0.5px; color: var(--cs-heading); margin: 0 0 10px; max-width: 780px; }
+  .av-insight-line {
+    font-family: 'Alegreya', serif; font-style: italic; font-size: 19px; line-height: 1.5; color: var(--cs-heading);
+    background: var(--cs-callout-bg); border-left: 3px solid var(--cs-callout-border); border-radius: 8px;
+    padding: 16px 20px; margin: 0 0 32px; max-width: 820px;
+  }
+
+  /* Decisions */
+  .ah-decision { width: 100%; padding-top: 44px; margin-top: 44px; border-top: 1px solid var(--cs-border); }
+  .ah-decision:first-of-type { padding-top: 0; margin-top: 24px; border-top: none; }
+  .ah-decision-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 1px; color: var(--blue-tag); margin: 0 0 8px; text-transform: uppercase; }
+  .ah-decision-title { font-family: 'Alegreya', serif; font-size: 27px; letter-spacing: -0.7px; color: var(--cs-heading); margin: 0 0 16px; max-width: 780px; }
+
+  /* Research + insights */
+  .ah-research-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0; width: 100%; }
+  .ah-research-card { background: #f7f9ff; border: 1px solid #c7d0f5; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 8px; }
+  .ah-research-title { font-size: 15px; font-weight: 700; color: var(--cs-heading); margin: 0; }
+  .ah-research-body { font-size: 14px; line-height: 1.6; color: var(--cs-label); margin: 0; }
+
+  .av-insight-block { margin-top: 32px; }
+  .av-insight-block:first-of-type { margin-top: 28px; }
+  .av-insight-num-title { font-family: 'Alegreya', serif; font-weight: 400; font-size: 34px; line-height: 1.3; letter-spacing: -1.3px; color: var(--cs-heading); margin: 0 0 8px; max-width: 890px; }
+
+  /* Impact + reflections */
+  .cs-wins { display: flex; flex-direction: column; gap: 16px; width: 100%; max-width: 780px; margin-top: 16px; }
+  .cs-win { display: flex; gap: 12px; padding: 20px 24px; background: #fff; border: 1px solid var(--cs-border); border-radius: 12px; }
+  .cs-win-mark { color: var(--blue-tag); font-size: 15px; padding-top: 3px; flex-shrink: 0; }
+  .cs-win p { font-size: 15px; line-height: 1.65; color: var(--cs-label); margin: 0; }
+  .cs-win p strong { color: var(--cs-heading); }
+
+  /* Checker + footer */
+  .checker-strip { height: 100px; width: 100%; background-repeat: no-repeat; background-size: 100% 100%; image-rendering: pixelated; }
+  .checker-blue { background-color: var(--blue-deep); }
+  .footer { background: var(--blue-deep); padding: 90px 0 100px; }
+  .footer-inner { max-width: var(--max); margin: 0 auto; padding: 0 40px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 48px; }
+  .footer-cta h2 { font-family: 'PP NeueBit', sans-serif; font-weight: 700; font-size: 42px; color: #fff; margin: 0 0 8px; text-shadow: 0 4px 4px rgba(0,0,0,0.25); }
+  .footer-cta .credit { display: flex; align-items: center; gap: 12px; font-size: 24px; color: #fff; text-shadow: 0 4px 4px rgba(0,0,0,0.25); }
+  .footer-cta .credit .logo-inline { font-family: 'PP NeueBit', sans-serif; font-weight: 700; }
+  .footer-links { display: flex; gap: 80px; font-size: 20px; letter-spacing: 2px; }
+  .footer-links .col { display: flex; flex-direction: column; gap: 15px; }
+  .footer-links .col-title { color: var(--muted-4); margin: 0; }
+  .footer-links a { color: #fff; }
+  .footer-links a:hover { text-decoration: underline; }
+
+  .footer-game { width: 100%; margin-top: 56px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.2); }
+  .bc-hud { max-width: var(--max); margin: 0 auto 10px; padding: 0 40px; display: flex; justify-content: space-between; align-items: center; color: rgba(255,255,255,0.75); font-family: 'PP NeueBit', sans-serif; font-size: 26px; font-weight: 700; letter-spacing: 0.2px; }
+  .bc-hud .bc-timer { text-align: right; }
+  .bc-canvas-wrap { width: 100%; overflow: hidden; }
+  #bcCanvas { width: 100%; aspect-ratio: 1200 / 420; display: block; background: var(--blue-deep); touch-action: none; }
+  @media (max-width: 1024px) {
+    .footer-game { display: none; }
+  }
+
+  /* Scroll reveal */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+
+  /* Responsive */
+  @media (max-width: 1100px) {
+    .cs-body { flex-direction: column; padding-left: 0; }
+    .cs-sidenav { position: relative; flex-direction: row; flex-wrap: wrap; width: 100%; padding: 20px 24px; gap: 12px 28px; }
+    .cs-sidenav-links { flex-direction: row; flex-wrap: wrap; }
+    .cs-content { border-left: none; }
+    .cs-section { padding: 40px 24px; }
+    .ah-research-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .cs-nav { padding: 16px 20px; }
+    .cs-hero-stage { padding: 8% 5%; }
+    .cs-h2 { font-size: 27px; }
+    .footer { padding: 60px 0 70px; }
+    .footer-inner { padding: 0 20px; }
+    .footer-links { gap: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="cs-hero">
+  <div class="cs-hero-inner">
+    <nav class="cs-nav">
+      <a href="index.html#top" class="cs-logo"><span class="script script-sp">S</span>iddy :)</a>
+      <div class="cs-nav-links">
+        <a href="about.html">About</a>
+        <a href="https://drive.google.com/file/d/1hfLQfPG-Kku0qe4mZkJ9K5bSO9vNIyAe/view?usp=sharing" target="_blank" rel="noopener">Resume</a>
+      </div>
+    </nav>
+    <div class="cs-hero-stage">
+      <h1 class="cs-hero-title">Designing the Evolving <em>Knowledge Base</em> for AccelOS</h1>
+      <div class="cs-hero-product">
+        <img src="assets/images/autoheal/integration-first-onboarding.png" alt="Redesigned integration-first onboarding page, showing the three-step context flow and first integration CTA">
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="cs-body">
+  <nav class="cs-sidenav">
+    <a class="cs-sidenav-home" href="index.html#top">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6l6 6-6 6" stroke="#0726ad" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>HOME</span>
+    </a>
+    <div class="cs-sidenav-links">
+      <a href="#overview" class="active">Overview</a>
+      <a href="#problem">The Problem</a>
+      <a href="#brief-role">Brief &amp; Role</a>
+      <a href="#solutions">Solutions</a>
+      <a href="#reflections">Reflections</a>
+    </div>
+  </nav>
+
+  <main class="cs-content">
+    <section class="cs-section reveal">
+      <div class="cs-meta-row">
+        <div class="cs-meta"><p>My Role</p><p>Product Designer</p></div>
+        <div class="cs-meta"><p>Duration</p><p>3 Weeks</p></div>
+        <div class="cs-meta"><p>Client</p><p>AccelOS &times; Parallel</p></div>
+        <div class="cs-meta"><p>Team</p><p>Sandesh A &middot; Nupra &middot; Me</p></div>
+      </div>
+    </section>
+
+    <section class="cs-section reveal">
+      <p class="cs-eyebrow">TL;DR</p>
+      <p class="av-tldr">SRE teams lose hours investigating incidents with partial context. I designed a system that turns <em>passive tool connections</em> into <em>a self-improving knowledge engine</em>.</p>
+    </section>
+
+    <section class="cs-section reveal" id="overview">
+      <p class="cs-eyebrow">What is AccelOS?</p>
+      <h2 class="cs-h2">An AI SRE platform that steps in <em>before a human is paged</em></h2>
+      <p class="cs-body-text wide">AccelOS is an AI-powered Site Reliability Engineering platform built for regulated enterprises. When something breaks in production, AccelOS&rsquo;s AI agents step in before a human engineer is even paged, triaging alerts, investigating root causes, and proposing fixes. The goal: cut mean time to resolution (MTTR) from hours to minutes while maintaining the security and compliance standards regulated industries demand.</p>
+      <p class="cs-body-text wide">At the core of AccelOS&rsquo;s accuracy is its <strong>Production Context Graph</strong>: a living map of services, teams, ownership, runbooks, and historical incident data. The richer this graph, the smarter and faster the AI performs. <span class="cs-highlight">My work focused on making this graph richer.</span></p>
+      <p class="av-note"><strong>Note:</strong> AccelOS has since been rebranded to Autoheal. This case study uses the product name at the time of the project.</p>
+    </section>
+
+    <section class="cs-section reveal" id="problem">
+      <p class="cs-eyebrow">The Problem</p>
+      <h2 class="cs-h2">Low input, low output: <em>a vicious cycle</em></h2>
+      <p class="cs-body-text wide">AccelOS gets smarter with every tool an SRE connects and scopes. But most users weren&rsquo;t adding enough integrations, leaving the AI to investigate with partial visibility, and undermining trust in the platform.</p>
+
+      <div class="cs-figure" style="aspect-ratio:1780/1180; margin-top:24px; border-radius:16px;">
+        <img src="assets/images/autoheal/vicious-cycle.png" alt="Vicious cycle diagram: few tools connected leads to the AI having partial visibility, which leads to the AI underperforming, which leads to engineers losing trust, which leads back to few tools connected">
+      </div>
+    </section>
+
+    <section class="cs-section reveal" id="brief-role">
+      <p class="cs-eyebrow">Brief</p>
+      <h2 class="cs-h2">To turn passive integrations into a <em>self-improving knowledge engine</em> that helps AccelOS&rsquo;s AI resolve production incidents faster and with less human intervention.</h2>
+    </section>
+
+    <section class="cs-section reveal" id="research">
+      <p class="cs-eyebrow">Research &amp; Discovery</p>
+      <h2 class="cs-h2">Understanding SRE workflows <em>from the inside out</em></h2>
+      <p class="cs-body-text wide">SRE tooling is dense with jargon (MTTR, MTTD, runbooks, on-call rotations, Datadog monitors) and deeply entrenched workflows. I had to build enough fluency, fast, to design effectively.</p>
+      <div class="ah-research-grid">
+        <div class="ah-research-card">
+          <p class="ah-research-title">Secondhand research</p>
+          <p class="ah-research-body">Worked closely with engineering and product leadership to understand how SREs think about incidents and where the existing workflow lost them.</p>
+        </div>
+        <div class="ah-research-card">
+          <p class="ah-research-title">Workflow mapping</p>
+          <p class="ah-research-body">Mapped the incident lifecycle (alert to postmortem) to find natural touchpoints for knowledge contribution.</p>
+        </div>
+        <div class="ah-research-card">
+          <p class="ah-research-title">Competitive analysis</p>
+          <p class="ah-research-body">Studied how observability and on-call tools handled progressive onboarding.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-section reveal">
+      <p class="cs-eyebrow">Key Insights</p>
+
+      <div class="av-insight-block">
+        <p class="av-insight-num-title">01: The product told engineers what to do, not why it matters</p>
+        <p class="cs-body-text wide">The existing flow framed integrations as a setup task: &ldquo;connect a data source to get started.&rdquo; For SREs juggling incidents, this read as optional configuration, not a high-value investment. The product never showed what improves when you connect more.</p>
+        <div class="cs-figure bordered" style="aspect-ratio:1780/494;">
+          <img src="assets/images/autoheal/existing-onboarding.png" alt="Existing onboarding and connectors page, showing a warning that AccelOS cannot investigate incidents yet">
+        </div>
+      </div>
+
+      <div class="av-insight-block">
+        <p class="av-insight-num-title">02: The readiness score created a false finish line</p>
+        <p class="cs-body-text wide">The existing &ldquo;Investigation Readiness&rdquo; metric tied progress to tool connections alone. Once an SRE connected three tools and hit 100%, it signaled &ldquo;you&rsquo;re done.&rdquo; But connecting tools is just the starting point. A truly effective knowledge base also needs the insights the AI uncovers during investigations to be reviewed and fed back in. The metric made a continuous process feel like a one-time setup task.</p>
+        <div class="cs-figure bordered" style="aspect-ratio:1780/1009;">
+          <img src="assets/images/autoheal/existing-readiness.png" alt="Existing Investigation Readiness dashboard showing a 100% score and a get set up in 2 minutes checklist">
+        </div>
+      </div>
+
+      <div class="av-insight-block">
+        <p class="av-insight-num-title">03: Investigations generated knowledge that went nowhere</p>
+        <p class="cs-body-text wide">During investigations, the AI surfaced patterns, flagged root causes, and identified gaps. But none of these findings looped back into the knowledge base automatically or through a simple review step. Every investigation started from scratch instead of building on the last one. The learning loop was broken.</p>
+      </div>
+    </section>
+
+    <section class="cs-section reveal" id="solutions">
+      <p class="cs-eyebrow">Solutions</p>
+      <h2 class="cs-h2">Three decisions that closed the loop</h2>
+      <p class="cs-body-text wide">Each decision targets one break in the cycle: getting engineers to connect more tools, making the AI&rsquo;s growth visible, and turning investigation findings into lasting knowledge.</p>
+    </section>
+
+    <section class="cs-section">
+      <div class="ah-decision reveal">
+        <p class="ah-decision-eyebrow">Decision 01</p>
+        <p class="ah-decision-title">How do we get engineers to invest in the AI&rsquo;s context?</p>
+        <p class="av-insight-line">&ldquo;The existing flow never connected the act of integrating a tool to what it improves for the AI.&rdquo;</p>
+
+        <div class="av-block">
+          <p class="av-sub-eyebrow">Before</p>
+          <p class="cs-body-text wide">The existing flow dropped users directly onto a flat integrations page. No explanation of what each tool unlocks for the AI, no sense of progress. It treated onboarding as a configuration task.</p>
+          <div class="cs-figure bordered" style="aspect-ratio:1540/930;">
+            <img src="assets/images/autoheal/before-integrations-annotated.png" alt="Annotated before state of the integrations page, with callouts on warning tone and the misleading three-item checklist">
+          </div>
+        </div>
+
+        <div class="av-block">
+          <p class="av-sub-eyebrow">After &middot; Final Decision</p>
+          <p class="av-sub-title">Integration-first onboarding</p>
+          <p class="cs-body-text wide">Make integrating tools (Datadog, PagerDuty, Slack, etc.) the primary path to enriching the knowledge base, so connecting feels like leveling up, not configuring software.</p>
+          <div class="cs-figure bordered" style="aspect-ratio:2310/1501;">
+            <img src="assets/images/autoheal/integration-first-onboarding.png" alt="Redesigned integration-first onboarding page, showing the three-step context flow and first integration CTA">
+          </div>
+        </div>
+      </div>
+
+      <div class="ah-decision reveal">
+        <p class="ah-decision-eyebrow">Decision 02</p>
+        <p class="ah-decision-title">How do we make AI intelligence visible and trackable?</p>
+        <p class="av-insight-line">&ldquo;The readiness metric treated a continuous process as a one-time setup task.&rdquo;</p>
+
+        <div class="av-block">
+          <p class="av-sub-eyebrow">Exploration</p>
+          <p class="cs-body-text wide">No AI SRE tool had solved this problem yet, so I looked cross-industry: how do platforms like Duolingo, Unity, and Google Maps visualize progress in systems that never truly &ldquo;finish&rdquo;? The pattern that kept surfacing was tiered progression, where each level unlocks something tangible rather than just filling a bar.</p>
+          <div class="cs-figure bordered" style="aspect-ratio:2310/1533;">
+            <img src="assets/images/autoheal/exploration-cross-industry.jpg" alt="Cross-industry exploration screenshots of tiered progression patterns from apps like Fiverr, Duolingo, and Google Maps">
+          </div>
+        </div>
+
+        <div class="av-block">
+          <p class="av-sub-eyebrow">Final Decision</p>
+          <p class="av-sub-title">A three-tier levels system tied to real AI capability</p>
+          <p class="cs-body-text wide">Level 1 (Foundational Core), Level 2 (Contextual Insight), and Level 3 (Autonomous) each map to a distinct jump in what the AI can do. Levels appear at the moment of first success, inside the investigation insights panel, and on the home dashboard, so they&rsquo;re always visible without needing a separate page.</p>
+          <div class="cs-figure bordered" style="aspect-ratio:2310/1554;">
+            <img src="assets/images/autoheal/levels-system.png" alt="Levels system explainer modal showing Foundational Core, Contextual Insight, and Autonomous tiers">
+          </div>
+        </div>
+
+        <div class="av-block">
+          <p class="av-sub-eyebrow">Sub-decision</p>
+          <p class="av-sub-title">Timing the reveal: levels introduced at the moment of first success</p>
+          <p class="cs-body-text wide">Instead of explaining levels during onboarding, we introduce them right after the first tool is connected. The user sees where they stand, what&rsquo;s ahead, and a clear next step, all while they&rsquo;re in a forward-moving mindset.</p>
+          <div class="cs-figure bordered" style="aspect-ratio:1638/1074;">
+            <video id="av-success-video" src="assets/videos/autoheal/success-state-reveal.mp4" poster="assets/images/autoheal/datadog-success.png" controls playsinline style="width:100%; height:100%; display:block; object-fit:cover;">
+              Your browser does not support embedded video.
+            </video>
+          </div>
+          <div class="cs-image-caption" style="border:1px solid var(--cs-border); border-top:none; border-radius:0 0 12px 12px; margin-top:-1px; display:flex; align-items:center; justify-content:space-between; gap:12px;">
+            <span>Connecting Datadog and watching the levels system reveal itself.</span>
+            <button type="button" onclick="var v=document.getElementById('av-success-video'); v.currentTime=0; v.play();" style="flex-shrink:0; display:flex; align-items:center; gap:6px; padding:6px 12px; border:1px solid var(--cs-border-2); border-radius:999px; background:#fff; color:var(--cs-heading); font-size:12px; font-weight:600; cursor:pointer;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M17.65 6.35A8 8 0 1 0 19.5 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M17 4v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Restart
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ah-decision reveal">
+        <p class="ah-decision-eyebrow">Decision 03</p>
+        <p class="ah-decision-title">How do we close the loop between investigations and the knowledge base?</p>
+        <p class="av-insight-line">&ldquo;AI findings during investigations had no path back into the knowledge base.&rdquo;</p>
+
+        <div class="av-block">
+          <p class="av-sub-eyebrow">Exploration</p>
+          <p class="cs-body-text wide">We studied how other AI tools (Jasper, Intercom, and more) let users update their knowledge base. One common pattern stood out: the entry point for adding knowledge always lived where the primary action happened, not in a separate settings page. Accessibility and visibility over configuration.</p>
+          <div class="cs-figure bordered" style="aspect-ratio:2310/1779;">
+            <img src="assets/images/autoheal/exploration-ai-tools.png" alt="Annotated exploration of how Jasper, GitHub, Intercom, and GitLab surface knowledge base entry points">
+          </div>
+        </div>
+
+        <div class="av-block">
+          <p class="av-sub-eyebrow">Final Decision</p>
+          <p class="av-sub-title">A review panel inside the investigation page, plus contextual nudges</p>
+          <p class="cs-body-text wide">A persistent &ldquo;Investigation Insights&rdquo; CTA badges unreviewed findings. Each insight shows the gap, how often it&rsquo;s recurred, and two actions: update or dismiss. During active investigations, quantified nudges show the cost of missing context in numbers SREs care about: time lost and data gaps. The engineer stays in control, but the AI does the work of surfacing what&rsquo;s missing.</p>
+          <div class="cs-figure bordered" style="aspect-ratio:1654/1074;">
+            <video id="av-insights-video" src="assets/videos/autoheal/investigation-insights-reveal.mp4" controls playsinline preload="metadata" style="width:100%; height:100%; display:block; object-fit:cover;">
+              Your browser does not support embedded video.
+            </video>
+          </div>
+          <div class="cs-image-caption" style="border:1px solid var(--cs-border); border-top:none; border-radius:0 0 12px 12px; margin-top:-1px; display:flex; align-items:center; justify-content:space-between; gap:12px;">
+            <span>The Investigation Insights panel surfacing a finding and quantified nudges.</span>
+            <button type="button" onclick="var v=document.getElementById('av-insights-video'); v.currentTime=0; v.play();" style="flex-shrink:0; display:flex; align-items:center; gap:6px; padding:6px 12px; border:1px solid var(--cs-border-2); border-radius:999px; background:#fff; color:var(--cs-heading); font-size:12px; font-weight:600; cursor:pointer;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M17.65 6.35A8 8 0 1 0 19.5 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M17 4v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Restart
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-section reveal" id="impact">
+      <p class="cs-eyebrow">Impact</p>
+      <h2 class="cs-h2">What shipped, and what it was meant to change</h2>
+      <div class="cs-wins">
+        <div class="cs-win">
+          <span class="cs-win-mark">&#10022;</span>
+          <p><strong>What I delivered in 3 weeks.</strong> Spent the first week building domain fluency and product context. Over the remaining two weeks, delivered a complete redesign of how SREs interact with AccelOS&rsquo;s knowledge base: integration onboarding, a three-tier levels system, investigation insights, and contextual nudges.</p>
+        </div>
+        <div class="cs-win">
+          <span class="cs-win-mark">&#10022;</span>
+          <p><strong>Team response.</strong> The evolving knowledge base concept received strong buy-in from the team, validating the approach of turning passive integrations into a continuous, self-improving system.</p>
+        </div>
+        <div class="cs-win">
+          <span class="cs-win-mark">&#10022;</span>
+          <p><strong>Intended outcomes.</strong> The system was designed to increase integration adoption, close the gap between AI findings and the knowledge base, and reduce manual investigation time by giving the AI richer, continuously improving context.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-section reveal" id="reflections">
+      <p class="cs-eyebrow">Reflections</p>
+      <h2 class="cs-h2"><em>What I learned</em></h2>
+      <div class="cs-wins">
+        <div class="cs-win">
+          <span class="cs-win-mark">&#10022;</span>
+          <p><strong>Designing for a domain I didn&rsquo;t know.</strong> I walked into SRE tooling with zero context. Terms like MTTR, runbooks, and on-call rotations were new to me. That first week of ramping forced me to learn fast, but it also gave me an advantage: I caught assumptions the team had stopped questioning, like the idea that a readiness score with a finish line made sense for a system that never stops learning.</p>
+        </div>
+        <div class="cs-win">
+          <span class="cs-win-mark">&#10022;</span>
+          <p><strong>Behavior change over feature delivery.</strong> The hardest part wasn&rsquo;t designing screens. It was shifting the mental model from &ldquo;connect tools to get started&rdquo; to &ldquo;every tool you connect makes the AI smarter.&rdquo; The levels system and nudges weren&rsquo;t features for their own sake. They were mechanisms to change how engineers perceived their role in the AI&rsquo;s accuracy.</p>
+        </div>
+        <div class="cs-win">
+          <span class="cs-win-mark">&#10022;</span>
+          <p><strong>Embedding over destinations.</strong> Early conversations leaned toward a standalone knowledge management page. Research made it clear SREs wouldn&rsquo;t visit it. Distributing the feature across existing touchpoints (onboarding, investigations, success states) was harder to design but far more likely to be used.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="checker-strip checker-blue"></div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-cta">
+      <h2>Thanks for making it till here!</h2>
+      <p class="credit">Designed + coded by <span class="logo-inline"><span class="script script-sp">S</span>iddy :)</span></p>
+    </div>
+    <div class="footer-links">
+      <div class="col">
+        <p class="col-title">SAY HI</p>
+        <a href="https://www.linkedin.com/in/siddarth-puranik-b3933b24a" target="_blank" rel="noopener">LINKEDIN</a>
+        <a href="mailto:siddarthpuranik@gmail.com">GMAIL</a>
+      </div>
+      <div class="col">
+        <p class="col-title">PAGE</p>
+        <a href="index.html#top">HOME</a>
+        <a href="about.html">ABOUT</a>
+        <a href="https://drive.google.com/file/d/1hfLQfPG-Kku0qe4mZkJ9K5bSO9vNIyAe/view?usp=sharing" target="_blank" rel="noopener">RESUME</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-game">
+    <div class="bc-hud">
+      <div class="bc-score">Score: <span id="bcScore">0</span></div>
+      <div class="bc-timer">Time: <span id="bcTime">30</span>s</div>
+    </div>
+    <div class="bc-canvas-wrap">
+      <canvas id="bcCanvas"></canvas>
+    </div>
+  </div>
+</footer>
+
+<script>
+function paintDitherStrip(el, cellSize, baseColor, fillColor) {
+  const w = Math.ceil(el.clientWidth);
+  const h = Math.ceil(el.clientHeight);
+  if (!w || !h) return;
+  const cvs = document.createElement('canvas');
+  cvs.width = w; cvs.height = h;
+  const cx = cvs.getContext('2d');
+  cx.fillStyle = baseColor; cx.fillRect(0, 0, w, h);
+  cx.fillStyle = fillColor;
+  const cols = Math.ceil(w / cellSize);
+  const rows = Math.ceil(h / cellSize);
+  for (let r = 0; r < rows; r++) {
+    const t = rows === 1 ? 0 : r / (rows - 1);
+    const prob = Math.pow(1 - t, 1.4);
+    for (let c = 0; c < cols; c++) {
+      if (Math.random() < prob) cx.fillRect(c * cellSize, r * cellSize, cellSize, cellSize);
+    }
+  }
+  el.style.backgroundImage = `url(${cvs.toDataURL()})`;
+}
+function paintAllDitherStrips() {
+  document.querySelectorAll('.checker-blue').forEach(el => paintDitherStrip(el, 14, '#07239a', '#ffffff'));
+}
+paintAllDitherStrips();
+let ditherResizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(ditherResizeTimer);
+  ditherResizeTimer = setTimeout(paintAllDitherStrips, 200);
+});
+</script>
+
+<script src="assets/js/scroll-reveal.js" defer></script>
+
+<script>
+/* ---------- Bunny Catch (footer game, shared with other case-study pages) ---------- */
+(function () {
+  const W = 1200, H = 420, PX = 6;
+  const ROUND_MS = 30000;
+
+  const canvas = document.getElementById('bcCanvas');
+  if (!canvas) return;
+  if (window.matchMedia('(max-width: 1024px)').matches) return;
+  const ctx = canvas.getContext('2d');
+  const scoreEl = document.getElementById('bcScore');
+  const timeEl = document.getElementById('bcTime');
+
+  if (document.fonts && document.fonts.load) {
+    document.fonts.load("700 32px 'PP NeueBit'");
+  }
+
+  function fitCanvas() {
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.imageSmoothingEnabled = false;
+  }
+  fitCanvas();
+  window.addEventListener('resize', fitCanvas);
+
+  function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+
+  function loadImg(src) { const i = new Image(); i.src = src; return i; }
+  const PLAYER_IMG = loadImg('assets/images/bc-bunny.png');
+  const CLOUD_IMG = loadImg('assets/images/bc-cloud.png');
+
+  function drawBlocks(blocks, ox, oy) {
+    for (let i = 0; i < blocks.length; i++) {
+      const b = blocks[i];
+      ctx.fillStyle = b[4];
+      ctx.fillRect(Math.round(ox + b[0] * PX), Math.round(oy + b[1] * PX), b[2] * PX, b[3] * PX);
+    }
+  }
+
+  const CLOUDS = [
+    { x: 60, y: 50, w: 150, speed: 0.006 },
+    { x: 280, y: 110, w: 90, speed: 0.0048 },
+    { x: 500, y: 60, w: 120, speed: 0.0072 },
+    { x: 720, y: 100, w: 80, speed: 0.0052 },
+    { x: 940, y: 70, w: 130, speed: 0.0065 }
+  ];
+  const CLOUD_SRC = { x: 27, y: 38, w: 191, h: 51 };
+
+  const ITEM_TYPES = [
+    { key: 'arrow', points: 1, weight: 28, color: '#F5C518', img: loadImg('assets/images/bc-item-arrow.png'), ar: 126 / 138 },
+    { key: 'comment', points: 1, weight: 22, color: '#F0DE8A', img: loadImg('assets/images/bc-item-comment.png'), ar: 1256 / 1336 },
+    { key: 'pen', points: 2, weight: 18, color: '#B39DDB', img: loadImg('assets/images/bc-item-pen.png'), ar: 158 / 162 },
+    { key: 'bullian', points: 2, weight: 14, color: '#7C93E0', img: loadImg('assets/images/bc-item-bullian.png'), ar: 1348 / 1268 },
+    { key: 'component', points: 3, weight: 10, color: '#9B7FE0', img: loadImg('assets/images/bc-item-component.png'), ar: 166 / 152 },
+    { key: 'plugins', points: 4, weight: 6, color: '#F5A623', img: loadImg('assets/images/bc-item-plugins.png'), ar: 1686 / 1638 },
+    { key: 'figma', points: 5, weight: 4, color: '#A259FF', img: loadImg('assets/images/bc-item-figma.png'), ar: 118 / 130 },
+    {
+      key: 'error', points: -2, weight: 10, color: '#FF4444', gw: 6, gh: 6,
+      blocks: [
+        [0, 0, 1, 1, '#FF4444'], [1, 1, 1, 1, '#FF4444'], [2, 2, 1, 1, '#FF4444'], [3, 3, 1, 1, '#FF4444'], [4, 4, 1, 1, '#FF4444'], [5, 5, 1, 1, '#FF4444'],
+        [5, 0, 1, 1, '#FF4444'], [4, 1, 1, 1, '#FF4444'], [3, 2, 1, 1, '#FF4444'], [2, 3, 1, 1, '#FF4444'], [1, 4, 1, 1, '#FF4444'], [0, 5, 1, 1, '#FF4444']
+      ]
+    }
+  ];
+  const ITEM_WEIGHT_TOTAL = ITEM_TYPES.reduce((s, t) => s + t.weight, 0);
+  function pickItemType() {
+    let r = Math.random() * ITEM_WEIGHT_TOTAL;
+    for (let i = 0; i < ITEM_TYPES.length; i++) {
+      if (r < ITEM_TYPES[i].weight) return ITEM_TYPES[i];
+      r -= ITEM_TYPES[i].weight;
+    }
+    return ITEM_TYPES[ITEM_TYPES.length - 1];
+  }
+  const ITEM_SIZE = 50;
+  function drawItem(type, x, y) {
+    if (type.blocks) {
+      drawBlocks(type.blocks, x - (type.gw * PX) / 2, y - (type.gh * PX) / 2);
+      return;
+    }
+    if (!type.img.complete || !type.img.naturalWidth) return;
+    const h = ITEM_SIZE, w = h * type.ar;
+    ctx.drawImage(type.img, Math.round(x - w / 2), Math.round(y - h / 2), Math.round(w), Math.round(h));
+  }
+
+  const RATINGS = [
+    { min: 51, text: 'You might be a design tool yourself' },
+    { min: 31, text: 'Figma pro reflexes!' },
+    { min: 16, text: 'Solid catching!' },
+    { min: 0, text: 'Warming up! Try again?' }
+  ];
+  function ratingFor(s) {
+    for (let i = 0; i < RATINGS.length; i++) if (s >= RATINGS[i].min) return RATINGS[i].text;
+    return RATINGS[RATINGS.length - 1].text;
+  }
+
+  const basketY = H - 60;
+  const basket = { x: W / 2, w: 130 };
+  let targetBasketX = W / 2;
+
+  let state = 'idle'; // idle | playing | gameover
+  let score = 0;
+  let timeRemaining = ROUND_MS;
+  let elapsedInRound = 0;
+  let items = [];
+  let particles = [];
+  let popups = [];
+  let bgItems = [];
+  let spawnTimer = 0;
+  let lastSpawnX = null;
+  let flashTimer = 0;
+  let gameOverAt = null;
+
+  function initBgItems() {
+    bgItems = [];
+    for (let i = 0; i < 4; i++) {
+      bgItems.push({
+        type: pickItemType(),
+        x: 60 + Math.random() * (W - 120),
+        y: Math.random() * H,
+        vy: 0.3 + Math.random() * 0.2
+      });
+    }
+  }
+  initBgItems();
+
+  function setPointerX(clientX) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = W / rect.width;
+    targetBasketX = clamp((clientX - rect.left) * scaleX, 0, W);
+  }
+  canvas.addEventListener('mousemove', function (e) { setPointerX(e.clientX); });
+  canvas.addEventListener('touchstart', function (e) { if (e.touches[0]) setPointerX(e.touches[0].clientX); }, { passive: true });
+  canvas.addEventListener('touchmove', function (e) {
+    e.preventDefault();
+    if (e.touches[0]) setPointerX(e.touches[0].clientX);
+  }, { passive: false });
+
+  function spawnItem() {
+    if (items.length >= 6) return;
+    let x, attempts = 0;
+    do {
+      x = 60 + Math.random() * (W - 120);
+      attempts++;
+    } while (lastSpawnX !== null && Math.abs(x - lastSpawnX) < 80 && attempts < 10);
+    lastSpawnX = x;
+    items.push({
+      type: pickItemType(),
+      x: x, baseX: x, y: -20, t: 0,
+      phase: Math.random() * Math.PI * 2,
+      vy: 1.5 * (0.85 + Math.random() * 0.3)
+    });
+  }
+
+  function addParticles(x, y, color, count) {
+    const budget = Math.max(0, 50 - particles.length);
+    const n = Math.min(count, budget);
+    for (let i = 0; i < n; i++) {
+      const ang = Math.random() * Math.PI * 2;
+      const spd = 1 + Math.random() * 2.5;
+      particles.push({ x: x, y: y, vx: Math.cos(ang) * spd, vy: Math.sin(ang) * spd - 1, life: 1, color: color });
+    }
+  }
+  function addPopup(x, y, text, color) {
+    popups.push({ x: x, y: y, text: text, color: color, life: 1 });
+  }
+
+  function updateHUD() {
+    scoreEl.textContent = score;
+    timeEl.textContent = Math.max(0, Math.ceil(timeRemaining / 1000));
+  }
+
+  function startGame() {
+    score = 0;
+    timeRemaining = ROUND_MS;
+    elapsedInRound = 0;
+    items = [];
+    particles = [];
+    popups = [];
+    spawnTimer = 0;
+    lastSpawnX = null;
+    flashTimer = 0;
+    gameOverAt = null;
+    state = 'playing';
+    updateHUD();
+  }
+  function endGame() {
+    state = 'gameover';
+    gameOverAt = performance.now();
+  }
+  window.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
+    const rect = canvas.getBoundingClientRect();
+    const inView = rect.top < window.innerHeight && rect.bottom > 0;
+    if (!inView) return;
+    if (e.key === ' ' || e.key === 'Spacebar') e.preventDefault();
+    if (state === 'idle' || state === 'gameover') startGame();
+  });
+
+  function updateClouds(dt) {
+    for (let i = 0; i < CLOUDS.length; i++) {
+      const c = CLOUDS[i];
+      c.x += c.speed * dt;
+      if (c.x - c.w > W) c.x = -c.w;
+    }
+  }
+
+  function update(dt) {
+    updateClouds(dt);
+    if (state === 'idle') {
+      for (let i = 0; i < bgItems.length; i++) {
+        const b = bgItems[i];
+        b.y += b.vy;
+        if (b.y > H + 20) { b.y = -20; b.x = 60 + Math.random() * (W - 120); }
+      }
+      return;
+    }
+
+    if (state === 'playing') {
+      elapsedInRound += dt;
+      timeRemaining -= dt;
+      if (timeRemaining <= 0) { timeRemaining = 0; updateHUD(); endGame(); return; }
+
+      basket.x += (targetBasketX - basket.x) * 0.15;
+
+      const progress = clamp(elapsedInRound / ROUND_MS, 0, 1);
+      const speedMult = 1 + 0.5 * progress;
+      const spawnInterval = 1200 - 400 * progress;
+
+      spawnTimer -= dt;
+      if (spawnTimer <= 0) { spawnItem(); spawnTimer = spawnInterval; }
+
+      for (let i = items.length - 1; i >= 0; i--) {
+        const it = items[i];
+        it.t += dt;
+        it.y += it.vy * speedMult;
+        it.x = it.baseX + Math.sin(it.t * 0.003 + it.phase) * 6;
+
+        const withinX = Math.abs(it.x - basket.x) < (basket.w / 2 + 12);
+        const withinY = it.y > basketY - 12 && it.y < basketY + 16;
+        if (withinX && withinY) {
+          score = Math.max(0, score + it.type.points);
+          addParticles(it.x, basketY, it.type.color, 9);
+          addPopup(it.x, basketY - 10, (it.type.points > 0 ? '+' : '') + it.type.points, it.type.points < 0 ? '#FF6B6B' : '#FFFFFF');
+          if (it.type.key === 'error') flashTimer = 100;
+          items.splice(i, 1);
+          continue;
+        }
+        if (it.y - 20 > H) items.splice(i, 1);
+      }
+
+      if (flashTimer > 0) flashTimer = Math.max(0, flashTimer - dt);
+      updateHUD();
+    }
+
+    if (state === 'gameover') {
+      const elapsed = performance.now() - gameOverAt;
+      if (elapsed >= 600 && items.length) items = [];
+    }
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.x += p.vx; p.y += p.vy; p.vy += 0.08;
+      p.life -= dt / 500;
+    }
+    particles = particles.filter(function (p) { return p.life > 0; });
+
+    for (let i = 0; i < popups.length; i++) {
+      const p = popups[i];
+      p.y -= dt * 0.03;
+      p.life -= dt / 800;
+    }
+    popups = popups.filter(function (p) { return p.life > 0; });
+  }
+
+  function drawBasketAndBunny() {
+    const bx = basket.x, by = basketY;
+
+    let bob = 0;
+    if (state === 'playing') {
+      bob = Math.sin(performance.now() * 0.008) * 1.5;
+    } else if (state === 'gameover' && gameOverAt !== null) {
+      const elapsed = performance.now() - gameOverAt;
+      if (elapsed > 600) bob = Math.abs(Math.sin((elapsed - 600) * 0.006)) * 6;
+    }
+
+    if (PLAYER_IMG.complete && PLAYER_IMG.naturalWidth) {
+      const h = 100, w = h * (288 / 232);
+      ctx.drawImage(PLAYER_IMG, Math.round(bx - w / 2), Math.round(by - h * 0.42 - bob), Math.round(w), Math.round(h));
+    }
+  }
+
+  function drawClouds() {
+    if (!CLOUD_IMG.complete || !CLOUD_IMG.naturalWidth) return;
+    ctx.globalAlpha = 0.9;
+    for (let i = 0; i < CLOUDS.length; i++) {
+      const c = CLOUDS[i];
+      const h = c.w * (CLOUD_SRC.h / CLOUD_SRC.w);
+      ctx.drawImage(
+        CLOUD_IMG, CLOUD_SRC.x, CLOUD_SRC.y, CLOUD_SRC.w, CLOUD_SRC.h,
+        Math.round(c.x), Math.round(c.y), Math.round(c.w), Math.round(h)
+      );
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function drawGround() {
+    const groundY = basketY + 40;
+    const dashW = 40, gap = 24, dashH = 3;
+    ctx.fillStyle = 'rgba(255,255,255,0.35)';
+    for (let x = 0; x < W; x += dashW + gap) {
+      ctx.fillRect(Math.round(x), Math.round(groundY), dashW, dashH);
+    }
+    const dashW2 = 18, gap2 = 30, dashH2 = 2;
+    ctx.fillStyle = 'rgba(255,255,255,0.18)';
+    for (let x = -20; x < W; x += dashW2 + gap2) {
+      ctx.fillRect(Math.round(x), Math.round(groundY + 10), dashW2, dashH2);
+    }
+  }
+
+  function render() {
+    ctx.fillStyle = '#07239A';
+    ctx.fillRect(0, 0, W, H);
+
+    drawClouds();
+    drawGround();
+
+    if (state === 'idle') {
+      ctx.globalAlpha = 0.4;
+      for (let i = 0; i < bgItems.length; i++) drawItem(bgItems[i].type, bgItems[i].x, bgItems[i].y);
+      ctx.globalAlpha = 1;
+    } else {
+      let alpha = 1;
+      if (state === 'gameover' && gameOverAt !== null) {
+        alpha = clamp(1 - (performance.now() - gameOverAt) / 600, 0, 1);
+      }
+      ctx.globalAlpha = alpha;
+      for (let i = 0; i < items.length; i++) drawItem(items[i].type, items[i].x, items[i].y);
+      ctx.globalAlpha = 1;
+    }
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      ctx.globalAlpha = clamp(p.life, 0, 1);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(Math.round(p.x - 2), Math.round(p.y - 2), 4, 4);
+    }
+    ctx.globalAlpha = 1;
+
+    drawBasketAndBunny();
+
+    ctx.textAlign = 'center';
+    for (let i = 0; i < popups.length; i++) {
+      const p = popups[i];
+      ctx.globalAlpha = clamp(p.life, 0, 1);
+      ctx.fillStyle = p.color;
+      ctx.font = "700 20px 'Instrument Sans', Arial, sans-serif";
+      ctx.fillText(p.text, p.x, p.y);
+    }
+    ctx.globalAlpha = 1;
+
+    if (flashTimer > 0) {
+      const a = (flashTimer / 100) * 0.5;
+      ctx.fillStyle = 'rgba(255,68,68,' + a + ')';
+      const t = 20;
+      ctx.fillRect(0, 0, W, t);
+      ctx.fillRect(0, H - t, W, t);
+      ctx.fillRect(0, 0, t, H);
+      ctx.fillRect(W - t, 0, t, H);
+    }
+
+    if (state === 'idle') {
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'center';
+      ctx.font = "700 44px 'PP NeueBit', 'Instrument Sans', Arial, sans-serif";
+      ctx.fillText("Let's test your reflexes", W / 2, H / 2 - 64);
+      ctx.font = "500 20px 'Instrument Sans', Arial, sans-serif";
+      ctx.fillStyle = 'rgba(255,255,255,0.85)';
+      ctx.fillText('Press space to start', W / 2, H / 2 - 34);
+    }
+
+    if (state === 'gameover' && gameOverAt !== null) {
+      const elapsed = performance.now() - gameOverAt;
+      const overlayA = clamp(elapsed / 600, 0, 0.8);
+      ctx.fillStyle = 'rgba(4,20,90,' + overlayA + ')';
+      ctx.fillRect(0, 0, W, H);
+      if (elapsed > 500) {
+        ctx.globalAlpha = clamp((elapsed - 500) / 300, 0, 1);
+        ctx.textAlign = 'center';
+        ctx.fillStyle = '#fff';
+        ctx.font = "700 56px 'Instrument Sans', Arial, sans-serif";
+        ctx.fillText(String(score), W / 2, H / 2 - 6);
+        ctx.font = "600 20px 'Instrument Sans', Arial, sans-serif";
+        ctx.fillText(ratingFor(score), W / 2, H / 2 + 24);
+        ctx.fillStyle = 'rgba(255,255,255,0.75)';
+        ctx.font = "500 16px 'Instrument Sans', Arial, sans-serif";
+        ctx.fillText('Play again', W / 2, H / 2 + 52);
+        ctx.globalAlpha = 1;
+      }
+    }
+  }
+
+  let lastTime = null;
+  let rafId = null;
+
+  function loop(now) {
+    if (lastTime === null) lastTime = now;
+    const dt = Math.min(now - lastTime, 100);
+    lastTime = now;
+    update(dt);
+    render();
+    rafId = requestAnimationFrame(loop);
+  }
+  rafId = requestAnimationFrame(loop);
+
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = null;
+    } else if (!rafId) {
+      lastTime = null;
+      rafId = requestAnimationFrame(loop);
+    }
+  });
+
+  updateHUD();
+})();
+</script>
+
+<script>
+(function () {
+  const links = Array.from(document.querySelectorAll('.cs-sidenav-links a'));
+  if (!links.length) return;
+  const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  function onScroll() {
+    let current = sections[0];
+    for (const sec of sections) {
+      if (sec.getBoundingClientRect().top - 120 <= 0) current = sec;
+    }
+    links.forEach(a => a.classList.toggle('active', document.querySelector(a.getAttribute('href')) === current));
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+</script>
+</body>
+</html>

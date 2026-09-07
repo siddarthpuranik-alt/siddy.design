@@ -617,26 +617,36 @@
         <div class="project-col">
           <a class="project-card reveal" href="case-study-artpark.html">
             <img src="assets/images/project-artpark.jpg" alt="Animal Disease Monitoring ecosystem design">
-            <h3>E2E Design of a unified ecosystem for Animal Disease Monitoring for India</h3>
+            <h3>Building a Digital Ecosystem for India&rsquo;s Fragmented Animal Health System</h3>
             <p class="meta">MVP · Design System · Multi-stakeholder · Dev Hand-off</p>
           </a>
-          <a class="project-card reveal reveal-1" href="case-study-absli.html">
+          <a class="project-card reveal reveal-1" href="case-study-savii.html">
+            <img src="assets/images/project-ql.png" alt="SAVii Quick Loan design">
+            <h3>Designing SAVii&rsquo;s Quick Loan: Fast, Trustworthy Credit for Everyday Needs</h3>
+            <p class="meta">Product Strategy · Consumer UX · Visual Design</p>
+          </a>
+          <a class="project-card reveal reveal-2" href="case-study-absli.html">
             <img src="assets/images/project-absli.jpg" alt="ABSLI sales workflow research">
             <h3>Research that streamlined ABSLI&rsquo;s complex sales workflows</h3>
             <p class="meta">User Research · Product Strategy · Data-Informed Design</p>
           </a>
         </div>
         <div class="project-col">
-          <a class="project-card reveal" href="case-study-savii.html">
-            <img src="assets/images/project-ql.png" alt="SAVii Quick Loan design">
-            <h3>Designing SAVii&rsquo;s Quick Loan: Fast, Trustworthy Credit for Everyday Needs</h3>
-            <p class="meta">Product Strategy · Consumer UX · Visual Design</p>
+          <a class="project-card reveal" href="case-study-autoheal-v3.html">
+            <img src="assets/images/project-accelos.png" alt="Autoheal Evolving Knowledge Base design">
+            <h3>Designing the Evolving Knowledge Base for AccelOS</h3>
+            <p class="meta">AI Product Design · Systems Thinking · Engagement Strategy</p>
           </a>
           <a class="project-card reveal reveal-1" href="case-study-savii-revamp.html">
             <img src="assets/images/project-ui-revamp.png" alt="SAVii visual design revamp">
-            <h3>Elevating SAVii&rsquo;s Product Experience Through Visual Design for 5L+ Users</h3>
+            <h3>SAVii Visual Revamp: A New Design Language for 5L+ Users</h3>
             <p class="meta">Visual Design · Design Systems · Product Thinking</p>
           </a>
+          <div class="project-card project-card-soon reveal reveal-2" data-badge="COMING SOON">
+            <img src="assets/images/project-kurate.png" alt="Kurate social media app design">
+            <h3>Kurate: Designing a Social Media App for Intentional Consumption</h3>
+            <p class="meta">Founding Designer · Visual Language · Interaction Design</p>
+          </div>
         </div>
       </div>
     </div>
@@ -934,6 +944,7 @@ if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
   document.querySelectorAll('.project-card').forEach(card => {
     card.addEventListener('mouseenter', () => {
       active = true;
+      badge.textContent = card.dataset.badge || 'VIEW CASE STUDY';
       badge.classList.add('visible');
     });
     card.addEventListener('mouseleave', () => {
